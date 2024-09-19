@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations>
+    <!-- Loan Types and Interest Rates -->
+    <loanTypes>
+        <loanType>
+            <name>Business Loan</name>
+            <interestRate>12.0</interestRate> <!-- Annual interest rate in percentage -->
+            <description>Loan for starting or expanding a business.</description>
+        </loanType>
+        <loanType>
+            <name>Personal Loan</name>
+            <interestRate>10.0</interestRate> <!-- Annual interest rate in percentage -->
+            <description>Loan for personal use.</description>
+        </loanType>
+        <loanType>
+            <name>Emergency Loan</name>
+            <interestRate>8.0</interestRate> <!-- Annual interest rate in percentage -->
+            <description>Loan for emergency situations.</description>
+        </loanType>
+    </loanTypes>
+
+    <!-- Fixed Deposit Configuration -->
+    <fixedDeposit>
+        <interestRate>0.6</interestRate> <!-- Monthly interest rate in percentage -->
+        <description>Interest rate applied to funds deposited as fixed deposits.</description>
+    </fixedDeposit>
+
+    <!-- Membership Configuration -->
+    <membership>
+        <registrationFee>1000.00</registrationFee> <!-- One-time non-refundable registration fee -->
+        <minimumMonthlyContribution>500.00</minimumMonthlyContribution> <!-- Minimum shares contribution per month -->
+        <eligibleLoanAfterMonths>6</eligibleLoanAfterMonths> <!-- Minimum consecutive months of contribution before loan eligibility -->
+    </membership>
+
+    <!-- Dividends and Office Expenses Configuration -->
+    <financials>
+        <dividends>
+            <percentageOfRevenue>90</percentageOfRevenue> <!-- Percentage of total revenue shared as dividends -->
+            <description>Dividends are distributed based on the share contributions of each member.</description>
+        </dividends>
+        <officeExpenses>
+            <percentageOfRevenue>10</percentageOfRevenue> <!-- Percentage of total revenue retained for office expenses -->
+            <description>Amount retained from total revenue for office operations and expenses.</description>
+        </officeExpenses>
+    </financials>
+
+    <!-- Exit Policy -->
+    <exitPolicy>
+        <noticePeriodMonths>1</noticePeriodMonths> <!-- Notice period in months before a member can exit -->
+        <description>
+            Members must clear all outstanding loans and those they have guaranteed before exiting.
+            After the notice period, the member's shares are refunded.
+        </description>
+    </exitPolicy>
+</configurations>
