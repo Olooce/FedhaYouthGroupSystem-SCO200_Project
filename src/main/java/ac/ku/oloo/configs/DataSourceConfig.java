@@ -23,11 +23,11 @@ public class DataSourceConfig {
             hikariConfig.setJdbcUrl(prop.getProperty("db.url"));
             hikariConfig.setUsername(prop.getProperty("db.username"));
             hikariConfig.setPassword(prop.getProperty("db.password"));
-            hikariConfig.setMaximumPoolSize(Integer.parseInt(prop.getProperty("MaximumPoolSize", 15)));
-            hikariConfig.setMinimumIdle(Integer.parseInt(prop.getProperty("MinimumIdle", 2)));
-            hikariConfig.setIdleTimeout(30000);
-            hikariConfig.setConnectionTimeout(30000);
-            hikariConfig.setPoolName("MyHikariCPPool");
+            hikariConfig.setMaximumPoolSize(Integer.parseInt(prop.getProperty("maximumPoolSize")));
+            hikariConfig.setMinimumIdle(Integer.parseInt(prop.getProperty("minimumIdle")));
+            hikariConfig.setIdleTimeout(Long.parseLong(prop.getProperty("idleTimeout")));
+            hikariConfig.setConnectionTimeout(Long.parseLong(prop.getProperty("connectionTimeout")));
+            hikariConfig.setPoolName(prop.getProperty("poolName"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
