@@ -1,11 +1,10 @@
 package ac.ku.oloo.businessLogic.scheduledTasks;
 
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
-import ac.ku.oloo.configs.LoadConfig;
+import static ac.ku.oloo.configs.LoadConfig.*;
 import ac.ku.oloo.models.*;
 import java.sql.SQLException;
 import java.util.List;
-
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.businessLogic.scheduledTasks)
@@ -17,7 +16,7 @@ import java.util.List;
 public class AutomatedAccountingService {
 
     private static final double INTEREST_RATE_FIXED_DEPOSIT = getFixedDepositInterestRate();
-    private static final double OFFICE_EXPENSES_PERCENTAGE = 0.10;
+    private static final double OFFICE_EXPENSES_PERCENTAGE = getOfficeExpensesPercentage();
 
     public void updateAccounts() throws SQLException {
         updateInterestOnDeposits();
