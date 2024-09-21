@@ -5,11 +5,11 @@
 
 ## Overview
 
-The **Fedha Youth Group System** is a computerized information system developed as part of the SCO200 – Object Oriented Programming II Project. It is designed to facilitate the operations of the Fedha Youth Group, an organization dedicated to empowering youths aged 18 to 35 by providing savings and loan services.
+The **Fedha Youth Group System** is a computerized information system developed as an assessment project for students taking SCO200 – Object Oriented Programming II in semester I 2024/2025 at **Kenyatta University**. It is designed to facilitate the operations of the Fedha Youth Group, a hypothetical organization dedicated to empowering youths aged 18 to 35 by providing savings and loan services.
 
 ### Purpose
 
-This system aims to streamline the management of member accounts, loan processing, and financial operations, making it easier for members to manage their contributions and access loans. The application has been extended to demonstrate a basic **Core Banking System (CBS)** and/or **Enterprise Resource Planning (ERP)** functionality.
+This system aims to streamline the management of member accounts, loan processing, and financial operations, making it easier for members to manage their contributions and access loans. The project's scope has been extended to demonstrate a basic **Core Banking System (CBS)** and  **Enterprise Resource Planning (ERP)** functionality.
 
 ## Features
 
@@ -43,7 +43,7 @@ This system aims to streamline the management of member accounts, loan processin
 ## Technical Details
 
 - **Language**: Java
-- **Database**: SQL (using custom utility classes for database operations)
+- **Database**: MySQL (using custom utility classes for database operations)
 - **Design Principles**: Object-Oriented Programming, Double-Entry Bookkeeping principles, Modular design
 
 ### Installation
