@@ -3,7 +3,7 @@ package ac.ku.oloo;
 import ac.ku.oloo.userInterface.UserInterface;
 
 /**
- * Default (Template) Project (org.example)
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)
  * Created by: oloo
  * On: 19/09/2024. 11:43
  * Description:

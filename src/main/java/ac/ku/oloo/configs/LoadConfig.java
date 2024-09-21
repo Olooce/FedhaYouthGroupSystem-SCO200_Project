@@ -7,6 +7,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.File;
 
+/**
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.configs)
+ * Created by: oloo
+ * On: 19/09/2024.
+ * Description:
+ **/
+
 public class LoadConfig {
 
     private static double businessLoanInterestRate;
