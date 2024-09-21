@@ -95,17 +95,17 @@ public class AccountingService {
     }
 
     private static int getDebitAccountId() {
-        // Implement logic to get the default debit account ID, or throw an exception if it cannot be determined
-        return 1; // Placeholder, replace with actual logic
+        // TODO: Implement logic to get the default debit account ID, or throw an exception if it cannot be determined
+        return 1;
     }
 
     private static int getCreditAccountId() {
-        // Implement logic to get the default credit account ID, or throw an exception if it cannot be determined
-        return 2; // Placeholder, replace with actual logic
+        // TODO: Implement logic to get the default credit account ID, or throw an exception if it cannot be determined
+        return 2;
     }
 
     private static int getLoanAccountId() {
-        // Implement logic to get the loan account ID, or throw an exception if it cannot be determined
+        // TODO: Implement logic to get the loan account ID, or throw an exception if it cannot be determined
         return 3; // Placeholder, replace with actual logic
     }
 

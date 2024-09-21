@@ -35,14 +35,12 @@ public class AutomatedAccountingService {
 
         for (Deposit deposit : deposits) {
             double interest = deposit.getAmount().doubleValue() * INTEREST_RATE_FIXED_DEPOSIT;
-            // Update deposit with interest (assuming a method to add interest)
             QueryExecutor.executeUpdate("UPDATE loans_deposits.deposits SET amount = amount + ? WHERE deposit_id = ?",
                     interest, deposit.getDepositId());
         }
     }
 
     private void updateLoanRepayments() throws SQLException {
-        // Get all loans with repayments due
         String query = "SELECT loan_id, member_id, loan_amount FROM loans_deposits.loans WHERE status = 'ACTIVE'";
         List<Loan> loans = QueryExecutor.executeQuery(query, rs -> new Loan(
                 rs.getInt("loan_id"),
@@ -52,15 +50,14 @@ public class AutomatedAccountingService {
 
         for (Loan loan : loans) {
             double repaymentAmount = calculateMonthlyRepayment(loan);
-            // Update the loan status or remaining amount (assuming a method for that)
             QueryExecutor.executeUpdate("UPDATE loans_deposits.loans SET loan_amount = loan_amount - ? WHERE loan_id = ?",
                     repaymentAmount, loan.getLoanId());
         }
     }
 
     private double calculateMonthlyRepayment(Loan loan) {
-        // Implement logic to calculate monthly repayment based on loan details
-        return loan.getLoanAmount().doubleValue() * 0.05; // Example: 5% of loan amount
+        // TODO: Implement logic to calculate monthly repayment based on loan details
+        return loan.getLoanAmount().doubleValue() * 0.05;
     }
 
     private void handleDividends() throws SQLException {
@@ -80,7 +77,6 @@ public class AutomatedAccountingService {
 
         for (Share share : shares) {
             double memberDividend = (share.getTotalShares().doubleValue() / getTotalShares()) * dividendsPool;
-            // Update member dividends (assuming a method to record dividends)
             QueryExecutor.executeUpdate("UPDATE member_accounts.members SET dividend = ? WHERE member_id = ?",
                     memberDividend, share.getMemberId());
         }
