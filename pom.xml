@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ac.ku.oloo</groupId>
-    <artifactId>FedhaYouthGroupSystem-SCO200_Project</artifactId>
+    <artifactId>FedhaYouthGroupSystem</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -42,6 +42,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>ac.ku.oloo.fedhaApp</mainClass>
+                    <launcher>classpath</launcher>
                 </configuration>
             </plugin>
         </plugins>
