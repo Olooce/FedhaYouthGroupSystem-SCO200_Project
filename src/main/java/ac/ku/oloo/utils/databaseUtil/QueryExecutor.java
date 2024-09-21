@@ -1,4 +1,4 @@
-package ac.ku.oloo.utils;
+package ac.ku.oloo.utils.databaseUtil;
 
 import ac.ku.oloo.configs.DataSourceConfig;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  DatabaseUtil {
+public class QueryExecutor {
 
     private static final DataSource dataSource = DataSourceConfig.getDataSource();
 
