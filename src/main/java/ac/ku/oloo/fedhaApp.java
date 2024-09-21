@@ -1,7 +1,5 @@
 package ac.ku.oloo;
 
-import ac.ku.oloo.configs.LoadConfig;
-
 /**
  * Default (Template) Project (org.example)
  * Created by: oloo
@@ -10,6 +8,6 @@ import ac.ku.oloo.configs.LoadConfig;
  **/
 public class fedhaApp {
     public static void main(String[] args) {
-        LoadConfig Config = new LoadConfig();
+
     }
 }

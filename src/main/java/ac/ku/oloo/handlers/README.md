@@ -1,4 +1,3 @@
-Here's a revised README section that includes a note about the GUI being coupled within the same codebase:
 
 ---
 
