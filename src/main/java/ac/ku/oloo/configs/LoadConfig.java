@@ -75,7 +75,7 @@ public class LoadConfig {
         }
     }
 
-    // Static getter methods to access the loaded configurations
+    // Getter methods to access the loaded configurations
     public static double getBusinessLoanInterestRate() {
         return businessLoanInterestRate;
     }

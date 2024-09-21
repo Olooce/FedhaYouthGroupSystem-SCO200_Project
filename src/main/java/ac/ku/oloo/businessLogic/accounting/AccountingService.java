@@ -106,7 +106,7 @@ public class AccountingService {
 
     private static int getLoanAccountId() {
         // TODO: Implement logic to get the loan account ID, or throw an exception if it cannot be determined
-        return 3; // Placeholder, replace with actual logic
+        return 3;
     }
 
     private static class Account {
