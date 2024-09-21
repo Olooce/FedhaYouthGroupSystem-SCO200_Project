@@ -46,12 +46,18 @@ This system aims to streamline the management of member accounts, loan processin
 - **Database**: MySQL (using custom utility classes for database operations)
 - **Design Principles**: Object-Oriented Programming, Double-Entry Bookkeeping principles, Modular design
 
+
+
 ### Installation
 
 1. Clone the repository to your local machine.
 2. Ensure you have Java and a compatible database setup.
 3. Update the `config.xml` file with your configurations.
 4. Compile and run the main application class.
+
+Due to the scope of this academic project and time constraints, the implementation does not include an API layer. Instead, the system's user interface (UI) has been tightly coupled within the same codebase as the core functionalities. This means that both the business logic and the user interface are intertwined in the same application, which simplifies development but may not follow best practices for large-scale software design.
+
+In a production environment, it would be ideal to decouple the GUI from the core logic and introduce a full-fledged API layer. This would allow for better separation of concerns, improved maintainability, and the ability to integrate with other systems, mobile applications, or even to swap out the user interface without impacting the underlying system.
 
 ### Usage
 

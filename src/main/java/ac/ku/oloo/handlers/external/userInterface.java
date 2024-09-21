@@ -6,5 +6,5 @@ package ac.ku.oloo.handlers.external;
  * On: 19/09/2024. 19:46
  * Description:
  **/
-public class frontEndHandler {
+public class userInterface {
 }
