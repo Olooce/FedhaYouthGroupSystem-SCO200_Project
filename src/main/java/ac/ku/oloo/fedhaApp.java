@@ -1,5 +1,7 @@
 package ac.ku.oloo;
 
+import ac.ku.oloo.userInterface.UserInterface;
+
 /**
  * Default (Template) Project (org.example)
  * Created by: oloo
@@ -8,6 +10,6 @@ package ac.ku.oloo;
  **/
 public class fedhaApp {
     public static void main(String[] args) {
-
+        UserInterface.main(args);
     }
 }
