@@ -10,6 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CoreNexus-Utils (co.ke.coreNexus.utils.QueryExecutor)
+ * Created by: oloo
+ * On: 11/06/2024. 23:37
+ * Description: Executes SQL queries
+ **/
+
 public class QueryExecutor {
 
     private static final DataSource dataSource = DataSourceConfig.getDataSource();

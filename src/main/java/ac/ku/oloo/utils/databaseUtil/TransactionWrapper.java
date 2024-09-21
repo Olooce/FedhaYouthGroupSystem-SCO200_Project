@@ -1,5 +1,8 @@
 package ac.ku.oloo.utils.databaseUtil;
 
+
+import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
+
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.utils.databaseUtil)
  * Created by: oloo
@@ -8,4 +11,5 @@ package ac.ku.oloo.utils.databaseUtil;
  *  error occurs during processing, it is rolled back.
  **/
 public class TransactionWrapper {
+
 }
