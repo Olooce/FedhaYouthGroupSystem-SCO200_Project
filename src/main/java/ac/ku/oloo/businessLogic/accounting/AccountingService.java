@@ -11,7 +11,8 @@ import java.util.List;
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.businessLogic.accounting)
  * Created by: oloo
  * On: 21/09/2024. 19:59
- * Description:
+ * Description: Handles most of the accounting logic that is triggered by events such as deposits and such.
+ *   I'll hopefully be able to follow best accounting practices
  **/
 
 public class AccountingService {

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)
  * Created by: oloo
  * On: 21/09/2024. 22:34
- * Description:
+ * Description: JavaFX based UI for the system.
  **/
 public class UserInterface extends Application {
 

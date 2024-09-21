@@ -10,7 +10,7 @@ import java.util.List;
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.businessLogic.scheduledTasks)
  * Created by: oloo
  * On: 21/09/2024. 20:13
- * Description:
+ * Description: Handles accounting tasks that are "non-event driven" (for lack of a better word).
  **/
 
 public class AutomatedAccountingService {

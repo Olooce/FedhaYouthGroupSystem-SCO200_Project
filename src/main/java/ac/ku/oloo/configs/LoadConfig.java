@@ -11,7 +11,7 @@ import java.io.File;
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.configs)
  * Created by: oloo
  * On: 19/09/2024.
- * Description:
+ * Description: Loads configurations and makes them available to the system via getter methods.
  **/
 
 public class LoadConfig {
