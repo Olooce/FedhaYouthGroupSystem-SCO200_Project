@@ -59,6 +59,6 @@ Once the application is running, users can perform various operations via the us
 
 ## Conclusion
 
-This project is a stepping stone towards understanding the complexities of financial systems and demonstrates how technology can enhance the management of savings and loan organizations. Your contributions and feedback are welcome!
+This project is a stepping stone towards understanding the complexities of financial systems and demonstrates how technology can enhance the management of Savings and Credit Cooperative Organizations. Your contributions and feedback are welcome!
 
 ---
