@@ -9,13 +9,14 @@ import co.ke.coreAuth.Authenticator;
  * Description:
  **/
 public class AuthenticationUtil {
-    public boolean isAuthenticated(String username, String password) {
+    String encryptionKey = "qwerqfgsbx8273nytgfdv27524snxjcuytgfdvsbxnj";
 
-
+    public boolean isAuthenticated(String username, String password, ) {
+        
         return Authenticator.Authenticate(username, password_hash, createAuthHash(username,password), encryptionKey);
     }
 
     public String createAuthHash(String username, String password) {
-        return null;
+        return Authenticator.createAuthHash(username,password,encryptionKey);
     }
 }
