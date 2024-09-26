@@ -127,7 +127,47 @@ public class MemberPanel {
         Button addButton = new Button("Add Member");
         addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         addButton.setOnAction(e -> {
-            // Add member logic goes here
+            try {
+                Member member = new Member();
+                member.setHonorific(honorificField.getText());
+                member.setSurname(surnameField.getText());
+                member.setFirstName(firstNameField.getText());
+                member.setOtherName(otherNameField.getText());
+                member.setDateOfBirth(java.sql.Date.valueOf(dateOfBirthPicker.getValue()));
+                member.setIdNumber(idNumberField.getText());
+                member.setIdType(idTypeField.getText());
+                member.setTaxId(taxIdField.getText());
+                member.setEmail(emailField.getText());
+                member.setPhoneNumber(phoneNumberField.getText());
+                member.setAddress(addressField.getText());
+                member.setStatus(statusComboBox.getValue());
+
+                memberService.createMember(member);
+
+                // Show success alert
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Success");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Member added successfully!");
+                successAlert.showAndWait();
+
+                // Clear fields after adding
+                clearAddMemberFields(honorificField, surnameField, firstNameField, otherNameField,
+                        dateOfBirthPicker, idNumberField, idTypeField, taxIdField, emailField,
+                        phoneNumberField, addressField, statusComboBox);
+
+                // Refresh the view members tab
+                refreshMemberTable();
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                // Show error alert
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Error");
+                errorAlert.setHeaderText("Database Error");
+                errorAlert.setContentText("An error occurred while adding the member. Please try again.");
+                errorAlert.showAndWait();
+            }
         });
 
         // Add components to the main VBox
