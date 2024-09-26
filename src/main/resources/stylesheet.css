@@ -3,10 +3,13 @@
     -fx-font-family: "Arial";
     -fx-background-color: #f0f0f0;
 }
-
-.footer-label{
-    -fx-alignment: centered;
+.footerLabel {
+    -fx-alignment: center; 
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 10;
 }
+
 
 /* TabPane Styles */
 .tab-pane {

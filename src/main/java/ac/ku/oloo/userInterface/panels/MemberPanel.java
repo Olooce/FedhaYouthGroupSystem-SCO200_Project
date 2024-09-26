@@ -65,8 +65,9 @@ public class MemberPanel {
         personalInfoPane.setText("Personal Information");
 
         VBox personalInfoBox = new VBox(10);
-        TextField honorificField = new TextField();
-        honorificField.setPromptText("Honorific");
+        ComboBox<String> honorificComboBox = new ComboBox<>();
+        honorificComboBox.getItems().addAll("Mr.", "Mrs.", "Ms.", "Dr.", "Prof.");
+        honorificComboBox.setPromptText("Honorific");
 
         TextField surnameField = new TextField();
         surnameField.setPromptText("Surname");
@@ -80,7 +81,7 @@ public class MemberPanel {
         DatePicker dateOfBirthPicker = new DatePicker();
         dateOfBirthPicker.setPromptText("Date of Birth");
 
-        personalInfoBox.getChildren().addAll(honorificField, surnameField, firstNameField, otherNameField, dateOfBirthPicker);
+        personalInfoBox.getChildren().addAll(honorificComboBox, surnameField, firstNameField, otherNameField, dateOfBirthPicker);
         personalInfoPane.setContent(personalInfoBox);
 
         // Contact Information section
@@ -106,17 +107,17 @@ public class MemberPanel {
         idInfoPane.setText("Identification");
 
         VBox idInfoBox = new VBox(10);
-        TextField idNumberField = new TextField();
-        idNumberField.setPromptText("ID Number");
-
         ComboBox<String> idTypeComboBox = new ComboBox<>();
         idTypeComboBox.getItems().addAll("National ID", "Passport", "Driver's License", "Student ID");
         idTypeComboBox.setPromptText("ID Type");
 
+        TextField idNumberField = new TextField();
+        idNumberField.setPromptText("ID Number");
+
         TextField taxIdField = new TextField();
         taxIdField.setPromptText("Tax ID");
 
-        idInfoBox.getChildren().addAll(idNumberField, idTypeComboBox, taxIdField);
+        idInfoBox.getChildren().addAll(idTypeComboBox, idNumberField, taxIdField);
         idInfoPane.setContent(idInfoBox);
 
         // Status
@@ -130,13 +131,13 @@ public class MemberPanel {
         addButton.setOnAction(e -> {
             try {
                 Member member = new Member();
-                member.setHonorific(honorificField.getText());
+                member.setHonorific(honorificComboBox.getValue());
                 member.setSurname(surnameField.getText());
                 member.setFirstName(firstNameField.getText());
                 member.setOtherName(otherNameField.getText());
                 member.setDateOfBirth(java.sql.Date.valueOf(dateOfBirthPicker.getValue()));
                 member.setIdNumber(idNumberField.getText());
-                member.setIdType(idTypeField.getText());
+                member.setIdType(idTypeComboBox.getValue());
                 member.setTaxId(taxIdField.getText());
                 member.setEmail(emailField.getText());
                 member.setPhoneNumber(phoneNumberField.getText());
@@ -153,8 +154,8 @@ public class MemberPanel {
                 successAlert.showAndWait();
 
                 // Clear fields after adding
-                clearAddMemberFields(honorificField, surnameField, firstNameField, otherNameField,
-                        dateOfBirthPicker, idNumberField, idTypeField, taxIdField, emailField,
+                clearAddMemberFields(honorificComboBox, surnameField, firstNameField, otherNameField,
+                        dateOfBirthPicker, idNumberField, idTypeComboBox, taxIdField, emailField,
                         phoneNumberField, addressField, statusComboBox);
 
                 // Refresh the view members tab
@@ -178,17 +179,17 @@ public class MemberPanel {
     }
 
 
-    private void clearAddMemberFields(TextField honorificField, TextField surnameField, TextField firstNameField,
+    private void clearAddMemberFields(ComboBox<String> honorificCombobox, TextField surnameField, TextField firstNameField,
                                       TextField otherNameField, DatePicker dateOfBirthPicker, TextField idNumberField,
-                                      TextField idTypeField, TextField taxIdField, TextField emailField,
+                                      ComboBox<String> idTypeCombobox, TextField taxIdField, TextField emailField,
                                       TextField phoneNumberField, TextArea addressField, ComboBox<String> statusComboBox) {
-        honorificField.clear();
+        honorificCombobox.setValue(null);
         surnameField.clear();
         firstNameField.clear();
         otherNameField.clear();
         dateOfBirthPicker.setValue(null);
         idNumberField.clear();
-        idTypeField.clear();
+        idTypeCombobox.setValue(null);
         taxIdField.clear();
         emailField.clear();
         phoneNumberField.clear();
