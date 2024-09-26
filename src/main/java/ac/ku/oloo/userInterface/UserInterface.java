@@ -43,7 +43,7 @@ public class UserInterface extends Application {
         StackPane startScreen = new StackPane();
 
         // Load the image
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/logo.jpg")));
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/logo.png")));
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(800);
         imageView.setFitHeight(600);
