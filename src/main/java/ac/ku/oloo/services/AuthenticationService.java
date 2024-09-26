@@ -31,6 +31,9 @@ public class AuthenticationService {
 
             return user;
         }, username, 1);
+        if (userList.isEmpty()) {
+            return false;
+        }
 
         return AuthenticationUtil.isAuthenticated(username, password, userList.get(0).getPasswordHash());
     }

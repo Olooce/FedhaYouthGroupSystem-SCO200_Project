@@ -1,5 +1,6 @@
 package ac.ku.oloo.userInterface;
 
+import ac.ku.oloo.services.AuthenticationService;
 import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
 import ac.ku.oloo.userInterface.panels.MemberPanel;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.sql.SQLException;
 import java.time.Year;
 import java.util.Objects;
 
@@ -81,11 +83,21 @@ public class UserInterface extends Application {
         Button loginButton = new Button("Login");
 
         loginButton.setOnAction(e -> {
-            // TODO: Replace with login logic
-            if (usernameField.getText().equals("user") && passwordField.getText().equals("password")) {
-                showMainApp(primaryStage);
-            } else {
-                showAlert("Login Failed", "Invalid username or password.");
+//            // TODO: Replace with login logic
+//            if (usernameField.getText().equals("user") && passwordField.getText().equals("password")) {
+//                showMainApp(primaryStage);
+//            } else {
+//                showAlert("Login Failed", "Invalid username or password.");
+//            }
+
+            try {
+                if (AuthenticationService.authenticate(usernameField.getText(), passwordField.getText())) {
+                    showMainApp(primaryStage);
+                } else {
+                    showAlert("Login Failed", "Invalid username or password.");
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
