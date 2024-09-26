@@ -3,6 +3,7 @@ package ac.ku.oloo.services;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
+import ac.ku.oloo.utils.securityUtil.AuthenticationUtil;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,17 +15,23 @@ import java.util.List;
  * Description:
  **/
 public class AuthenticationService {
-    public boolean authenticate(String username, String password) throws SQLException {
+    public static boolean authenticate(String username, String password) throws SQLException {
         String sql = "SELECT * FROM user_accounts.users WHERE username = ? LIMIT ?";
 
         List<User> userList =  QueryExecutor.executeQuery(sql, rs -> {
-            User user = new User;
+            User user = new User();
 
             user.setUserId(rs.getLong("user_id"));
             user.setUsername(rs.getString("username"));
-
+            user.setRole(rs.getString("role"));
+            user.setMemberId(rs.getLong("member_id"));
+            user.setPasswordHash(rs.getString("password_hash"));
+            user.setDateCreated(rs.getTimestamp("date_created"));
+            user.setDateModified(rs.getTimestamp("date_modified"));
 
             return user;
         }, username, 1);
+
+        return AuthenticationUtil.isAuthenticated(username, password, userList.get(0).getPasswordHash());
     }
 }
