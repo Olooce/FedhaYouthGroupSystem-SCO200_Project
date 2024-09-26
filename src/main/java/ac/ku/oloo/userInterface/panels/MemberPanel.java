@@ -14,7 +14,7 @@ public class MemberPanel{
 
     public VBox createMemberPanel() {
         VBox vbox = new VBox();
-        Label label = new Label("Member Information");
+        Label label = new Label("Members");
         vbox.getChildren().add(label);
         // TODO: Add more member-specific UI components here
         return vbox;
