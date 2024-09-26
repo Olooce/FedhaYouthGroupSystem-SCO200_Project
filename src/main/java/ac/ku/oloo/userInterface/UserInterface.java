@@ -4,12 +4,15 @@ import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
 import ac.ku.oloo.userInterface.panels.MemberPanel;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.Year;
 import java.util.Objects;
 
 public class UserInterface extends Application {
@@ -36,8 +39,15 @@ public class UserInterface extends Application {
         root.setCenter(contentPanel);
 
         // Footer
-        Label footerLabel = new Label("© 2024 Oloo Stephen");
-        root.setBottom(footerLabel);
+        int currentYear = Year.now().getValue();
+        Label footerLabel = new Label("© " + currentYear + " Oloo Stephen");
+        footerLabel.getStyleClass().add("footerLabel");
+
+        HBox footerBox = new HBox();
+        footerBox.setAlignment(Pos.CENTER);
+        footerBox.getChildren().add(footerLabel);
+
+        root.setBottom(footerBox);
 
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
