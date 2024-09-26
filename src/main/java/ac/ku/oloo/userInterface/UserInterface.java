@@ -16,7 +16,13 @@ public class UserInterface extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Fedha Youth Group System");
+        primaryStage.setTitle("Fedha Youth Group");
+
+        primaryStage.setResizable(true);
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing the application...");
+            System.exit(0);
+        });
 
         // Main layout
         BorderPane root = new BorderPane();
@@ -36,6 +42,8 @@ public class UserInterface extends Application {
         Scene scene = new Scene(root, 1200, 800);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
         primaryStage.setScene(scene);
+
+        // Show the stage
         primaryStage.show();
     }
 

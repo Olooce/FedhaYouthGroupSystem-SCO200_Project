@@ -4,6 +4,10 @@
     -fx-background-color: #f0f0f0;
 }
 
+.footer-label{
+    -fx-alignment: centered;
+}
+
 /* TabPane Styles */
 .tab-pane {
     -fx-background-color: #ffffff;

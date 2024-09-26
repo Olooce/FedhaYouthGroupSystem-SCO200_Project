@@ -52,9 +52,18 @@ public class MemberPanel {
     }
 
     private VBox createAddMemberContent() {
-        VBox vbox = new VBox(10); // Add spacing between elements
+        VBox vbox = new VBox(15); // Increased spacing between elements
+        vbox.setPadding(new Insets(20)); // Padding around the VBox
 
         // UI components for adding a member
+        Label titleLabel = new Label("Add New Member");
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+        // Personal Information section
+        TitledPane personalInfoPane = new TitledPane();
+        personalInfoPane.setText("Personal Information");
+
+        VBox personalInfoBox = new VBox(10);
         TextField honorificField = new TextField();
         honorificField.setPromptText("Honorific");
 
@@ -70,6 +79,32 @@ public class MemberPanel {
         DatePicker dateOfBirthPicker = new DatePicker();
         dateOfBirthPicker.setPromptText("Date of Birth");
 
+        personalInfoBox.getChildren().addAll(honorificField, surnameField, firstNameField, otherNameField, dateOfBirthPicker);
+        personalInfoPane.setContent(personalInfoBox);
+
+        // Contact Information section
+        TitledPane contactInfoPane = new TitledPane();
+        contactInfoPane.setText("Contact Information");
+
+        VBox contactInfoBox = new VBox(10);
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email");
+
+        TextField phoneNumberField = new TextField();
+        phoneNumberField.setPromptText("Phone Number");
+
+        TextArea addressField = new TextArea();
+        addressField.setPromptText("Address");
+        addressField.setPrefRowCount(3); // Reduce the height of the text area
+
+        contactInfoBox.getChildren().addAll(emailField, phoneNumberField, addressField);
+        contactInfoPane.setContent(contactInfoBox);
+
+        // Identification Information section
+        TitledPane idInfoPane = new TitledPane();
+        idInfoPane.setText("Identification");
+
+        VBox idInfoBox = new VBox(10);
         TextField idNumberField = new TextField();
         idNumberField.setPromptText("ID Number");
 
@@ -79,70 +114,27 @@ public class MemberPanel {
         TextField taxIdField = new TextField();
         taxIdField.setPromptText("Tax ID");
 
-        TextField emailField = new TextField();
-        emailField.setPromptText("Email");
+        idInfoBox.getChildren().addAll(idNumberField, idTypeField, taxIdField);
+        idInfoPane.setContent(idInfoBox);
 
-        TextField phoneNumberField = new TextField();
-        phoneNumberField.setPromptText("Phone Number");
-
-        TextArea addressField = new TextArea();
-        addressField.setPromptText("Address");
-
+        // Status
         ComboBox<String> statusComboBox = new ComboBox<>();
         statusComboBox.getItems().addAll("ACTIVE", "INACTIVE");
         statusComboBox.setPromptText("Status");
 
+        // Add Member Button
         Button addButton = new Button("Add Member");
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         addButton.setOnAction(e -> {
-            try {
-                Member member = new Member();
-                member.setHonorific(honorificField.getText());
-                member.setSurname(surnameField.getText());
-                member.setFirstName(firstNameField.getText());
-                member.setOtherName(otherNameField.getText());
-                member.setDateOfBirth(java.sql.Date.valueOf(dateOfBirthPicker.getValue()));
-                member.setIdNumber(idNumberField.getText());
-                member.setIdType(idTypeField.getText());
-                member.setTaxId(taxIdField.getText());
-                member.setEmail(emailField.getText());
-                member.setPhoneNumber(phoneNumberField.getText());
-                member.setAddress(addressField.getText());
-                member.setStatus(statusComboBox.getValue());
-
-                memberService.createMember(member);
-
-                // Show success alert
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Success");
-                successAlert.setHeaderText(null);
-                successAlert.setContentText("Member added successfully!");
-                successAlert.showAndWait();
-
-                // Clear fields after adding
-                clearAddMemberFields(honorificField, surnameField, firstNameField, otherNameField,
-                        dateOfBirthPicker, idNumberField, idTypeField, taxIdField, emailField,
-                        phoneNumberField, addressField, statusComboBox);
-
-                // Refresh the view members tab
-                refreshMemberTable();
-
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                // Show error alert
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setTitle("Error");
-                errorAlert.setHeaderText("Database Error");
-                errorAlert.setContentText("An error occurred while adding the member. Please try again.");
-                errorAlert.showAndWait();
-            }
+            // Add member logic goes here
         });
 
-        vbox.getChildren().addAll(honorificField, surnameField, firstNameField, otherNameField,
-                dateOfBirthPicker, idNumberField, idTypeField, taxIdField, emailField,
-                phoneNumberField, addressField, statusComboBox, addButton);
+        // Add components to the main VBox
+        vbox.getChildren().addAll(titleLabel, personalInfoPane, contactInfoPane, idInfoPane, statusComboBox, addButton);
 
         return vbox;
     }
+
 
     private void clearAddMemberFields(TextField honorificField, TextField surnameField, TextField firstNameField,
                                       TextField otherNameField, DatePicker dateOfBirthPicker, TextField idNumberField,
