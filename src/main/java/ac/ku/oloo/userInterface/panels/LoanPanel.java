@@ -15,7 +15,7 @@ public class LoanPanel {
 
     public VBox createLoanPanel() {
         VBox vbox = new VBox();
-        Label label = new Label("Loan Information");
+        Label label = new Label("Loans");
         vbox.getChildren().add(label);
         // TODO: Add more loan-specific UI components here
         return vbox;

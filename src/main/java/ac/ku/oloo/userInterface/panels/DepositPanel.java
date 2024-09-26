@@ -14,7 +14,7 @@ public class DepositPanel {
 
     public VBox createDepositPanel() {
         VBox vbox = new VBox();
-        Label label = new Label("Deposit Information");
+        Label label = new Label("Deposits");
         vbox.getChildren().add(label);
         // TODO: Add more deposit-specific UI components here
         return vbox;
