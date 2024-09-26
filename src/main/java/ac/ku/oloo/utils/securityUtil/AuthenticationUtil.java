@@ -11,4 +11,8 @@ public class AuthenticationUtil {
 
         return false;
     }
+
+    public String createAuthHash(String username, String password) {
+        return null;
+    }
 }
