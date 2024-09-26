@@ -12,24 +12,24 @@
 }
 
 /* Button Styles */
-.button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-font-size: 14px;
-    -fx-border-radius: 5;
-}
+/*.button {*/
+/*    -fx-background-color: #4CAF50;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-padding: 10px 20px;*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-border-radius: 5;*/
+/*}*/
 
 .button:hover {
     -fx-background-color: #45a049;
 }
 
 /* TextField Styles */
-.text-field, .text-area, .combo-box {
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 5;
-    -fx-padding: 10px;
-}
+/*.text-field, .text-area, .combo-box {*/
+/*    -fx-border-color: #cccccc;*/
+/*    -fx-border-radius: 5;*/
+/*    -fx-padding: 10px;*/
+/*}*/
 
 /* TableView Styles */
 .table-view {
@@ -58,11 +58,11 @@
 /*    -fx-background-color: lightgray;*/
 /*}*/
 
-.button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-}
+/*.button {*/
+/*    -fx-background-color: #4CAF50;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-font-size: 14px;*/
+/*}*/
 
 .table-view {
     -fx-background-color: #f4f4f4;

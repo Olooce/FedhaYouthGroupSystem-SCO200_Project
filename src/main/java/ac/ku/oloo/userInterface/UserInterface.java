@@ -33,7 +33,7 @@ public class UserInterface extends Application {
         Label footerLabel = new Label("© 2024 Oloo Stephen");
         root.setBottom(footerLabel);
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 800);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -64,7 +64,7 @@ public class UserInterface extends Application {
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
 
         tabPane.getTabs().addAll(memberTab, loanTab, depositTab);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 
         vbox.getChildren().add(tabPane);
         return vbox;
