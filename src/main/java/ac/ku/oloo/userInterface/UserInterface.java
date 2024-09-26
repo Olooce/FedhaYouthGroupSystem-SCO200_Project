@@ -39,7 +39,7 @@ public class UserInterface extends Application {
         Label footerLabel = new Label("© 2024 Oloo Stephen");
         root.setBottom(footerLabel);
 
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
         primaryStage.setScene(scene);
 
