@@ -1,10 +1,10 @@
 package ac.ku.oloo.services;
 
 import ac.ku.oloo.models.Member;
+import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
+
 import java.sql.SQLException;
 import java.util.List;
-
-import static ac.ku.oloo.utils.databaseUtil.QueryExecutor.*;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.services)
@@ -17,7 +17,7 @@ public class MemberService {
         String sql = "INSERT INTO members (honorific, surname, first_name, other_name, date_of_birth, id_number, id_type, tax_id, email, phone_number, address, status, date_created, date_modified) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
-        Integer generatedMemberId = executeInsert(sql, rs -> {if (rs.next()) {
+        Integer generatedMemberId = QueryExecutor.executeInsert(sql, rs -> {if (rs.next()) {
                     return rs.getInt(1);
                 }
                     return null;},
@@ -39,6 +39,30 @@ public class MemberService {
 
     public List<Member> getMembers(Integer page, Integer size) throws SQLException {
 
-    }
+        int offset = (page - 1) * size;
 
+        String sql = "SELECT * FROM members LIMIT ? OFFSET ?";
+
+        return QueryExecutor.executeQuery(sql, rs -> {
+            Member member = new Member();
+
+            member.setMemberId(rs.getInt("member_id"));
+            member.setHonorific(rs.getString("honorific"));
+            member.setSurname(rs.getString("surname"));
+            member.setFirstName(rs.getString("first_name"));
+            member.setOtherName(rs.getString("other_name"));
+            member.setDateOfBirth(rs.getDate("date_of_birth"));
+            member.setIdNumber(rs.getString("id_number"));
+            member.setIdType(rs.getString("id_type"));
+            member.setTaxId(rs.getString("tax_id"));
+            member.setEmail(rs.getString("email"));
+            member.setPhoneNumber(rs.getString("phone_number"));
+            member.setAddress(rs.getString("address"));
+            member.setStatus(rs.getString("status"));
+            member.setDateCreated(rs.getTimestamp("date_created").toLocalDateTime());
+            member.setDateModified(rs.getTimestamp("date_modified").toLocalDateTime());
+
+            return member;
+        }, size, offset);
+    }
 }
