@@ -2,6 +2,8 @@ package ac.ku.oloo.services;
 
 import ac.ku.oloo.models.Member;
 import java.sql.SQLException;
+import java.util.List;
+
 import static ac.ku.oloo.utils.databaseUtil.QueryExecutor.*;
 
 /**
@@ -14,7 +16,7 @@ public class MemberService {
     public void createMember(Member member) throws SQLException {
         String sql = "INSERT INTO members (honorific, surname, first_name, other_name, date_of_birth, id_number, id_type, tax_id, email, phone_number, address, status, date_created, date_modified) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
-        
+
         Integer generatedMemberId = executeInsert(sql, rs -> {if (rs.next()) {
                     return rs.getInt(1);
                 }
@@ -33,6 +35,10 @@ public class MemberService {
                 member.getStatus());
 
         member.setMemberId(generatedMemberId);
+    }
+
+    public List<Member> getMembers(Integer page, Integer size) throws SQLException {
+
     }
 
 }
