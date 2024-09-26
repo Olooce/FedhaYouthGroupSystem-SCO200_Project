@@ -1,0 +1,49 @@
+/* General Styles */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f0f0f0;
+}
+
+/* TabPane Styles */
+.tab-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+}
+
+/* Button Styles */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* TextField Styles */
+.text-field, .text-area, .combo-box {
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 10px;
+}
+
+/* TableView Styles */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+/* Pagination Styles */
+.pagination {
+    -fx-padding: 10;
+}
