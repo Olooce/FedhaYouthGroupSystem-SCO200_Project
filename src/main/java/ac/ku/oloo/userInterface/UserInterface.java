@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class UserInterface extends Application {
 
     @Override
@@ -32,6 +34,7 @@ public class UserInterface extends Application {
         root.setBottom(footerLabel);
 
         Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
