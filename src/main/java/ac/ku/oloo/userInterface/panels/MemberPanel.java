@@ -109,13 +109,14 @@ public class MemberPanel {
         TextField idNumberField = new TextField();
         idNumberField.setPromptText("ID Number");
 
-        TextField idTypeField = new TextField();
-        idTypeField.setPromptText("ID Type");
+        ComboBox<String> idTypeComboBox = new ComboBox<>();
+        idTypeComboBox.getItems().addAll("National ID", "Passport", "Driver's License", "Student ID");
+        idTypeComboBox.setPromptText("ID Type");
 
         TextField taxIdField = new TextField();
         taxIdField.setPromptText("Tax ID");
 
-        idInfoBox.getChildren().addAll(idNumberField, idTypeField, taxIdField);
+        idInfoBox.getChildren().addAll(idNumberField, idTypeComboBox, taxIdField);
         idInfoPane.setContent(idInfoBox);
 
         // Status
