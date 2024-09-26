@@ -6,6 +6,9 @@ package ac.ku.oloo.utils.securityUtil;
  * On: 26/09/2024. 21:47
  * Description:
  **/
-public class Authenticate {
-    public boolean isAuthenticated(String username, String password) {}
+public class AuthenticationUtil {
+    public boolean isAuthenticated(String username, String authHash) {
+
+        return false;
+    }
 }
