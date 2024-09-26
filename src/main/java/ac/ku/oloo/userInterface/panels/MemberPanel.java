@@ -80,7 +80,7 @@ public class MemberPanel {
         addressField.setPromptText("Address");
 
         ComboBox<String> statusComboBox = new ComboBox<>();
-        statusComboBox.getItems().addAll("Active", "Inactive");
+        statusComboBox.getItems().addAll("ACTIVE", "INACTIVE");
         statusComboBox.setPromptText("Status");
 
         Button addButton = new Button("Add Member");
@@ -153,7 +153,7 @@ public class MemberPanel {
 
         // Fetch members from the database and add to the table
         try {
-            List<Member> members = memberService.getMembers(1, 10); // Example: get first page with size 10
+            List<Member> members = memberService.getMembers(1, 10);
             memberTable.getItems().addAll(members);
         } catch (SQLException e) {
             e.printStackTrace(); // TODO: Handle the exception
