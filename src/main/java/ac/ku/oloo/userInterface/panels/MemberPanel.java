@@ -52,7 +52,7 @@ public class MemberPanel {
         return tabPane;
     }
 
-    private VBox createAddMemberContent() {
+    private ScrollPane createAddMemberContent() {
         VBox vbox = new VBox(15); // Increased spacing between elements
         vbox.setPadding(new Insets(20)); // Padding around the VBox
 
@@ -175,7 +175,13 @@ public class MemberPanel {
         // Add components to the main VBox
         vbox.getChildren().addAll(titleLabel, personalInfoPane, contactInfoPane, idInfoPane, statusComboBox, addButton);
 
-        return vbox;
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background-color: transparent;");
+
+        return scrollPane;
     }
 
 
