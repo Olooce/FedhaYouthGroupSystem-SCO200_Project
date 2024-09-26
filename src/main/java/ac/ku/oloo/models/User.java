@@ -11,11 +11,11 @@ import java.sql.Timestamp;
 
 public class User {
 
-    private int userId;
+    private long userId;
     private String username;
     private String passwordHash;
     private String role;
-    private int memberId;
+    private long memberId;
     private Timestamp dateCreated;
     private Timestamp dateModified;
 
@@ -34,11 +34,11 @@ public class User {
     }
 
     // Getters and Setters
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -66,11 +66,11 @@ public class User {
         this.role = role;
     }
 
-    public int getMemberId() {
+    public long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(int memberId) {
+    public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
 
