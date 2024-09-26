@@ -22,6 +22,13 @@ import javafx.util.Duration;
 import java.time.Year;
 import java.util.Objects;
 
+/**
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)
+ * Created by: oloo
+ * On: 21/09/2024. 22:34
+ * Description:
+ **/
+
 public class UserInterface extends Application {
 
     @Override
