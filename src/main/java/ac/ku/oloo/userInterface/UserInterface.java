@@ -91,6 +91,8 @@ public class UserInterface extends Application {
     private void showMainApp(Stage primaryStage) {
         // Main layout for the application
         BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
+
 
         // Menu bar
         MenuBar menuBar = createMenuBar();
