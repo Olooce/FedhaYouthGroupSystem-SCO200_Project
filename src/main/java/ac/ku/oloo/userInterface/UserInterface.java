@@ -7,12 +7,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)
- * Created by: oloo
- * On: 21/09/2024. 22:34
- * Description: JavaFX based UI for the system.
- **/
 public class UserInterface extends Application {
 
     @Override
@@ -59,38 +53,14 @@ public class UserInterface extends Application {
         // Add tabs for different sections
         TabPane tabPane = new TabPane();
 
-        Tab memberTab = new Tab("Members", createMemberPanel());
-        Tab loanTab = new Tab("Loans", createLoanPanel());
-        Tab depositTab = new Tab("Deposits", createDepositPanel());
+        Tab memberTab = new Tab("Members", new MemberPanel().createMemberPanel());
+        Tab loanTab = new Tab("Loans", new LoanPanel().createLoanPanel());
+        Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
 
         tabPane.getTabs().addAll(memberTab, loanTab, depositTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         vbox.getChildren().add(tabPane);
-        return vbox;
-    }
-
-    private VBox createMemberPanel() {
-        VBox vbox = new VBox();
-        Label label = new Label("Member Information");
-        vbox.getChildren().add(label);
-        // TODO: Add more member-specific UI components here
-        return vbox;
-    }
-
-    private VBox createLoanPanel() {
-        VBox vbox = new VBox();
-        Label label = new Label("Loan Information");
-        vbox.getChildren().add(label);
-        // TODO: Add more loan-specific UI components here
-        return vbox;
-    }
-
-    private VBox createDepositPanel() {
-        VBox vbox = new VBox();
-        Label label = new Label("Deposit Information");
-        vbox.getChildren().add(label);
-        // TODO: Add more deposit-specific UI components here
         return vbox;
     }
 
