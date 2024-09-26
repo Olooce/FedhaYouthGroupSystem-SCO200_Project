@@ -1,5 +1,8 @@
 package ac.ku.oloo.userInterface;
 
+import ac.ku.oloo.userInterface.panels.DepositPanel;
+import ac.ku.oloo.userInterface.panels.LoanPanel;
+import ac.ku.oloo.userInterface.panels.MemberPanel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
