@@ -21,7 +21,7 @@ import java.util.List;
  * Description: Panel for managing member information.
  **/
 
-public class MemberPanel {
+public class MembersPanel {
 
     private MemberService memberService;
     private TableView<Member> memberTable;
@@ -31,7 +31,7 @@ public class MemberPanel {
     private int currentPage = 0;
     private int entriesPerPage = 10;
 
-    public MemberPanel() {
+    public MembersPanel() {
         this.memberService = new MemberService();
         this.observableMembers = FXCollections.observableArrayList(); // Initialize observable list
     }
@@ -203,7 +203,7 @@ public class MemberPanel {
         statusComboBox.setValue(null);
     }
 
-    private VBox createViewMembersContent() {
+    private ScrollPane createViewMembersContent() {
         VBox vbox = new VBox();
 
         // TableView for displaying existing members
@@ -237,7 +237,15 @@ public class MemberPanel {
         vbox.getChildren().addAll(controlBox, memberTable);
 
         refreshMemberTable(); // Initial load of members
-        return vbox;
+
+        // Wrap the VBox in a ScrollPane
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background-color: transparent;");
+
+        return scrollPane; // Return the ScrollPane
     }
 
     private Node createPage(int pageIndex) {

@@ -5,8 +5,7 @@ import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
 import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
-import ac.ku.oloo.userInterface.panels.MemberPanel;
-import com.sun.javafx.stage.EmbeddedWindow;
+import ac.ku.oloo.userInterface.panels.MembersPanel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -190,7 +189,7 @@ public class UserInterface extends Application {
         // Add tabs for different sections
         TabPane tabPane = new TabPane();
 
-        Tab memberTab = new Tab("Members", new MemberPanel().createMemberPanel());
+        Tab memberTab = new Tab("Members", new MembersPanel().createMemberPanel());
         Tab loanTab = new Tab("Loans", new LoanPanel().createLoanPanel());
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
 
