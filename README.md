@@ -5,7 +5,7 @@
 
 <div align="center">
   <img src="./src/main/resources/logo.avif" alt="Logo" width=""/>
-</di
+</div>
 
 ## Overview
 
