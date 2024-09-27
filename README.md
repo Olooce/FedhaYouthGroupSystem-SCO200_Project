@@ -3,7 +3,7 @@
 
 # Fedha Youth Group System
 
-![Logo](./src/main/resources/logo.png)
+![Logo](./src/main/resources/logo.avif)
 
 ## Overview
 
