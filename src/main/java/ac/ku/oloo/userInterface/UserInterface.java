@@ -34,19 +34,22 @@ import java.util.Objects;
  **/
 
 public class UserInterface extends Application {
+    private Stage staffStage; // renamed primaryStage to staffStage
+    private Stage memberStage; // defined memberStage outside methods
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Fedha Youth Group");
+        staffStage = primaryStage; // assign to staffStage
+        staffStage.setTitle("Fedha Youth Group");
 
         // Show the start screen
         StackPane startScreen = createStartScreen();
         Scene startScene = new Scene(startScreen, 800, 600);
-        primaryStage.setScene(startScene);
-        primaryStage.show();
+        staffStage.setScene(startScene);
+        staffStage.show();
 
         // Timeline to switch screens after a delay
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> showLoginScreen(primaryStage)));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> showLoginScreen()));
         timeline.play();
     }
 
@@ -58,7 +61,6 @@ public class UserInterface extends Application {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(800);
         imageView.setFitHeight(600);
-//        imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
 
         // Loading animation
@@ -71,7 +73,7 @@ public class UserInterface extends Application {
         return startScreen;
     }
 
-    private void showLoginScreen(Stage primaryStage) {
+    private void showLoginScreen() {
         // Create the login screen layout
         VBox loginLayout = new VBox(15);
         loginLayout.setAlignment(Pos.CENTER);
@@ -90,11 +92,10 @@ public class UserInterface extends Application {
 
                 if (authResult.isAuthenticated()) {
                     User user = authResult.getUser();
-                    if(Objects.equals(user.getRole(), "STAFF")){
-                        showMainApp(primaryStage, user); //the existing is for staff
+                    if (Objects.equals(user.getRole(), "STAFF")) {
+                        showMainApp();
                     } else if (Objects.equals(user.getRole(), "MEMBER")) {
-                        showMainApp(memberStage, user); //create a separate stage for mebers that will only be showing information related to them
-
+                        showMemberApp(user);
                     }
                 } else {
                     showAlert("Login Failed", "Invalid username or password.");
@@ -107,14 +108,13 @@ public class UserInterface extends Application {
         loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
 
         Scene loginScene = new Scene(loginLayout, 800, 600);
-        primaryStage.setScene(loginScene);
+        staffStage.setScene(loginScene);
     }
 
-    private void showMainApp(Stage primaryStage) {
+    private void showMainApp() {
         // Main layout for the application
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
-
 
         // Menu bar
         MenuBar menuBar = createMenuBar();
@@ -137,7 +137,29 @@ public class UserInterface extends Application {
 
         Scene mainScene = new Scene(root, 800, 600);
         mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
-        primaryStage.setScene(mainScene);
+        staffStage.setScene(mainScene);
+    }
+
+    private void showMemberApp(User user) {
+        // Create a new stage for member-specific functionality
+        memberStage = new Stage();
+        memberStage.setTitle("Member Dashboard");
+
+        // Main layout for member app
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
+
+        // Content for member app can be added here
+        Label welcomeLabel = new Label("Welcome, " + user.getUsername() + "!");
+        VBox contentPanel = new VBox(welcomeLabel);
+        contentPanel.setAlignment(Pos.CENTER);
+        contentPanel.setPadding(new Insets(20));
+
+        root.setCenter(contentPanel);
+
+        Scene memberScene = new Scene(root, 800, 600);
+        memberStage.setScene(memberScene);
+        memberStage.show();
     }
 
     private MenuBar createMenuBar() {
