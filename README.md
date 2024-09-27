@@ -3,7 +3,7 @@
 
 # Fedha Youth Group System
 
-![Logo](https://github.com/Olooce/FedhaYouthGroupSystem-SCO200_Project/src/main/resources/logo.avif)
+![Logo]((https://github.com/Olooce/FedhaYouthGroupSystem-SCO200_Project/blob/master/src/main/resources/logo.avif))
 
 ## Overview
 
