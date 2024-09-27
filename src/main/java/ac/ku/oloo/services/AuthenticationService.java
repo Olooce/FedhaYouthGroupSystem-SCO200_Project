@@ -1,5 +1,6 @@
 package ac.ku.oloo.services;
 
+import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
@@ -15,12 +16,11 @@ import java.util.List;
  * Description:
  **/
 public class AuthenticationService {
-    public static boolean authenticate(String username, String password) throws SQLException {
+    public static AuthResult authenticate(String username, String password) throws SQLException {
         String sql = "SELECT * FROM user_accounts.users WHERE username = ? LIMIT ?";
 
-        List<User> userList =  QueryExecutor.executeQuery(sql, rs -> {
+        List<User> userList = QueryExecutor.executeQuery(sql, rs -> {
             User user = new User();
-
             user.setUserId(rs.getLong("user_id"));
             user.setUsername(rs.getString("username"));
             user.setRole(rs.getString("role"));
@@ -28,13 +28,17 @@ public class AuthenticationService {
             user.setPasswordHash(rs.getString("password_hash"));
             user.setDateCreated(rs.getTimestamp("date_created"));
             user.setDateModified(rs.getTimestamp("date_modified"));
-
             return user;
         }, username, 1);
+
         if (userList.isEmpty()) {
-            return false;
+            return new AuthResult(false, null);
         }
 
-        return AuthenticationUtil.isAuthenticated(username, password, userList.get(0).getPasswordHash());
+        User user = userList.get(0);
+        boolean isAuthenticated = AuthenticationUtil.isAuthenticated(username, password, user.getPasswordHash());
+
+        return new AuthResult(isAuthenticated, isAuthenticated ? user : null);
     }
+
 }

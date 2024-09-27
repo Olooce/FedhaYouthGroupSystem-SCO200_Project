@@ -1,5 +1,6 @@
 package ac.ku.oloo.userInterface;
 
+import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.services.AuthenticationService;
 import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
@@ -83,15 +84,11 @@ public class UserInterface extends Application {
         Button loginButton = new Button("Login");
 
         loginButton.setOnAction(e -> {
-//            // TODO: Replace with login logic
-//            if (usernameField.getText().equals("user") && passwordField.getText().equals("password")) {
-//                showMainApp(primaryStage);
-//            } else {
-//                showAlert("Login Failed", "Invalid username or password.");
-//            }
-
             try {
-                if (AuthenticationService.authenticate(usernameField.getText(), passwordField.getText())) {
+                AuthResult authResult = AuthenticationService.authenticate(usernameField.getText(), passwordField.getText());
+
+                if (authResult.isAuthenticated()) {
+//                    User user = authResult.getUser();
                     showMainApp(primaryStage);
                 } else {
                     showAlert("Login Failed", "Invalid username or password.");
