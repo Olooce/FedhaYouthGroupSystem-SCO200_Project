@@ -6,6 +6,7 @@ import ac.ku.oloo.services.AuthenticationService;
 import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
 import ac.ku.oloo.userInterface.panels.MemberPanel;
+import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -46,7 +47,7 @@ public class UserInterface extends Application {
         primaryStage.show();
 
         // Timeline to switch screens after a delay
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> showLoginScreen()));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> showLoginScreen(primaryStage)));
         timeline.play();
     }
 
@@ -70,7 +71,7 @@ public class UserInterface extends Application {
         return startScreen;
     }
 
-    private void showLoginScreen() {
+    private void showLoginScreen(Stage primaryStage) {
         // Create the login screen layout
         VBox loginLayout = new VBox(15);
         loginLayout.setAlignment(Pos.CENTER);
@@ -90,9 +91,9 @@ public class UserInterface extends Application {
                 if (authResult.isAuthenticated()) {
                     User user = authResult.getUser();
                     if (Objects.equals(user.getRole(), "STAFF")) {
-                        showMainApp(); // Show staff dashboard
+                        showMainApp(primaryStage); // Show staff dashboard
                     } else if (Objects.equals(user.getRole(), "MEMBER")) {
-                        showMemberApp(user); // Show member dashboard
+                        showMemberApp(primaryStage, user); // Show member dashboard
                     }
                 } else {
                     showAlert("Login Failed", "Invalid username or password.");
@@ -105,11 +106,11 @@ public class UserInterface extends Application {
         loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
 
         Scene loginScene = new Scene(loginLayout, 800, 600);
-        staffStage.setScene(loginScene); // Set the login scene on staffStage
+        primaryStage.setScene(loginScene); // Set the login scene on primaryStage
     }
 
-    private void showMainApp() {
-        staffStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"
+    private void showMainApp(Stage primaryStage) {
+        primaryStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"
 
         // Main layout for the application
         BorderPane root = new BorderPane();
@@ -136,11 +137,11 @@ public class UserInterface extends Application {
 
         Scene mainScene = new Scene(root, 800, 600);
         mainScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
-        staffStage.setScene(mainScene);
+        primaryStage.setScene(mainScene);
     }
 
-    private void showMemberApp(User user) {
-        memberStage.setTitle("Member Dashboard"); // Change title to "Member Dashboard"
+    private void showMemberApp(Stage primaryStage, User user) {
+        primaryStage.setTitle("Member Dashboard"); // Change title to "Member Dashboard"
 
         // Main layout for member app
         BorderPane root = new BorderPane();
@@ -165,8 +166,8 @@ public class UserInterface extends Application {
         root.setBottom(footerBox);
 
         Scene memberScene = new Scene(root, 800, 600);
-        memberStage.setScene(memberScene);
-        memberStage.show();
+        primaryStage.setScene(memberScene);
+        primaryStage.show();
     }
 
     private MenuBar createMenuBar() {
