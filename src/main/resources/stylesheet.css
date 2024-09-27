@@ -8,6 +8,7 @@
     -fx-font-size: 14px;
     -fx-text-fill: #333;
     -fx-padding: 10;
+    /*-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6)*/
 }
 
 

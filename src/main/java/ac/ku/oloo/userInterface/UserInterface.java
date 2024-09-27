@@ -3,9 +3,7 @@ package ac.ku.oloo.userInterface;
 import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
-import ac.ku.oloo.userInterface.panels.DepositPanel;
-import ac.ku.oloo.userInterface.panels.LoanPanel;
-import ac.ku.oloo.userInterface.panels.MembersPanel;
+import ac.ku.oloo.userInterface.panels.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -113,7 +111,6 @@ public class UserInterface extends Application {
 
         // Main layout for the application
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
 
         // Menu bar
         MenuBar menuBar = createMenuBar();
@@ -144,15 +141,19 @@ public class UserInterface extends Application {
 
         // Main layout for member app
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
 
-        // Content for member app can be added here
-        Label welcomeLabel = new Label("Welcome, " + user.getUsername() + "!");
-        VBox contentPanel = new VBox(welcomeLabel);
-        contentPanel.setAlignment(Pos.CENTER);
-        contentPanel.setPadding(new Insets(20));
+        // Create tabbed interface
+        TabPane tabPane = new TabPane();
 
-        root.setCenter(contentPanel);
+        // Add tabs for user information, account statements, and loans
+        Tab userTab = new Tab("User Info", new UserPanel(user).createUserPanel());
+        Tab statementsTab = new Tab("Account Statements", new AccountStatementsPanel().createAccountStatementsPanel());
+        Tab loanTab = new Tab("Loans", new MemberLoansPanel().createLoanPanel());
+
+        tabPane.getTabs().addAll(userTab, statementsTab, loanTab);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+
+        root.setCenter(tabPane);
 
         int currentYear = Year.now().getValue();
         Label footerLabel = new Label("© " + currentYear + " Oloo Stephen");
@@ -190,7 +191,7 @@ public class UserInterface extends Application {
         TabPane tabPane = new TabPane();
 
         Tab memberTab = new Tab("Members", new MembersPanel().createMemberPanel());
-        Tab loanTab = new Tab("Loans", new LoanPanel().createLoanPanel());
+        Tab loanTab = new Tab("Loans", new LoansPanel().createLoanPanel());
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
 
         tabPane.getTabs().addAll(memberTab, loanTab, depositTab);
