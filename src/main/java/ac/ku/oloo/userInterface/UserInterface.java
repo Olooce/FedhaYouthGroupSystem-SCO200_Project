@@ -34,19 +34,16 @@ import java.util.Objects;
  **/
 
 public class UserInterface extends Application {
-    private Stage staffStage; // renamed primaryStage to staffStage
-    private Stage memberStage; // defined memberStage outside methods
 
     @Override
     public void start(Stage primaryStage) {
-        staffStage = primaryStage; // assign to staffStage
-        staffStage.setTitle("Fedha Youth Group");
+        primaryStage.setTitle("Fedha Group");
 
         // Show the start screen
         StackPane startScreen = createStartScreen();
         Scene startScene = new Scene(startScreen, 800, 600);
-        staffStage.setScene(startScene);
-        staffStage.show();
+        primaryStage.setScene(startScene);
+        primaryStage.show();
 
         // Timeline to switch screens after a delay
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> showLoginScreen()));
@@ -93,9 +90,9 @@ public class UserInterface extends Application {
                 if (authResult.isAuthenticated()) {
                     User user = authResult.getUser();
                     if (Objects.equals(user.getRole(), "STAFF")) {
-                        showMainApp();
+                        showMainApp(); // Show staff dashboard
                     } else if (Objects.equals(user.getRole(), "MEMBER")) {
-                        showMemberApp(user);
+                        showMemberApp(user); // Show member dashboard
                     }
                 } else {
                     showAlert("Login Failed", "Invalid username or password.");
@@ -108,10 +105,12 @@ public class UserInterface extends Application {
         loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
 
         Scene loginScene = new Scene(loginLayout, 800, 600);
-        staffStage.setScene(loginScene);
+        staffStage.setScene(loginScene); // Set the login scene on staffStage
     }
 
     private void showMainApp() {
+        staffStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"
+
         // Main layout for the application
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #073a5e, #452ea6);");
@@ -141,9 +140,7 @@ public class UserInterface extends Application {
     }
 
     private void showMemberApp(User user) {
-        // Create a new stage for member-specific functionality
-        memberStage = new Stage();
-        memberStage.setTitle("Member Dashboard");
+        memberStage.setTitle("Member Dashboard"); // Change title to "Member Dashboard"
 
         // Main layout for member app
         BorderPane root = new BorderPane();
@@ -156,6 +153,16 @@ public class UserInterface extends Application {
         contentPanel.setPadding(new Insets(20));
 
         root.setCenter(contentPanel);
+
+        int currentYear = Year.now().getValue();
+        Label footerLabel = new Label("© " + currentYear + " Oloo Stephen");
+        footerLabel.getStyleClass().add("footerLabel");
+
+        HBox footerBox = new HBox();
+        footerBox.setAlignment(Pos.CENTER);
+        footerBox.getChildren().add(footerLabel);
+
+        root.setBottom(footerBox);
 
         Scene memberScene = new Scene(root, 800, 600);
         memberStage.setScene(memberScene);
