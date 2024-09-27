@@ -11,12 +11,11 @@ import co.ke.coreAuth.Authenticator;
 public class AuthenticationUtil {
     private static final String encryptionKey = "qwerqfgsbx8273nytgfdv27524snxjcu";
 
-    public static boolean isAuthenticated(String username, String password,String password_hash) {
-        
-        return Authenticator.Authenticate(username, password_hash, createAuthHash(username,password), encryptionKey);
+    public static boolean isAuthenticated(String username, String password, String password_hash) {
+        return Authenticator.Authenticate(username, password_hash, createAuthHash(username, password), encryptionKey);
     }
 
     private static String createAuthHash(String username, String password) {
-        return Authenticator.createAuthHash(username,password,encryptionKey);
+        return Authenticator.createAuthHash(username, password, encryptionKey);
     }
 }
