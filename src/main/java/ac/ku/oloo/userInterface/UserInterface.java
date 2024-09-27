@@ -1,6 +1,7 @@
 package ac.ku.oloo.userInterface;
 
 import ac.ku.oloo.models.AuthResult;
+import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
 import ac.ku.oloo.userInterface.panels.DepositPanel;
 import ac.ku.oloo.userInterface.panels.LoanPanel;
@@ -88,8 +89,13 @@ public class UserInterface extends Application {
                 AuthResult authResult = AuthenticationService.authenticate(usernameField.getText(), passwordField.getText());
 
                 if (authResult.isAuthenticated()) {
-//                    User user = authResult.getUser();
-                    showMainApp(primaryStage);
+                    User user = authResult.getUser();
+                    if(Objects.equals(user.getRole(), "STAFF")){
+                        showMainApp(primaryStage, user); //the existing is for staff
+                    } else if (Objects.equals(user.getRole(), "MEMBER")) {
+                        showMainApp(memberStage, user); //create a separate stage for mebers that will only be showing information related to them
+
+                    }
                 } else {
                     showAlert("Login Failed", "Invalid username or password.");
                 }
