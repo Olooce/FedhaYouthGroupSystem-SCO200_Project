@@ -1,7 +1,9 @@
 
 ---
 
-# Fedha Youth Group System
+<div align="center">
+  <h1>Fedha Youth Group System</h1>
+</div>
 
 <div align="center">
   <img src="./src/main/resources/logo.avif" alt="Logo" width=""/>
