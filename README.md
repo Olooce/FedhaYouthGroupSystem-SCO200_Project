@@ -3,6 +3,8 @@
 
 # Fedha Youth Group System
 
+![Logo](https://github.com/Olooce/FedhaYouthGroupSystem-SCO200_Project/src/main/resources/logo.avif)
+
 ## Overview
 
 The **Fedha Youth Group System** is a computerized information system developed as an assessment project for students taking SCO200 – Object Oriented Programming II in semester I 2024/2025 at **Kenyatta University**. It is designed to facilitate the operations of the Fedha Youth Group, a hypothetical organization dedicated to empowering youths aged 18 to 35 by providing savings and loan services.
