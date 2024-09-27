@@ -3,9 +3,9 @@
 
 # Fedha Youth Group System
 
-![Logo](<div align="center">
-  <img src="./src/main/resources/logo.avif" alt="Logo" width="300"/>
-</di)
+<div align="center">
+  <img src="./src/main/resources/logo.avif" alt="Logo" width=""/>
+</di
 
 ## Overview
 
