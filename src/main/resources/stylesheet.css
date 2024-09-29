@@ -66,11 +66,11 @@
 /*    -fx-background-color: lightgray;*/
 /*}*/
 
-/*.button {*/
-/*    -fx-background-color: #4CAF50;*/
-/*    -fx-text-fill: white;*/
-/*    -fx-font-size: 14px;*/
-/*}*/
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
 
 .table-view {
     -fx-background-color: #f4f4f4;
