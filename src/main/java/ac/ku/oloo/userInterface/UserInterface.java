@@ -7,16 +7,16 @@ import ac.ku.oloo.userInterface.panels.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -67,19 +67,53 @@ public class UserInterface extends Application {
 
         return startScreen;
     }
+    private void showLoginScreen(Stage primaryStage){
+        // Create GridPane layout
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
 
-    private void showLoginScreen(Stage primaryStage) {
-        // Create the login screen layout
-        VBox loginLayout = new VBox(15);
-        loginLayout.setAlignment(Pos.CENTER);
-        loginLayout.setPadding(new Insets(20));
+        // Title label
+        Label titleLabel = new Label("Login");
+        titleLabel.setFont(new Font("Arial", 24));
+        titleLabel.setTextFill(Color.WHITE);
+        gridPane.add(titleLabel, 0, 0, 2, 1);
 
-        Label loginLabel = new Label("Login");
+        // Username label and field
+        Label usernameLabel = new Label("Username");
+        usernameLabel.setTextFill(Color.WHITE);
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        usernameField.setPrefWidth(300);
+        gridPane.add(usernameLabel, 0, 1);
+        gridPane.add(usernameField, 1, 1);
+
+        // Password label and field
+        Label passwordLabel = new Label("Password");
+        passwordLabel.setTextFill(Color.WHITE);
         PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Password");
-        Button loginButton = new Button("Login");
+        gridPane.add(passwordLabel, 0, 2);
+        gridPane.add(passwordField, 1, 2);
+
+        // Remember me checkbox
+        CheckBox rememberMeCheckBox = new CheckBox("Remember me");
+        rememberMeCheckBox.setTextFill(Color.WHITE);
+        gridPane.add(rememberMeCheckBox, 1, 3);
+
+        // Forgotten password link
+        Hyperlink forgottenPasswordLink = new Hyperlink("Forgotten password?");
+        forgottenPasswordLink.setTextFill(Color.LIGHTGRAY);
+        gridPane.add(forgottenPasswordLink, 1, 4);
+        GridPane.setHalignment(forgottenPasswordLink, HPos.RIGHT);
+
+        // Login button
+        Button loginButton = new Button("LOGIN");
+        loginButton.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #ff0080, #ff8c00);" +
+                "-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        loginButton.setPrefWidth(300);
+        gridPane.add(loginButton, 1, 5);
 
         loginButton.setOnAction(e -> {
             try {
@@ -100,11 +134,59 @@ public class UserInterface extends Application {
             }
         });
 
-        loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
+        // Register button
+        Button registerButton = new Button("REGISTER");
+        registerButton.setStyle("-fx-background-color: #444444; -fx-text-fill: white;");
+        registerButton.setPrefWidth(300);
+        gridPane.add(registerButton, 1, 6);
 
-        Scene loginScene = new Scene(loginLayout, 800, 600);
-        primaryStage.setScene(loginScene); // Set the login scene on primaryStage
+        // Create the scene with background image
+        StackPane root = new StackPane();
+//        root.setStyle("-fx-background-image: url('file:/mnt/data/login-thumb.png'); -fx-background-size: cover;");
+        root.getChildren().add(gridPane);
+
+        Scene scene = new Scene(root, 500, 400);
+        primaryStage.setTitle("Login Panel");
+        primaryStage.setScene(scene);
     }
+//
+//    private void showLoginScreen(Stage primaryStage) {
+//        // Create the login screen layout
+//        VBox loginLayout = new VBox(15);
+//        loginLayout.setAlignment(Pos.CENTER);
+//        loginLayout.setPadding(new Insets(20));
+//
+//        Label loginLabel = new Label("Login");
+//        TextField usernameField = new TextField();
+//        usernameField.setPromptText("Username");
+//        PasswordField passwordField = new PasswordField();
+//        passwordField.setPromptText("Password");
+//        Button loginButton = new Button("Login");
+//
+//        loginButton.setOnAction(e -> {
+//            try {
+//                AuthResult authResult = AuthenticationService.authenticate(usernameField.getText(), passwordField.getText());
+//
+//                if (authResult.isAuthenticated()) {
+//                    User user = authResult.getUser();
+//                    if (Objects.equals(user.getRole(), "STAFF")) {
+//                        showMainApp(primaryStage); // Show staff dashboard
+//                    } else if (Objects.equals(user.getRole(), "MEMBER")) {
+//                        showMemberApp(primaryStage, user); // Show member dashboard
+//                    }
+//                } else {
+//                    showAlert("Login Failed", "Invalid username or password.");
+//                }
+//            } catch (SQLException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        });
+//
+//        loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
+//
+//        Scene loginScene = new Scene(loginLayout, 800, 600);
+//        primaryStage.setScene(loginScene); // Set the login scene on primaryStage
+//    }
 
     private void showMainApp(Stage primaryStage) {
         primaryStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"
