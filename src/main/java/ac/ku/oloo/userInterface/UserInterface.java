@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -67,7 +68,7 @@ public class UserInterface extends Application {
 
         return startScreen;
     }
-    private void showLoginScreen(Stage primaryStage){
+    private void showLoginScreen(Stage primaryStage) {
         // Create GridPane layout
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -75,6 +76,15 @@ public class UserInterface extends Application {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        gridPane.setPrefSize(500, 400);
+
+        // Add shadow effect to the GridPane
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(10);
+        shadow.setOffsetX(5);
+        shadow.setOffsetY(5);
+        shadow.setColor(Color.color(0, 0, 0, 0.5));
+        gridPane.setEffect(shadow);
 
         // Title label
         Label titleLabel = new Label("Login");
@@ -140,14 +150,16 @@ public class UserInterface extends Application {
         registerButton.setPrefWidth(300);
         gridPane.add(registerButton, 1, 6);
 
-        // Create the scene with background image
-        StackPane root = new StackPane();
-//        root.setStyle("-fx-background-image: url('file:/mnt/data/login-thumb.png'); -fx-background-size: cover;");
-        root.getChildren().add(gridPane);
+        // Wrap the GridPane in a VBox
+        VBox loginLayout = new VBox(15);
+        loginLayout.setAlignment(Pos.CENTER);
+        loginLayout.setPadding(new Insets(20));
+        loginLayout.getChildren().add(gridPane);
 
-        Scene scene = new Scene(root, 500, 400);
+        // Create the scene with the login layout
+        Scene loginScene = new Scene(loginLayout, 800, 600);
         primaryStage.setTitle("Login Panel");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(loginScene);
     }
 //
 //    private void showLoginScreen(Stage primaryStage) {
