@@ -161,44 +161,6 @@ public class UserInterface extends Application {
         primaryStage.setTitle("Login Panel");
         primaryStage.setScene(loginScene);
     }
-//
-//    private void showLoginScreen(Stage primaryStage) {
-//        // Create the login screen layout
-//        VBox loginLayout = new VBox(15);
-//        loginLayout.setAlignment(Pos.CENTER);
-//        loginLayout.setPadding(new Insets(20));
-//
-//        Label loginLabel = new Label("Login");
-//        TextField usernameField = new TextField();
-//        usernameField.setPromptText("Username");
-//        PasswordField passwordField = new PasswordField();
-//        passwordField.setPromptText("Password");
-//        Button loginButton = new Button("Login");
-//
-//        loginButton.setOnAction(e -> {
-//            try {
-//                AuthResult authResult = AuthenticationService.authenticate(usernameField.getText(), passwordField.getText());
-//
-//                if (authResult.isAuthenticated()) {
-//                    User user = authResult.getUser();
-//                    if (Objects.equals(user.getRole(), "STAFF")) {
-//                        showMainApp(primaryStage); // Show staff dashboard
-//                    } else if (Objects.equals(user.getRole(), "MEMBER")) {
-//                        showMemberApp(primaryStage, user); // Show member dashboard
-//                    }
-//                } else {
-//                    showAlert("Login Failed", "Invalid username or password.");
-//                }
-//            } catch (SQLException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        });
-//
-//        loginLayout.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
-//
-//        Scene loginScene = new Scene(loginLayout, 800, 600);
-//        primaryStage.setScene(loginScene); // Set the login scene on primaryStage
-//    }
 
     private void showMainApp(Stage primaryStage) {
         primaryStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"

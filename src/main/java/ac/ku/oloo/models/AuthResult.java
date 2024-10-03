@@ -8,7 +8,7 @@ package ac.ku.oloo.models;
  **/
 
 public class AuthResult {
-    private boolean isAuthenticated;
+    private final boolean isAuthenticated;
     private final User user;
 
     public AuthResult(boolean isAuthenticated, User user) {

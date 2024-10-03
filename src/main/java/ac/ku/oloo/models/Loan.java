@@ -10,9 +10,9 @@ import java.math.BigDecimal;
  **/
 
 public class Loan {
-    private int loanId;
-    private int memberId;
-    private BigDecimal loanAmount;
+    private final int loanId;
+    private final int memberId;
+    private final BigDecimal loanAmount;
 
     public Loan(int loanId, int memberId, BigDecimal loanAmount) {
         this.loanId = loanId;

@@ -10,8 +10,8 @@ import java.math.BigDecimal;
  **/
 
 public class Share {
-    private int memberId;
-    private BigDecimal totalShares;
+    private final int memberId;
+    private final BigDecimal totalShares;
 
     public Share(int memberId, BigDecimal totalShares) {
         this.memberId = memberId;
