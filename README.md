@@ -52,9 +52,8 @@ This system aims to streamline the management of member accounts, loan processin
 - **Database**: MySQL (using custom utility classes for database operations)
 - **Design Principles**: Object-Oriented Programming, Double-Entry Bookkeeping principles, Modular design
 
-
-
-
+To recreate the exact database schema used in this project (excluding the data), I have developed a method that makes 
+this process automatic and straightforward. For a detailed look at how it works, check out this [GitHub repository](https://github.com/Olooce/DB-Initializer).
 
 ### Installation
 
