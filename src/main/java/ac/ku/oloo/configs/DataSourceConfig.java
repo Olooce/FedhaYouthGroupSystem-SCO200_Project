@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DataSourceConfig {
 
-    private static final HikariConfig hikariConfig = new HikariConfig();
+    static final HikariConfig hikariConfig = new HikariConfig();
 
     static {
         try (InputStream input = DataSourceConfig.class.getClassLoader().getResourceAsStream("db.properties")) {
