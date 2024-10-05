@@ -21,7 +21,7 @@ public class fedhaApp {
 //        dbConfig.exportDB();
 //        System.out.println("Database export completed.");
 
-//        // Import the database schema
+//        // Uncomment this to import the database schema
 //        System.out.println("Starting database import...");
 //        dbConfig.importDB();
 //        System.out.println("Database import completed.");
