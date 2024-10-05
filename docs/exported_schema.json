@@ -1,0 +1,985 @@
+[ {
+  "schema" : null,
+  "tableName" : "account_types",
+  "fields" : [ {
+    "columnName" : "account_type_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "account_type_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "nature",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "accounts",
+  "fields" : [ {
+    "columnName" : "account_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "account_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "account_type_id",
+    "dataType" : "INT",
+    "referencedTable" : "account_types",
+    "referencedColumn" : "account_type_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "account_type_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "debit",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "credit",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "USER",
+    "dataType" : "CHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "HOST",
+    "dataType" : "CHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "CURRENT_CONNECTIONS",
+    "dataType" : "BIGINT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "TOTAL_CONNECTIONS",
+    "dataType" : "BIGINT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "MAX_SESSION_CONTROLLED_MEMORY",
+    "dataType" : "BIGINT UNSIGNED",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "MAX_SESSION_TOTAL_MEMORY",
+    "dataType" : "BIGINT UNSIGNED",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "balance_sheet",
+  "fields" : [ {
+    "columnName" : "balance_sheet_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "account_id",
+    "dataType" : "INT",
+    "referencedTable" : "accounts",
+    "referencedColumn" : "account_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "period_start",
+    "dataType" : "DATE",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "period_end",
+    "dataType" : "DATE",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "debit",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "credit",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "balance",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "journal_entries",
+  "fields" : [ {
+    "columnName" : "entry_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "transaction_date",
+    "dataType" : "DATE",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "description",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "reference_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "reference_type_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "debit_account_id",
+    "dataType" : "INT",
+    "referencedTable" : "accounts",
+    "referencedColumn" : "account_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "credit_account_id",
+    "dataType" : "INT",
+    "referencedTable" : "accounts",
+    "referencedColumn" : "account_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "amount_debited",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "amount_credited",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "source_account_id",
+    "dataType" : "INT",
+    "referencedTable" : "accounts",
+    "referencedColumn" : "account_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "destination_account_id",
+    "dataType" : "INT",
+    "referencedTable" : "accounts",
+    "referencedColumn" : "account_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "money_flow",
+  "fields" : [ {
+    "columnName" : "flow_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "entry_id",
+    "dataType" : "INT",
+    "referencedTable" : "journal_entries",
+    "referencedColumn" : "entry_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "source_type_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "source_details",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "destination_type_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "destination_details",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "deposits",
+  "fields" : [ {
+    "columnName" : "deposit_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : "members",
+    "referencedColumn" : "member_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "account_to_credit",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "amount",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "guarantors",
+  "fields" : [ {
+    "columnName" : "guarantor_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "loan_id",
+    "dataType" : "INT",
+    "referencedTable" : "loans",
+    "referencedColumn" : "loan_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : "members",
+    "referencedColumn" : "member_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "amount_guaranteed",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "loan_types",
+  "fields" : [ {
+    "columnName" : "loan_type_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "loan_type",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "interest_rate",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "loans",
+  "fields" : [ {
+    "columnName" : "loan_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "loan_type_id",
+    "dataType" : "INT",
+    "referencedTable" : "loan_types",
+    "referencedColumn" : "loan_type_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : "members",
+    "referencedColumn" : "member_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "loan_amount",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "guarantor_id",
+    "dataType" : "INT",
+    "referencedTable" : "members",
+    "referencedColumn" : "member_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "status",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "contributions",
+  "fields" : [ {
+    "columnName" : "contribution_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : "members",
+    "referencedColumn" : "member_id",
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : true
+  }, {
+    "columnName" : "amount",
+    "dataType" : "DECIMAL",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "currency",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "members",
+  "fields" : [ {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "honorific",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "surname",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "first_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "other_name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_of_birth",
+    "dataType" : "DATE",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "id_number",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "id_type",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "tax_id",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "email",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "phone_number",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "address",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "status",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "staff_members",
+  "fields" : [ {
+    "columnName" : "staff_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "name",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "position",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "email",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "phone_number",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "sys_config",
+  "fields" : [ {
+    "columnName" : "variable",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "value",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "set_time",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "set_by",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+}, {
+  "schema" : null,
+  "tableName" : "users",
+  "fields" : [ {
+    "columnName" : "USER",
+    "dataType" : "CHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "CURRENT_CONNECTIONS",
+    "dataType" : "BIGINT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "TOTAL_CONNECTIONS",
+    "dataType" : "BIGINT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "MAX_SESSION_CONTROLLED_MEMORY",
+    "dataType" : "BIGINT UNSIGNED",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "MAX_SESSION_TOTAL_MEMORY",
+    "dataType" : "BIGINT UNSIGNED",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "user_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : true,
+    "nullable" : false,
+    "foreignKey" : false
+  }, {
+    "columnName" : "username",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "password_hash",
+    "dataType" : "VARCHAR",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "role",
+    "dataType" : "ENUM",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "member_id",
+    "dataType" : "INT",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_created",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  }, {
+    "columnName" : "date_modified",
+    "dataType" : "TIMESTAMP",
+    "referencedTable" : null,
+    "referencedColumn" : null,
+    "primaryKey" : false,
+    "nullable" : true,
+    "foreignKey" : false
+  } ]
+} ]
