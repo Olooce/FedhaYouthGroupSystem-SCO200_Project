@@ -14,7 +14,7 @@ import ac.ku.oloo.userInterface.UserInterface;
 public class fedhaApp {
     public static void main(String[] args) {
 //
-//        DB_Config dbConfig = new DB_Config();
+        DB_Config dbConfig = new DB_Config();
 //
 //        //Uncomment this to export the database schema
 //        System.out.println("Starting database export...");
@@ -22,11 +22,11 @@ public class fedhaApp {
 //        System.out.println("Database export completed.");
 
 //        // Uncomment this to import the database schema
-//        System.out.println("Starting database import...");
-//        dbConfig.importDB();
-//        System.out.println("Database import completed.");
+        System.out.println("Starting database import...");
+        dbConfig.importDB();
+        System.out.println("Database import completed.");
 
-        UserInterface.main(args);
+//        UserInterface.main(args);
     }
 
 //    hh
