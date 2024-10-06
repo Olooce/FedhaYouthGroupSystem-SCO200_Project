@@ -17,14 +17,14 @@ public class fedhaApp {
         DB_Config dbConfig = new DB_Config();
 //
 //        //Uncomment this to export the database schema
-        System.out.println("Starting database export...");
-        dbConfig.exportDB();
-        System.out.println("Database export completed.");
+//        System.out.println("Starting database export...");
+//        dbConfig.exportDB();
+//        System.out.println("Database export completed.");
 
 //        // Uncomment this to import the database schema
-//        System.out.println("Starting database import...");
-//        dbConfig.importDB();
-//        System.out.println("Database import completed.");
+        System.out.println("Starting database import...");
+        dbConfig.importDB();
+        System.out.println("Database import completed.");
 
 //        UserInterface.main(args);
     }
