@@ -14,6 +14,25 @@
     </properties>
 
     <dependencies>
+
+<!--        mvn install:install-file -Dfile=lib/coreAuth-1.0.jar -DgroupId=co.ke.coreAuth -DartifactId=coreAuth -Dversion=1.0-->
+        <dependency>
+            <groupId>co.ke.coreAuth</groupId>
+            <artifactId>coreAuth</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/coreAuth-1.0.jar</systemPath>
+        </dependency>
+
+<!--        mvn install:install-file -Dfile=lib/DB-Initializer-1.0.jar -DgroupId=co.ke.coreNexus -DartifactId=DB-Initializer -Dversion=1.0-->
+        <dependency>
+            <groupId>co.ke.coreNexus</groupId>
+            <artifactId>DB-Initializer</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/DB-Initializer-1.0.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
