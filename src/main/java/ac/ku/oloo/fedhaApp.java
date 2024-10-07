@@ -22,11 +22,11 @@ public class fedhaApp {
 //        System.out.println("Database export completed.");
 
 //        // Uncomment this to import the database schema
-        System.out.println("Starting database import...");
-        dbConfig.importDB();
-        System.out.println("Database import completed.");
+//        System.out.println("Starting database import...");
+//        dbConfig.importDB();
+//        System.out.println("Database import completed.");
 
-//        UserInterface.main(args);
+        UserInterface.main(args);
     }
 
 }
