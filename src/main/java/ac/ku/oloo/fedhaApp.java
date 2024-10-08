@@ -1,7 +1,7 @@
 package ac.ku.oloo;
 
 import ac.ku.oloo.configs.DB_Config;
-import ac.ku.oloo.userInterface.UserInterface;
+import ac.ku.oloo.userInterfaceFX.UserInterface;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)

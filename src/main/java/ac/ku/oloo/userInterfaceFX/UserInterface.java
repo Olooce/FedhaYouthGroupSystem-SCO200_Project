@@ -1,9 +1,9 @@
-package ac.ku.oloo.userInterface;
+package ac.ku.oloo.userInterfaceFX;
 
 import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
-import ac.ku.oloo.userInterface.panels.*;
+import ac.ku.oloo.userInterfaceFX.panels.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

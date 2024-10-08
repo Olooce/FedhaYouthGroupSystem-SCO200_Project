@@ -1,4 +1,4 @@
-package ac.ku.oloo.userInterface.panels;
+package ac.ku.oloo.userInterfaceFX.panels;
 
 import ac.ku.oloo.models.User;
 import javafx.geometry.Insets;
@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 /**
- * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterface.panels)
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX.panels)
  * Created by: oloo
  * On: 27/09/2024. 09:48
  * Description: Displaying authenticated user's information

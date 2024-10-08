@@ -1,4 +1,4 @@
-package ac.ku.oloo.userInterface.panels;
+package ac.ku.oloo.userInterfaceFX.panels;
 
 import ac.ku.oloo.services.MemberService;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterface)
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX)
  * Created by: oloo
  * On: 26/09/2024. 13:18
  * Description: Panel for managing member information.

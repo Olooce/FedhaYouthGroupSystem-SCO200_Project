@@ -1,10 +1,10 @@
-package ac.ku.oloo.userInterface.panels;
+package ac.ku.oloo.userInterfaceFX.panels;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 /**
- * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterface)
+ * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX)
  * Created by: oloo
  * On: 26/09/2024. 13:20
  * Description:
