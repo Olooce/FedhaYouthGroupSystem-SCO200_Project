@@ -65,4 +65,7 @@ public class MemberService {
             return member;
         }, size, offset);
     }
+
+    public int getTotalMembers() {
+    }
 }

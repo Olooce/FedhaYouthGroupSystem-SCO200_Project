@@ -6,8 +6,6 @@ package ac.ku.oloo.userinterfaceSwing.panels;
  * On: 08/10/2024. 12:39
  * Description:
  **/
-package ac.ku.oloo.userinterfaceSwing.panels;
-
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.MemberService;
 
@@ -17,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.jdatepicker.JDatePicker;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,8 +28,7 @@ import java.util.List;
 
 public class MembersPanel extends JPanel {
 
-    private MemberService memberService;
-    private JTable memberTable;
+    private final MemberService memberService;
     private DefaultTableModel tableModel;
     private JComboBox<Integer> entriesPerPageComboBox;
     private int currentPage = 0;
@@ -163,7 +161,7 @@ public class MembersPanel extends JPanel {
         // Table for displaying existing members
         String[] columnNames = {"Member ID", "Name"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        memberTable = new JTable(tableModel);
+        JTable memberTable = new JTable(tableModel);
 
         JScrollPane tableScrollPane = new JScrollPane(memberTable);
         panel.add(tableScrollPane, BorderLayout.CENTER);
