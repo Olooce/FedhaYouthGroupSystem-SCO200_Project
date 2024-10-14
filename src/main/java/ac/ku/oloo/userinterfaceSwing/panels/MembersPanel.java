@@ -13,10 +13,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import org.jdatepicker.JDatePicker;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,9 +76,10 @@ public class MembersPanel extends JPanel {
         personalInfoPanel.add(new JLabel("Other Name:"));
         personalInfoPanel.add(otherNameField);
 
-        JDatePicker dateOfBirthPicker = new JDatePicker();
-        personalInfoPanel.add(new JLabel("Date of Birth:"));
-        personalInfoPanel.add(dateOfBirthPicker);
+        SpinnerDateModel dateModel = new SpinnerDateModel();
+        JSpinner dateOfBirthSpinner = new JSpinner(dateModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dateOfBirthSpinner, "yyyy-MM-dd");
+        dateOfBirthSpinner.setEditor(dateEditor);
 
         panel.add(personalInfoPanel, BorderLayout.CENTER);
 
@@ -116,7 +116,12 @@ public class MembersPanel extends JPanel {
                 member.setSurname(surnameField.getText());
                 member.setFirstName(firstNameField.getText());
                 member.setOtherName(otherNameField.getText());
-                member.setDateOfBirth(java.sql.Date.valueOf(dateOfBirthPicker.getDate()));
+
+                // Convert spinner date to SQL date
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date date = (java.util.Date) dateOfBirthSpinner.getValue();
+                member.setDateOfBirth(new Date(date.getTime()));
+
                 member.setEmail(emailField.getText());
                 member.setPhoneNumber(phoneNumberField.getText());
                 member.setAddress(addressField.getText());
@@ -126,7 +131,7 @@ public class MembersPanel extends JPanel {
 
                 JOptionPane.showMessageDialog(panel, "Member added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 clearAddMemberFields(honorificComboBox, surnameField, firstNameField, otherNameField,
-                        dateOfBirthPicker, emailField, phoneNumberField, addressField, statusComboBox);
+                        dateOfBirthSpinner, emailField, phoneNumberField, addressField, statusComboBox);
 
                 refreshMemberTable();
 
@@ -141,7 +146,7 @@ public class MembersPanel extends JPanel {
     }
 
     private void clearAddMemberFields(JComboBox<String> honorificComboBox, JTextField surnameField, JTextField firstNameField,
-                                      JTextField otherNameField, JDatePicker dateOfBirthPicker, JTextField emailField,
+                                      JTextField otherNameField, JSpinner dateOfBirthPicker, JTextField emailField,
                                       JTextField phoneNumberField, JTextArea addressField, JComboBox<String> statusComboBox) {
         honorificComboBox.setSelectedIndex(-1);
         surnameField.setText("");

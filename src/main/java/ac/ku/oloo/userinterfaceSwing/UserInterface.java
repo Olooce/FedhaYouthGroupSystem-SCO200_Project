@@ -58,7 +58,7 @@ public class UserInterface extends JFrame {
 
         JPanel loginPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10);
+        gbc.insets = new Insets(10, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Title label

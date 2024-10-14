@@ -67,5 +67,6 @@ public class MemberService {
     }
 
     public int getTotalMembers() {
+    return 0;
     }
 }
