@@ -146,13 +146,13 @@ public class MembersPanel extends JPanel {
     }
 
     private void clearAddMemberFields(JComboBox<String> honorificComboBox, JTextField surnameField, JTextField firstNameField,
-                                      JTextField otherNameField, JSpinner dateOfBirthPicker, JTextField emailField,
+                                      JTextField otherNameField, JSpinner dateOfBirthSpinner, JTextField emailField,
                                       JTextField phoneNumberField, JTextArea addressField, JComboBox<String> statusComboBox) {
         honorificComboBox.setSelectedIndex(-1);
         surnameField.setText("");
         firstNameField.setText("");
         otherNameField.setText("");
-        dateOfBirthPicker.setDate(null);
+        dateOfBirthSpinner.setValue(null);
         emailField.setText("");
         phoneNumberField.setText("");
         addressField.setText("");
