@@ -1,7 +1,7 @@
 package ac.ku.oloo;
 
 import ac.ku.oloo.configs.DB_Config;
-import ac.ku.oloo.userinterfaceSwing.UserInterface;
+import ac.ku.oloo.userinterfaceSwing.FedhaLogin;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo)
@@ -26,7 +26,7 @@ public class fedhaApp {
 //        dbConfig.importDB();
 //        System.out.println("Database import completed.");
 
-        UserInterface.main(args);
+        FedhaLogin.main(args);
     }
 
 }
