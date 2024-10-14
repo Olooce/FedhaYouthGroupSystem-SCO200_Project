@@ -41,3 +41,7 @@ build/
 /src/main/resources/db.properties
 
 .idea/
+node_modules/
+coverage/
+.env
+Thumbs.db
