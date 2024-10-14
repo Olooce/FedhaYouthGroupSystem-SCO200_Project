@@ -40,3 +40,4 @@ build/
 
 /src/main/resources/db.properties
 
+.idea/
