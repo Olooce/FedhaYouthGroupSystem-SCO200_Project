@@ -21,7 +21,7 @@ public class Log {
     }
 
     // Method to log the message with level, class, and method details
-    public static void log(LogLevel level, String message) {
+    private static void log(LogLevel level, String message) {
         // Capture the current stack trace to identify the caller
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 

@@ -28,7 +28,7 @@ public class fedhaApp {
 //        dbConfig.importDB();
 //        System.out.println("Database import completed.");
         Log.info("Starting  fedhaApp...");
-
+        
         UserInterface.main(args);
 
         Log.info("Stopping fedhaApp...");
