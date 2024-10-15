@@ -1,6 +1,7 @@
 package ac.ku.oloo;
 
 import ac.ku.oloo.configs.DB_Config;
+import ac.ku.oloo.userInterfaceFX.UserInterface;
 import ac.ku.oloo.userinterfaceSwing.FedhaLogin;
 
 /**
@@ -25,8 +26,7 @@ public class fedhaApp {
 //        System.out.println("Starting database import...");
 //        dbConfig.importDB();
 //        System.out.println("Database import completed.");
-
-        FedhaLogin.main(args);
+        UserInterface.main(args);
     }
 
 }
