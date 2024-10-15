@@ -15,9 +15,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Log {
 
-    // Create a logger instance using SLF4J
-    private static final Logger logger = LoggerFactory.getLogger(Log.class);
-
     // Enum for log levels
     public enum LogLevel {
         INFO, WARN, ERROR, DEBUG
@@ -28,10 +25,13 @@ public class Log {
         // Capture the current stack trace to identify the caller
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
-        // The 3rd element refers to the method that called the logger
-        StackTraceElement caller = stackTrace[2];
+        // The 3rd element refers to the method that called this logger method (adjust index as needed)
+        StackTraceElement caller = stackTrace[3];
         String className = caller.getClassName();
         String methodName = caller.getMethodName();
+
+        // Create a logger for the calling class
+        Logger logger = LoggerFactory.getLogger(className);
 
         // Format the current date and time
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
