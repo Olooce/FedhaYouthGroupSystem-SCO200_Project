@@ -45,3 +45,4 @@ node_modules/
 coverage/
 .env
 Thumbs.db
+cmake-build-debug
