@@ -16,7 +16,9 @@ import javafx.scene.layout.VBox;
 
 public class MemberLoansPanel {
 
-    public VBox createLoanPanel() {
+    private LoanService loanService = new LoanService(); // Initialize the loan service
+
+    public VBox createLoanPanel(Member member) {
         VBox vbox = new VBox();
         Label label = new Label("Loans");
 
@@ -34,23 +36,53 @@ public class MemberLoansPanel {
         TextField repaymentField = new TextField();
 
         // Display total shares for eligibility
-        Label sharesLabel = new Label("Total Shares: 0 (Auto-calculate)");
-        // Will be updated based on member data
+        Label sharesLabel = new Label("Total Shares: " + member.getShares());
+
+        // Maximum loan amount display
+        double maxLoan = loanService.calculateMaxLoan(member);
+        Label maxLoanLabel = new Label("Maximum Loan You Can Borrow: " + maxLoan);
 
         // Button to apply for loan
         Button applyButton = new Button("Apply for Loan");
         applyButton.setOnAction(e -> {
-            // TODO: Add logic to handle loan application
-            // e.g., check shares, update member's loan info, show eligibility
+            // Get loan details
+            String loanType = loanTypeComboBox.getValue();
+            double loanAmount = Double.parseDouble(loanAmountField.getText());
+            int repaymentPeriod = Integer.parseInt(repaymentField.getText());
+            double interestRate = loanService.getInterestRate(loanType);
+
+            // Validate loan amount against max loan
+            if (loanAmount > maxLoan) {
+                showAlert("Loan Application Failed", "You cannot borrow more than your maximum eligible loan.");
+                return;
+            }
+
+            // TODO: Add logic to handle guarantors' validation
+            // Assuming guarantors are pre-selected and validated for this example
+            double guaranteedAmount = loanAmount - member.getShares(); // Example logic
+            if (!loanService.validateGuarantors(guaranteedAmount, loanAmount, member.getShares())) {
+                showAlert("Guarantor Validation Failed", "Guarantors must guarantee the loan.");
+                return;
+            }
+
+            // Successful loan application (you would add more details to this)
+            showAlert("Loan Application Successful", "Loan of " + loanAmount + " has been applied successfully.");
         });
 
         // Add all components to the VBox
         vbox.getChildren().addAll(label, loanTypeLabel, loanTypeComboBox, loanAmountLabel, loanAmountField,
-                repaymentLabel, repaymentField, sharesLabel, applyButton);
-
-        // TODO: Add loan-specific UI components (e.g., guarantors, loan conditions)
+                repaymentLabel, repaymentField, sharesLabel, maxLoanLabel, applyButton);
 
         return vbox;
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
+
 

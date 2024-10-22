@@ -12,26 +12,22 @@ import ac.ku.oloo.models.Member;
 
 public class LoanService {
 
-    public static final double MAX_LOAN_MULTIPLIER = 3; // Maximum loan is 3 times the shares
+    public static final double MAX_LOAN_MULTIPLIER = 3;
     public static final double BUSINESS_LOAN_RATE = LoadConfig.getBusinessLoanInterestRate();
     public static final double EMERGENCY_LOAN_RATE = LoadConfig.getEmergencyLoanInterestRate();
-    public static final double DEVELOPMENT_LOAN_RATE = 0.08; // 8% for Development Loan
+    public static final double PERSONAL_LOAN_RATE = LoadConfig.getPersonalLoanInterestRate();
 
     public double calculateMaxLoan(Member member) {
         return member.getShares() * MAX_LOAN_MULTIPLIER;
     }
 
     public double getInterestRate(String loanType) {
-        switch (loanType) {
-            case "Business Loan":
-                return BUSINESS_LOAN_RATE;
-            case "Emergency Loan":
-                return EMERGENCY_LOAN_RATE;
-            case "Development Loan":
-                return DEVELOPMENT_LOAN_RATE;
-            default:
-                return 0;
-        }
+        return switch (loanType) {
+            case "Business Loan" -> BUSINESS_LOAN_RATE;
+            case "Emergency Loan" -> EMERGENCY_LOAN_RATE;
+            case "Personal Loan" -> PERSONAL_LOAN_RATE;
+            default -> 0;
+        };
     }
 
     public boolean validateGuarantors(double guaranteedAmount, double loanAmount, double memberShares) {

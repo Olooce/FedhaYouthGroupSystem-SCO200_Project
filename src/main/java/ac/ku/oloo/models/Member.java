@@ -148,4 +148,9 @@ public class Member {
     public void setDateModified(LocalDateTime dateModified) {
         this.dateModified = dateModified;
     }
+
+    public double getShares() {
+        //TODO: Implement logic   to retrieve total shares..or implement at service level. Whichever is more efficient.
+        return 2; //placeholder
+    }
 }

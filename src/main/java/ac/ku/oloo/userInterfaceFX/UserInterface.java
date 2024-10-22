@@ -3,6 +3,7 @@ package ac.ku.oloo.userInterfaceFX;
 import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
+import ac.ku.oloo.services.MemberService;
 import ac.ku.oloo.userInterfaceFX.panels.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -204,7 +205,8 @@ public class UserInterface extends Application {
         // Add tabs for user information, account statements, and loans
         Tab userTab = new Tab("User Info", new UserPanel(user).createUserPanel());
         Tab statementsTab = new Tab("Account Statements", new AccountStatementsPanel().createAccountStatementsPanel());
-        Tab loanTab = new Tab("Loans", new MemberLoansPanel().createLoanPanel());
+
+        Tab loanTab = new Tab("Loans", new MemberLoansPanel().createLoanPanel(MemberService.getMember(user.getMemberId())));
 
         tabPane.getTabs().addAll(userTab, statementsTab, loanTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);

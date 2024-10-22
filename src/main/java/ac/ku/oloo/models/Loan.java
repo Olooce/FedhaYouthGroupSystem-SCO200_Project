@@ -10,25 +10,38 @@ import java.math.BigDecimal;
  **/
 
 public class Loan {
-    private final int loanId;
-    private final int memberId;
-    private final BigDecimal loanAmount;
-
-    public Loan(int loanId, int memberId, BigDecimal loanAmount) {
-        this.loanId = loanId;
-        this.memberId = memberId;
-        this.loanAmount = loanAmount;
+    private final String type;
+    private final double amount;
+    private final int repaymentPeriod; // In months
+    private final double interestRate;
+    private final double guaranteedAmount;
+    
+    public Loan(String type, double amount, int repaymentPeriod, double interestRate, double guaranteedAmount) {
+        this.type = type;
+        this.amount = amount;
+        this.repaymentPeriod = repaymentPeriod;
+        this.interestRate = interestRate;
+        this.guaranteedAmount = guaranteedAmount;
     }
 
-    public int getLoanId() {
-        return loanId;
+    public double getAmount() {
+        return amount;
     }
 
-    public int getMemberId() {
-        return memberId;
+    public String getType() {
+        return type;
     }
 
-    public BigDecimal getLoanAmount() {
-        return loanAmount;
+    public int getRepaymentPeriod() {
+        return repaymentPeriod;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public double getGuaranteedAmount() {
+        return guaranteedAmount;
     }
 }
+
