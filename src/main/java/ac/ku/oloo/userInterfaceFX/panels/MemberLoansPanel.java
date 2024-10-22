@@ -1,22 +1,21 @@
 package ac.ku.oloo.userInterfaceFX.panels;
 
+import ac.ku.oloo.models.Member;
+import ac.ku.oloo.services.LoanService;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX.panels)
  * Created by: oloo
  * On: 27/09/2024. 09:59
- * Description:
+ * Description: Loans panel for viewing and applying for loans
  **/
 
 public class MemberLoansPanel {
 
-    private LoanService loanService = new LoanService(); // Initialize the loan service
+    private final LoanService loanService = new LoanService(); // Initialize the loan service
 
     public VBox createLoanPanel(Member member) {
         VBox vbox = new VBox();
@@ -25,7 +24,7 @@ public class MemberLoansPanel {
         // Dropdown for loan types
         Label loanTypeLabel = new Label("Select Loan Type:");
         ComboBox<String> loanTypeComboBox = new ComboBox<>();
-        loanTypeComboBox.getItems().addAll("Business Loan", "Emergency Loan", "Development Loan");
+        loanTypeComboBox.getItems().addAll("Business Loan", "Emergency Loan", "Personal Loan");
 
         // Input for loan amount
         Label loanAmountLabel = new Label("Enter Loan Amount:");
@@ -58,14 +57,14 @@ public class MemberLoansPanel {
             }
 
             // TODO: Add logic to handle guarantors' validation
-            // Assuming guarantors are pre-selected and validated for this example
-            double guaranteedAmount = loanAmount - member.getShares(); // Example logic
+            // Assuming guarantors are pre-selected and validated for now
+            double guaranteedAmount = loanAmount - member.getShares();
             if (!loanService.validateGuarantors(guaranteedAmount, loanAmount, member.getShares())) {
                 showAlert("Guarantor Validation Failed", "Guarantors must guarantee the loan.");
                 return;
             }
 
-            // Successful loan application (you would add more details to this)
+            // Successful loan application (TODO: add more details to this)
             showAlert("Loan Application Successful", "Loan of " + loanAmount + " has been applied successfully.");
         });
 

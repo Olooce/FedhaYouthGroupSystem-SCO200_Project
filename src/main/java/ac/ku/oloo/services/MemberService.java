@@ -13,10 +13,10 @@ import java.util.List;
  * Description:
  **/
 public class MemberService {
-    public static Member getMember(long memberId) {
-        String sql = "SELECT * FROM member_accounts.members WHERE member_id = ?";
+    public static Member getMember(long memberId) throws SQLException {
+        String sql = "SELECT * FROM member_accounts.members WHERE member_id = ? LIMIT 1";
 
-        return QueryExecutor.executeQuery(sql, rs -> {
+        List<Member> members = QueryExecutor.executeQuery(sql, rs -> {
             Member member = new Member();
 
             member.setMemberId(rs.getInt("member_id"));
@@ -37,6 +37,11 @@ public class MemberService {
 
             return member;
         }, memberId);
+
+        if (!members.isEmpty()) {
+            return members.get(0);
+        }
+        return null;
     }
 
     public void createMember(Member member) throws SQLException {

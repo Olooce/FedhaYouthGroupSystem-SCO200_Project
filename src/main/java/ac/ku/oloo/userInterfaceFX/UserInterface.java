@@ -193,7 +193,7 @@ public class UserInterface extends Application {
         primaryStage.setScene(mainScene);
     }
 
-    private void showMemberApp(Stage primaryStage, User user) {
+    private void showMemberApp(Stage primaryStage, User user) throws SQLException {
         primaryStage.setTitle("Member Dashboard"); // Change title to "Member Dashboard"
 
         // Main layout for member app
