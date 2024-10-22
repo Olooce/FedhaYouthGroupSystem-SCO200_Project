@@ -25,7 +25,6 @@ public class Log {
         // Capture the current stack trace to identify the caller
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
-        // The 3rd element refers to the method that called this logger method (adjust index as needed)
         StackTraceElement caller = stackTrace[3];
         String className = caller.getClassName();
         String methodName = caller.getMethodName();
