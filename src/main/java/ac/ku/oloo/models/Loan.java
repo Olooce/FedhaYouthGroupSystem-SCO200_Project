@@ -43,5 +43,11 @@ public class Loan {
     public double getGuaranteedAmount() {
         return guaranteedAmount;
     }
+
+    public String getLoanId() {
+    }
+
+    public String getRemainingBalance() {
+    }
 }
 

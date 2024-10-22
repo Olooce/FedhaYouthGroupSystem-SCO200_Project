@@ -1,7 +1,10 @@
 package ac.ku.oloo.services;
 
 import ac.ku.oloo.configs.LoadConfig;
+import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
+
+import java.util.List;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.services)
@@ -32,5 +35,14 @@ public class LoanService {
 
     public boolean validateGuarantors(double guaranteedAmount, double loanAmount, double memberShares) {
         return guaranteedAmount >= (loanAmount - memberShares);
+    }
+
+    public List<Loan> getAppliedLoans(int memberId) {
+    }
+
+    public void payLoan(String loanId, int memberId) {
+    }
+
+    public void applyLoan(int memberId, String loanType, double loanAmount, int repaymentPeriod, double interestRate) {
     }
 }

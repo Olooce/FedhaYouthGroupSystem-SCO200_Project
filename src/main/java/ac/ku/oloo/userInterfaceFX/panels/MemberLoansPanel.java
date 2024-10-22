@@ -1,10 +1,14 @@
 package ac.ku.oloo.userInterfaceFX.panels;
 
+import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.LoanService;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX.panels)
@@ -15,11 +19,62 @@ import javafx.scene.layout.VBox;
 
 public class MemberLoansPanel {
 
-    private final LoanService loanService = new LoanService(); // Initialize the loan service
+    private final LoanService loanService = new LoanService();
 
     public VBox createLoanPanel(Member member) {
-        VBox vbox = new VBox();
-        Label label = new Label("Loans");
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(10));
+
+        // Section 1: Viewing and Paying Loans
+        Label viewLoansLabel = new Label("Your Applied Loans");
+        VBox appliedLoansBox = createAppliedLoansView(member);
+
+        // Section 2: Applying for New Loans
+        Label applyLoansLabel = new Label("Apply for a New Loan");
+        VBox applyLoanBox = createApplyLoanView(member);
+
+        // Add both sections to the VBox
+        vbox.getChildren().addAll(viewLoansLabel, appliedLoansBox, applyLoansLabel, applyLoanBox);
+
+        return vbox;
+    }
+
+    // Create a view for listing applied loans and handling payments
+    private VBox createAppliedLoansView(Member member) {
+        VBox vbox = new VBox(10);
+
+        List<Loan> appliedLoans = loanService.getAppliedLoans(member.getMemberId());
+
+        if (appliedLoans.isEmpty()) {
+            Label noLoansLabel = new Label("You have no applied loans.");
+            vbox.getChildren().add(noLoansLabel);
+        } else {
+            for (Loan loan : appliedLoans) {
+                HBox loanRow = getLoanRow(member, loan);
+                vbox.getChildren().add(loanRow);
+            }
+        }
+
+        return vbox;
+    }
+
+    private HBox getLoanRow(Member member, Loan loan) {
+        Label loanLabel = new Label("Loan ID: " + loan.getLoanId() + ", Amount: " + loan.getAmount() +
+                ", Remaining: " + loan.getRemainingBalance());
+        Button payButton = new Button("Pay Loan");
+
+        // Handle loan payment
+        payButton.setOnAction(e -> {
+            loanService.payLoan(loan.getLoanId(), member.getMemberId());
+            showAlert("Payment Successful", "You have successfully paid for the loan.");
+        });
+
+        return new HBox(10, loanLabel, payButton);
+    }
+
+    // Create a view for applying new loans
+    private VBox createApplyLoanView(Member member) {
+        VBox vbox = new VBox(10);
 
         // Dropdown for loan types
         Label loanTypeLabel = new Label("Select Loan Type:");
@@ -64,12 +119,14 @@ public class MemberLoansPanel {
                 return;
             }
 
-            // Successful loan application (TODO: add more details to this)
+            // Apply the loan using loan service
+            loanService.applyLoan(member.getMemberId(), loanType, loanAmount, repaymentPeriod, interestRate);
+
             showAlert("Loan Application Successful", "Loan of " + loanAmount + " has been applied successfully.");
         });
 
         // Add all components to the VBox
-        vbox.getChildren().addAll(label, loanTypeLabel, loanTypeComboBox, loanAmountLabel, loanAmountField,
+        vbox.getChildren().addAll(loanTypeLabel, loanTypeComboBox, loanAmountLabel, loanAmountField,
                 repaymentLabel, repaymentField, sharesLabel, maxLoanLabel, applyButton);
 
         return vbox;
@@ -83,5 +140,3 @@ public class MemberLoansPanel {
         alert.showAndWait();
     }
 }
-
-
