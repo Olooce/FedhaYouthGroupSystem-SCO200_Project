@@ -10,13 +10,15 @@ import java.math.BigDecimal;
  **/
 
 public class Loan {
+    private final long loadId;
     private final String type;
     private final double amount;
     private final int repaymentPeriod; // In months
     private final double interestRate;
     private final double guaranteedAmount;
     
-    public Loan(String type, double amount, int repaymentPeriod, double interestRate, double guaranteedAmount) {
+    public Loan(long loadId, String type, double amount, int repaymentPeriod, double interestRate, double guaranteedAmount) {
+        this.loadId = loadId;
         this.type = type;
         this.amount = amount;
         this.repaymentPeriod = repaymentPeriod;
@@ -45,9 +47,11 @@ public class Loan {
     }
 
     public String getLoanId() {
+        return String.valueOf(loadId);
     }
 
     public String getRemainingBalance() {
+        return String.valueOf(amount);
     }
 }
 
