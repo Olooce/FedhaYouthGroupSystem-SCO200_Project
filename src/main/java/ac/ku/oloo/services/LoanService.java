@@ -5,6 +5,8 @@ import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,14 +45,15 @@ public class LoanService {
         String query = "SELECT * FROM loans WHERE member_id = ?";
         try {
             return QueryExecutor.executeQuery(query, rs -> {
-                Loan loan = new Loan();
-                loan.setLoanId(rs.getLong("loan_id"));
-                loan.setMemberId(rs.getInt("member_id"));
-                loan.setLoanType(rs.getString("loan_type"));
-                loan.setLoanAmount(rs.getDouble("loan_amount"));
-                loan.setRepaymentPeriod(rs.getInt("repayment_period"));
-                loan.setInterestRate(rs.getDouble("interest_rate"));
-                loan.setStatus(rs.getString("status"));
+                Loan loan = new Loan(
+                     loan.setLoanId(rs.getLong("loan_id")),
+                loan.setMemberId(rs.getInt("member_id")),
+                loan.setLoanType(rs.getString("loan_type")),
+                loan.setLoanAmount(rs.getDouble("loan_amount")),
+                loan.setRepaymentPeriod(rs.getInt("repayment_period")),
+                loan.setInterestRate(rs.getDouble("interest_rate")),
+                loan.setStatus(rs.getString("status")),
+                ):
                 return loan;
             }, memberId);
         } catch (SQLException e) {

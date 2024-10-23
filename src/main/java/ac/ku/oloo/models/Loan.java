@@ -11,12 +11,14 @@ import java.math.BigDecimal;
 
 public class Loan {
     private long loanId;
-    private final String type;
-    private final double amount;
-    private final int repaymentPeriod; // In months
-    private final double interestRate;
+    private String type;
+    private double amount;
+    private int repaymentPeriod; // In months
+    private double interestRate;
     private final double guaranteedAmount;
-    
+    private int memberId;
+    private String status;
+
     public Loan(long loadId, String type, double amount, int repaymentPeriod, double interestRate, double guaranteedAmount) {
         this.loanId = loadId;
         this.type = type;
@@ -56,6 +58,30 @@ public class Loan {
 
     public void setLoanId(long loanId) {
         this.loanId = loanId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setLoanType(String loanType) {
+        this.type = loanType;
+    }
+
+    public void setLoanAmount(double loanAmount) {
+        this.amount = loanAmount;
+    }
+
+    public void setRepaymentPeriod(int repaymentPeriod) {
+        this.repaymentPeriod = repaymentPeriod;
+    }
+
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 
