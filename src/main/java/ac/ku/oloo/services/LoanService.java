@@ -40,24 +40,22 @@ public class LoanService {
         return guaranteedAmount >= (loanAmount - memberShares);
     }
 
+
     // Method to get all applied loans for a member
     public List<Loan> getAppliedLoans(int memberId) {
         String query = "SELECT * FROM loans WHERE member_id = ?";
         try {
-            return QueryExecutor.executeQuery(query, rs -> {
-                Loan loan = new Loan(
-                     loan.setLoanId(rs.getLong("loan_id")),
-                loan.setMemberId(rs.getInt("member_id")),
-                loan.setLoanType(rs.getString("loan_type")),
-                loan.setLoanAmount(rs.getDouble("loan_amount")),
-                loan.setRepaymentPeriod(rs.getInt("repayment_period")),
-                loan.setInterestRate(rs.getDouble("interest_rate")),
-                loan.setStatus(rs.getString("status")),
-                ):
-                return loan;
-            }, memberId);
+            return QueryExecutor.executeQuery(query, rs -> new Loan(
+                 rs.getLong("loan_id"),
+                rs.getInt("member_id"),
+                rs.getString("loan_type"),
+                rs.getDouble("loan_amount"),
+                rs.getInt("repayment_period"),
+                rs.getDouble("interest_rate"),
+                rs.getDouble("guaranteed_amount"),
+                rs.getString("status")
+            ), memberId);
         } catch (SQLException e) {
-            // Handle the exception, e.g., log it or rethrow it
             e.printStackTrace();
             return new ArrayList<>(); // Return an empty list on error
         }
@@ -69,7 +67,6 @@ public class LoanService {
         try {
             QueryExecutor.executeUpdate(query, loanId, memberId);
         } catch (SQLException e) {
-            // Handle the exception, e.g., log it or rethrow it
             e.printStackTrace();
         }
     }
@@ -80,13 +77,11 @@ public class LoanService {
         try {
             QueryExecutor.executeInsert(query, rs -> {
                 if (rs.next()) {
-                    // Assuming the loan ID is auto-generated and returned
-                    return rs.getString(1); // return the generated loan ID if needed
+                    return rs.getString(1);
                 }
-                return null; // Handle if no keys are returned
+                return null;
             }, memberId, loanType, loanAmount, repaymentPeriod, interestRate);
         } catch (SQLException e) {
-            // Handle the exception, e.g., log it or rethrow it
             e.printStackTrace();
         }
     }

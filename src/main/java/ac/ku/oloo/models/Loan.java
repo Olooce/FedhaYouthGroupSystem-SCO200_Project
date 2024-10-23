@@ -15,17 +15,19 @@ public class Loan {
     private double amount;
     private int repaymentPeriod; // In months
     private double interestRate;
-    private final double guaranteedAmount;
+    private double guaranteedAmount;
     private int memberId;
     private String status;
 
-    public Loan(long loadId, String type, double amount, int repaymentPeriod, double interestRate, double guaranteedAmount) {
-        this.loanId = loadId;
-        this.type = type;
-        this.amount = amount;
+    public Loan(long loanId, int memberId, String loanType, double loanAmount, int repaymentPeriod, double interestRate, double guaranteedAmount, String status) {
+        this.loanId = loanId;
+        this.memberId = memberId;
+        this.type = loanType;
+        this.amount = loanAmount;
         this.repaymentPeriod = repaymentPeriod;
         this.interestRate = interestRate;
         this.guaranteedAmount = guaranteedAmount;
+        this.status = status;
     }
 
     public double getAmount() {
@@ -82,6 +84,10 @@ public class Loan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setGuaranteedAmount(double guaranteedAmount) {
+        this.guaranteedAmount = guaranteedAmount;
     }
 }
 
