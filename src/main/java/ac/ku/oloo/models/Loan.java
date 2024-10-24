@@ -89,5 +89,21 @@ public class Loan {
     public void setGuaranteedAmount(double guaranteedAmount) {
         this.guaranteedAmount = guaranteedAmount;
     }
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public String getLoanType() {
+        return type;
+    }
+
+    public Object getLoanAmount() {
+        return amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }
 

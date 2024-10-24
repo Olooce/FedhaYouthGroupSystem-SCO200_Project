@@ -28,7 +28,7 @@ public class LoanService {
     }
 
     // Method to get all applied loans for all Members
-    public List<Loan> getAllLoans() {
+    public static List<Loan> getAllLoans() {
         String query = "SELECT * FROM loans";
         try {
             return QueryExecutor.executeQuery(query, rs -> new Loan(
