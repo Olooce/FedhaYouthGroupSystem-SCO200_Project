@@ -27,6 +27,26 @@ public class LoanService {
         return member.getShares() * MAX_LOAN_MULTIPLIER;
     }
 
+    // Method to get all applied loans for all Members
+    public List<Loan> getAllLoans() {
+        String query = "SELECT * FROM loans";
+        try {
+            return QueryExecutor.executeQuery(query, rs -> new Loan(
+                    rs.getLong("loan_id"),
+                    rs.getInt("member_id"),
+                    rs.getString("loan_type"),
+                    rs.getDouble("loan_amount"),
+                    rs.getInt("repayment_period"),
+                    rs.getDouble("interest_rate"),
+                    rs.getDouble("guaranteed_amount"),
+                    rs.getString("status")
+            ));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // Return an empty list on error
+        }
+    }
+
     public double getInterestRate(String loanType) {
         return switch (loanType) {
             case "Business Loan" -> BUSINESS_LOAN_RATE;
