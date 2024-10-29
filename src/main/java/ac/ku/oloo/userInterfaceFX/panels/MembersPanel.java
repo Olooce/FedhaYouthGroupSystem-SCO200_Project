@@ -206,14 +206,135 @@ public class MembersPanel {
         statusComboBox.setValue(null);
     }
 
+//    private ScrollPane createViewMembersContent() {
+//        VBox vbox = new VBox();
+//
+//        // TableView for displaying existing members
+//        memberTable = new TableView<>();
+//        memberTable.setItems(observableMembers); // Bind observable list to the table
+//
+//        // Columns for member details
+//        TableColumn<Member, Integer> idColumn = new TableColumn<>("Member ID");
+//        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMemberId()).asObject());
+//
+//        TableColumn<Member, String> nameColumn = new TableColumn<>("Name");
+//        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+//                cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
+//
+//        TableColumn<Member, String> honorificColumn = new TableColumn<>("Honorific");
+//        honorificColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHonorific()));
+//
+//        TableColumn<Member, String> otherNameColumn = new TableColumn<>("Other Name");
+//        otherNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOtherName()));
+//
+//        TableColumn<Member, Date> dobColumn = new TableColumn<>("Date of Birth");
+//        dobColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateOfBirth()));
+//
+//        TableColumn<Member, String> idNumberColumn = new TableColumn<>("ID Number");
+//        idNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdNumber()));
+//
+//        TableColumn<Member, String> idTypeColumn = new TableColumn<>("ID Type");
+//        idTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdType()));
+//
+//        TableColumn<Member, String> taxIdColumn = new TableColumn<>("Tax ID");
+//        taxIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTaxId()));
+//
+//        TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
+//        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
+//
+//        TableColumn<Member, String> phoneNumberColumn = new TableColumn<>("Phone Number");
+//        phoneNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoneNumber()));
+//
+//        TableColumn<Member, String> addressColumn = new TableColumn<>("Address");
+//        addressColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress()));
+//
+//        TableColumn<Member, String> statusColumn = new TableColumn<>("Status");
+//        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
+//
+//        TableColumn<Member, LocalDateTime> dateCreatedColumn = new TableColumn<>("Date Created");
+//        dateCreatedColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateCreated()));
+//
+//        TableColumn<Member, LocalDateTime> dateModifiedColumn = new TableColumn<>("Date Modified");
+//        dateModifiedColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateModified()));
+//
+//        memberTable.getColumns().addAll(
+//                idColumn, nameColumn, honorificColumn, otherNameColumn, dobColumn, idNumberColumn,
+//                idTypeColumn, taxIdColumn, emailColumn, phoneNumberColumn, addressColumn,
+//                statusColumn, dateCreatedColumn, dateModifiedColumn
+//        );
+//
+//        pagination = new Pagination();
+//        pagination.setPageFactory(this::createPage);
+//
+//        // ComboBox for selecting entries per page
+//        entriesPerPageComboBox = new ComboBox<>();
+//        entriesPerPageComboBox.getItems().addAll(5, 10, 20, 50);
+//        entriesPerPageComboBox.setValue(entriesPerPage);
+//        entriesPerPageComboBox.setOnAction(e -> {
+//            entriesPerPage = entriesPerPageComboBox.getValue();
+//            refreshMemberTable(); // Refresh when changing entries per page
+//        });
+//
+//        // Layout for pagination and entries per page
+//        VBox controlBox = new VBox(10, entriesPerPageComboBox, pagination);
+//        vbox.getChildren().addAll(controlBox, memberTable);
+//
+//        refreshMemberTable(); // Initial load of members
+//
+//        // Wrap the VBox in a ScrollPane
+//        ScrollPane scrollPane = new ScrollPane(vbox);
+//        scrollPane.setFitToWidth(true);
+//        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+//        scrollPane.setStyle("-fx-background-color: transparent;");
+//
+//        return scrollPane; // Return the ScrollPane
+//
+//    }
+
     private ScrollPane createViewMembersContent() {
         VBox vbox = new VBox();
 
-        // TableView for displaying existing members
-        memberTable = new TableView<>();
-        memberTable.setItems(observableMembers); // Bind observable list to the table
+        // ComboBox for selecting entries per page
+        entriesPerPageComboBox = new ComboBox<>();
+        entriesPerPageComboBox.getItems().addAll(5, 10, 20, 50);
+        entriesPerPageComboBox.setValue(entriesPerPage);
+        entriesPerPageComboBox.setOnAction(e -> {
+            entriesPerPage = entriesPerPageComboBox.getValue();
+            refreshMemberTable(); // Refresh when changing entries per page
+        });
 
-        // Columns for member details
+        // Pagination control
+        pagination = new Pagination();
+        pagination.setPageFactory(this::createPage);
+
+        // Layout for pagination and entries per page
+        VBox controlBox = new VBox(10, entriesPerPageComboBox, pagination);
+        vbox.getChildren().add(controlBox);
+
+        refreshMemberTable(); // Initial load of members
+
+        // Wrap the VBox in a ScrollPane
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setStyle("-fx-background-color: transparent;");
+
+        return scrollPane; // Return the ScrollPane
+    }
+
+
+    private Node createPage(int pageIndex) {
+        // Calculate the data for this page
+        int fromIndex = pageIndex * entriesPerPage;
+        int toIndex = Math.min(fromIndex + entriesPerPage, observableMembers.size());
+
+// Create a new TableView for the current page
+        TableView<Member> pageTable = new TableView<>();
+        pageTable.setItems(FXCollections.observableArrayList(observableMembers.subList(fromIndex, toIndex)));
+
+// Columns for member details
         TableColumn<Member, Integer> idColumn = new TableColumn<>("Member ID");
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMemberId()).asObject());
 
@@ -221,6 +342,7 @@ public class MembersPanel {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
 
+// Additional columns
         TableColumn<Member, String> honorificColumn = new TableColumn<>("Honorific");
         honorificColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHonorific()));
 
@@ -257,59 +379,14 @@ public class MembersPanel {
         TableColumn<Member, LocalDateTime> dateModifiedColumn = new TableColumn<>("Date Modified");
         dateModifiedColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateModified()));
 
-        memberTable.getColumns().addAll(
+// Add all columns to the pageTable
+        pageTable.getColumns().addAll(
                 idColumn, nameColumn, honorificColumn, otherNameColumn, dobColumn, idNumberColumn,
                 idTypeColumn, taxIdColumn, emailColumn, phoneNumberColumn, addressColumn,
                 statusColumn, dateCreatedColumn, dateModifiedColumn
         );
 
-        pagination = new Pagination();
-        pagination.setPageFactory(this::createPage);
-
-        // ComboBox for selecting entries per page
-        entriesPerPageComboBox = new ComboBox<>();
-        entriesPerPageComboBox.getItems().addAll(5, 10, 20, 50);
-        entriesPerPageComboBox.setValue(entriesPerPage);
-        entriesPerPageComboBox.setOnAction(e -> {
-            entriesPerPage = entriesPerPageComboBox.getValue();
-            refreshMemberTable(); // Refresh when changing entries per page
-        });
-
-        // Layout for pagination and entries per page
-        VBox controlBox = new VBox(10, entriesPerPageComboBox, pagination);
-        vbox.getChildren().addAll(controlBox, memberTable);
-
-        refreshMemberTable(); // Initial load of members
-
-        // Wrap the VBox in a ScrollPane
-        ScrollPane scrollPane = new ScrollPane(vbox);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setStyle("-fx-background-color: transparent;");
-
-        return scrollPane; // Return the ScrollPane
-
-    }
-
-    private Node createPage(int pageIndex) {
-        // Calculate the data for this page
-        int fromIndex = pageIndex * entriesPerPage;
-        int toIndex = Math.min(fromIndex + entriesPerPage, observableMembers.size());
-
-        // Create a new TableView for the current page
-        TableView<Member> pageTable = new TableView<>();
-        pageTable.setItems(FXCollections.observableArrayList(observableMembers.subList(fromIndex, toIndex)));
-
-        TableColumn<Member, Integer> idColumn = new TableColumn<>("Member ID");
-        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMemberId()).asObject());
-
-        TableColumn<Member, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-                cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
-
-        pageTable.getColumns().addAll(idColumn, nameColumn);
-        return pageTable;
+        return pageTable; // Return the TableView for this page
     }
 
     private void refreshMemberTable() {
