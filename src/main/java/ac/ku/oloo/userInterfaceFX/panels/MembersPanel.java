@@ -2,6 +2,7 @@ package ac.ku.oloo.userInterfaceFX.panels;
 
 import ac.ku.oloo.services.MemberService;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,8 @@ import javafx.scene.layout.VBox;
 import ac.ku.oloo.models.Member;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -210,6 +213,7 @@ public class MembersPanel {
         memberTable = new TableView<>();
         memberTable.setItems(observableMembers); // Bind observable list to the table
 
+        // Columns for member details
         TableColumn<Member, Integer> idColumn = new TableColumn<>("Member ID");
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMemberId()).asObject());
 
@@ -217,9 +221,48 @@ public class MembersPanel {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
 
-        memberTable.getColumns().addAll(idColumn, nameColumn);
+        TableColumn<Member, String> honorificColumn = new TableColumn<>("Honorific");
+        honorificColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHonorific()));
 
-        // Pagination for viewing members
+        TableColumn<Member, String> otherNameColumn = new TableColumn<>("Other Name");
+        otherNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOtherName()));
+
+        TableColumn<Member, Date> dobColumn = new TableColumn<>("Date of Birth");
+        dobColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateOfBirth()));
+
+        TableColumn<Member, String> idNumberColumn = new TableColumn<>("ID Number");
+        idNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdNumber()));
+
+        TableColumn<Member, String> idTypeColumn = new TableColumn<>("ID Type");
+        idTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdType()));
+
+        TableColumn<Member, String> taxIdColumn = new TableColumn<>("Tax ID");
+        taxIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTaxId()));
+
+        TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
+        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
+
+        TableColumn<Member, String> phoneNumberColumn = new TableColumn<>("Phone Number");
+        phoneNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoneNumber()));
+
+        TableColumn<Member, String> addressColumn = new TableColumn<>("Address");
+        addressColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress()));
+
+        TableColumn<Member, String> statusColumn = new TableColumn<>("Status");
+        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
+
+        TableColumn<Member, LocalDateTime> dateCreatedColumn = new TableColumn<>("Date Created");
+        dateCreatedColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateCreated()));
+
+        TableColumn<Member, LocalDateTime> dateModifiedColumn = new TableColumn<>("Date Modified");
+        dateModifiedColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateModified()));
+
+        memberTable.getColumns().addAll(
+                idColumn, nameColumn, honorificColumn, otherNameColumn, dobColumn, idNumberColumn,
+                idTypeColumn, taxIdColumn, emailColumn, phoneNumberColumn, addressColumn,
+                statusColumn, dateCreatedColumn, dateModifiedColumn
+        );
+
         pagination = new Pagination();
         pagination.setPageFactory(this::createPage);
 
@@ -246,6 +289,7 @@ public class MembersPanel {
         scrollPane.setStyle("-fx-background-color: transparent;");
 
         return scrollPane; // Return the ScrollPane
+
     }
 
     private Node createPage(int pageIndex) {
