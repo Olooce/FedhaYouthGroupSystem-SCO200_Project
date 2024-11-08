@@ -164,14 +164,22 @@ public class UserInterface extends Application {
     }
 
     private void showMainApp(Stage primaryStage) {
-        primaryStage.setTitle("Staff Dashboard"); // Change title to "Staff Dashboard"
+        primaryStage.setTitle("Staff Dashboard");
 
-        // Main layout for the application
         BorderPane root = new BorderPane();
 
-        // Menu bar
-        MenuBar menuBar = createMenuBar();
-        root.setTop(menuBar);
+        // Create a logout button
+        Button logoutButton = new Button("Logout");
+        logoutButton.setOnAction(e -> showLoginScreen(primaryStage));
+
+        // Place the logout button in a header box
+        HBox headerBox = new HBox();
+        headerBox.setPadding(new Insets(10));
+        headerBox.setAlignment(Pos.CENTER_RIGHT);
+        headerBox.getChildren().add(logoutButton);
+
+        VBox topBox = new VBox(createMenuBar(), headerBox); // Add both the menu bar and logout button
+        root.setTop(topBox);
 
         // Content
         VBox contentPanel = createContentPanel();
@@ -193,19 +201,29 @@ public class UserInterface extends Application {
         primaryStage.setScene(mainScene);
     }
 
-    private void showMemberApp(Stage primaryStage, User user) throws SQLException {
-        primaryStage.setTitle("Member Dashboard"); // Change title to "Member Dashboard"
 
-        // Main layout for member app
+    private void showMemberApp(Stage primaryStage, User user) throws SQLException {
+        primaryStage.setTitle("Member Dashboard");
+
         BorderPane root = new BorderPane();
 
-        // Create tabbed interface
-        TabPane tabPane = new TabPane();
+        // Create a logout button
+        Button logoutButton = new Button("Logout");
+        logoutButton.setOnAction(e -> showLoginScreen(primaryStage));
 
-        // Add tabs for user information, account statements, and loans
+        // Place the logout button in a header box
+        HBox headerBox = new HBox();
+        headerBox.setPadding(new Insets(10));
+        headerBox.setAlignment(Pos.CENTER_RIGHT);
+        headerBox.getChildren().add(logoutButton);
+
+        VBox topBox = new VBox(new Label("Member Dashboard"), headerBox); // Add header and logout button
+        root.setTop(topBox);
+
+        // Tabbed content
+        TabPane tabPane = new TabPane();
         Tab userTab = new Tab("User Info", new UserPanel(user).createUserPanel());
         Tab statementsTab = new Tab("Account Statements", new AccountStatementsPanel().createAccountStatementsPanel());
-
         Tab loanTab = new Tab("Loans", new MemberLoansPanel().createLoanPanel(MemberService.getMember(user.getMemberId())));
 
         tabPane.getTabs().addAll(userTab, statementsTab, loanTab);
@@ -227,6 +245,7 @@ public class UserInterface extends Application {
         primaryStage.setScene(memberScene);
         primaryStage.show();
     }
+
 
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
