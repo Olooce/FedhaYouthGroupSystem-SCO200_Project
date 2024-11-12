@@ -372,18 +372,83 @@ public class MemberLoansPanel {
         });
 
         // Guarantee Amount column with input field
+        // Guarantee Amount column with dialog for input
         TableColumn<Loan, Double> guaranteeAmountCol = new TableColumn<>("Guarantee Amount");
         guaranteeAmountCol.setCellFactory(col -> new TableCell<Loan, Double>() {
-            private final TextField guaranteeAmountField = new TextField();
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    // Create a button that opens the dialog
+                    Button guaranteeButton = new Button("Enter Amount");
+                    guaranteeButton.setOnAction(event -> {
+                        Loan loan = getTableView().getItems().get(getIndex());
+
+                        // Create the dialog for the guarantee amount
+                        TextInputDialog dialog = new TextInputDialog();
+                        dialog.setTitle("Guarantee Loan");
+                        dialog.setHeaderText("Enter the amount you want to guarantee for this loan.");
+                        dialog.setContentText("Guarantee Amount:");
+
+                        // Show the dialog and handle the input
+                        Optional<String> result = dialog.showAndWait();
+                        result.ifPresent(amountStr -> {
+                            double enteredAmount = 0;
+                            try {
+                                enteredAmount = Double.parseDouble(amountStr);
+                            } catch (NumberFormatException ex) {
+                                infoLabel.setText("Please enter a valid number.");
+                                return;
+                            }
+
+                            // Validate guarantee amount
+                            try {
+                                if (enteredAmount > member.getShares()) {
+                                    infoLabel.setText("Guarantee amount cannot exceed your total shares.");
+                                    return;
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
+                            if (enteredAmount > remainingGuarantee) {
+                                infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
+                                return;
+                            }
+
+                            // Guarantee the loan
+                            boolean success = loanService.guaranteeLoan(loan, member, enteredAmount);
+                            if (success) {
+                                infoLabel.setText("Guaranteed successfully!");
+                                loan.setGuaranteedAmount(loan.getGuaranteedAmount() + enteredAmount);
+                                tableView.refresh();
+                            } else {
+                                infoLabel.setText("Error guaranteeing loan.");
+                            }
+                        });
+                    });
+
+                    setGraphic(guaranteeButton);
+                }
+            }
+        });
+
+
+        // Action column with Guarantee button
+        TableColumn<Loan, Void> actionCol = new TableColumn<>("Action");
+        actionCol.setCellFactory(col -> new TableCell<Loan, Void>() {
+            private final Button guaranteeButton = new Button("Guarantee");
 
             {
-                guaranteeAmountField.setPromptText("Enter Amount");
-
-                // Handle when the user presses enter
-                guaranteeAmountField.setOnAction(event -> {
+                guaranteeButton.setOnAction(event -> {
                     Loan loan = getTableView().getItems().get(getIndex());
-                    double enteredAmount = 0;
+                    // Access the TextField in the guaranteeAmountCol directly
+                    TextField guaranteeAmountField = (TextField) getTableView().getColumns().get(3).getCellData(getIndex());
 
+                    double enteredAmount = 0;
                     try {
                         enteredAmount = Double.parseDouble(guaranteeAmountField.getText());
                     } catch (NumberFormatException ex) {
@@ -420,66 +485,6 @@ public class MemberLoansPanel {
             }
 
             @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null);
-                } else {
-                    guaranteeAmountField.setText(item.toString());
-                    setGraphic(guaranteeAmountField);
-                }
-            }
-        });
-
-        // Action column with Guarantee button
-        TableColumn<Loan, Void> actionCol = new TableColumn<>("Action");
-        actionCol.setCellFactory(col -> new TableCell<>() {
-            private final Button guaranteeButton = new Button("Guarantee");
-
-            {
-                guaranteeButton.setOnAction(e -> {
-                    Loan loan = getTableView().getItems().get(getIndex());
-                    // Access the guarantee amount field directly from the TableCell (use the correct approach)
-                    TableCell<Loan, Double> cell = (TableCell<Loan, Double>) getTableView().getColumns().get(3).getCellData(getIndex()); // 3 is the index for 'guaranteeAmountCol'
-                    TextField guaranteeAmountField = ((TextField) cell.getGraphic());
-
-                    double guaranteeAmount;
-                    try {
-                        guaranteeAmount = Double.parseDouble(guaranteeAmountField.getText());
-                    } catch (NumberFormatException ex) {
-                        infoLabel.setText("Please enter a valid number.");
-                        return;
-                    }
-
-                    // Validate guarantee amount
-                    try {
-                        if (guaranteeAmount > member.getShares()) {
-                            infoLabel.setText("Guarantee amount cannot exceed your total shares.");
-                            return;
-                        }
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-
-                    double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
-                    if (guaranteeAmount > remainingGuarantee) {
-                        infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
-                        return;
-                    }
-
-                    // Guarantee the loan
-                    boolean success = loanService.guaranteeLoan(loan, member, guaranteeAmount);
-                    if (success) {
-                        infoLabel.setText("Guaranteed successfully!");
-                        loan.setGuaranteedAmount(loan.getGuaranteedAmount() + guaranteeAmount);
-                        tableView.refresh();
-                    } else {
-                        infoLabel.setText("Error guaranteeing loan.");
-                    }
-                });
-            }
-
-            @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : guaranteeButton);
@@ -496,6 +501,7 @@ public class MemberLoansPanel {
         vbox.getChildren().addAll(infoLabel, tableView);
         return vbox;
     }
+
 
 
 
