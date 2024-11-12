@@ -64,6 +64,23 @@ public class QueryExecutor {
         }
     }
 
+    public static <T> T executeSingleResultQuery(String query, RowMapper<T> rowMapper, Object... params) throws SQLException {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rowMapper.mapRow(rs);  // Return the first result
+                }
+            }
+        }
+        return null;  // Return null if no result is found
+    }
+
     @FunctionalInterface
     public interface RowMapper<T> {
         T mapRow(ResultSet rs) throws SQLException;

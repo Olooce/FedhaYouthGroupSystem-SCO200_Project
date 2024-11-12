@@ -1,5 +1,9 @@
 package ac.ku.oloo.models;
 
+import ac.ku.oloo.services.MemberService;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -149,8 +153,7 @@ public class Member {
         this.dateModified = dateModified;
     }
 
-    public double getShares() {
-        //TODO: Implement logic   to retrieve total shares..or implement at service level. Whichever is more efficient.
-        return 2; //placeholder
+    public BigDecimal getShares() throws SQLException {
+        return MemberService.getMemberShares((long) memberId);
     }
 }

@@ -23,7 +23,7 @@ public class LoanService {
     public static final double EMERGENCY_LOAN_RATE = LoadConfig.getEmergencyLoanInterestRate();
     public static final double PERSONAL_LOAN_RATE = LoadConfig.getPersonalLoanInterestRate();
 
-    public double calculateMaxLoan(Member member) {
+    public double calculateMaxLoan(Member member) throws SQLException {
         return member.getShares() * MAX_LOAN_MULTIPLIER;
     }
 

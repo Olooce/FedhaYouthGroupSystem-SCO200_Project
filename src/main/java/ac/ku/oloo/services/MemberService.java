@@ -3,6 +3,7 @@ package ac.ku.oloo.services;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -97,7 +98,14 @@ public class MemberService {
         }, size, offset);
     }
 
-    public int getTotalMembers() {
-    return 0;
+    public int getTotalMembers() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM members";
+        return QueryExecutor.executeSingleResultQuery(sql, rs -> rs.getInt(1));
     }
+
+    public static BigDecimal getMemberShares(Long memberId) throws SQLException {
+        String sql = "SELECT total_shares FROM shares WHERE member_id = ?";
+        return QueryExecutor.executeSingleResultQuery(sql, rs -> rs.getBigDecimal("total_shares"), memberId);
+    }
+
 }
