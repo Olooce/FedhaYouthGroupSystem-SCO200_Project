@@ -103,9 +103,11 @@ public class MemberService {
         return QueryExecutor.executeSingleResultQuery(sql, rs -> rs.getInt(1));
     }
 
-    public static BigDecimal getMemberShares(Long memberId) throws SQLException {
+    public static Double getMemberShares(Long memberId) throws SQLException {
         String sql = "SELECT total_shares FROM shares WHERE member_id = ?";
-        return QueryExecutor.executeSingleResultQuery(sql, rs -> rs.getBigDecimal("total_shares"), memberId);
+        Double result = QueryExecutor.executeSingleResultQuery(sql, rs -> rs.getDouble("total_shares"), memberId);
+        return (result != null) ? result : 0.0;
     }
+
 
 }

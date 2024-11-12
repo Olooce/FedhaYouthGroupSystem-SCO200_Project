@@ -2,7 +2,6 @@ package ac.ku.oloo.models;
 
 import ac.ku.oloo.services.MemberService;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -153,7 +152,7 @@ public class Member {
         this.dateModified = dateModified;
     }
 
-    public BigDecimal getShares() throws SQLException {
+    public Double getShares() throws SQLException {
         return MemberService.getMemberShares((long) memberId);
     }
 }
