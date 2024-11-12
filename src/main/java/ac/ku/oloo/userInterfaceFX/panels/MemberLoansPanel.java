@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -204,9 +205,11 @@ public class MemberLoansPanel {
 
     private final LoanService loanService = new LoanService();
     TableView<Loan> loanTable = null;
+    Member member = null;
 
     public TabPane createLoanPanel(Member member) throws SQLException {
         TabPane tabPane = new TabPane();
+        this.member = member;
 
         Tab viewLoansTab = new Tab("View Loans", createAppliedLoansView(member));
         Tab applyLoansTab = new Tab("Apply for Loan", createApplyLoanView(member));
@@ -228,8 +231,14 @@ public class MemberLoansPanel {
             vbox.getChildren().add(loanTable);
         }
 
+        Button refreshButton = new Button("Refresh");
+        refreshButton.setOnAction(event -> refreshLoanData());
+        vbox.getChildren().add(refreshButton);
+
         return vbox;
     }
+
+
 
     private TableView<Loan> buildLoanTable(List<Loan> loans, Member member) {
         loanTable = new TableView<>(FXCollections.observableArrayList(loans));
@@ -245,6 +254,18 @@ public class MemberLoansPanel {
 
         TableColumn<Loan, Double> loanAmountColumn = new TableColumn<>("Loan Amount");
         loanAmountColumn.setCellValueFactory(new PropertyValueFactory<>("loanAmount"));
+        loanAmountColumn.setCellFactory(col -> new TableCell<Loan, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    DecimalFormat df = new DecimalFormat("#,###.00");
+                    setText(df.format(item));
+                }
+            }
+        });
 
         TableColumn<Loan, Integer> repaymentPeriodColumn = new TableColumn<>("Repayment Period (months)");
         repaymentPeriodColumn.setCellValueFactory(new PropertyValueFactory<>("repaymentPeriod"));
@@ -254,6 +275,18 @@ public class MemberLoansPanel {
 
         TableColumn<Loan, Double> guaranteedAmountColumn = new TableColumn<>("Guaranteed Amount");
         guaranteedAmountColumn.setCellValueFactory(new PropertyValueFactory<>("guaranteedAmount"));
+        guaranteedAmountColumn.setCellFactory(col -> new TableCell<Loan, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    DecimalFormat df = new DecimalFormat("#,###.00");
+                    setText(df.format(item));
+                }
+            }
+        });
 
         TableColumn<Loan, String> statusColumn = new TableColumn<>("Status");
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -394,6 +427,15 @@ public class MemberLoansPanel {
         loanTable.refresh();
     }
 
+    // Refresh the loan data by re-fetching it from the database
+    private void refreshLoanData() {
+        List<Loan> updatedLoans = loanService.getAppliedLoans(member.getMemberId());
+        ObservableList<Loan> updatedData = FXCollections.observableArrayList(updatedLoans);
+
+        // Clear old data and update the table with new data
+        loanTable.setItems(updatedData);
+    }
+
     private VBox createApplyLoanView(Member member) throws SQLException {
         VBox vbox = new VBox(10);
 
@@ -406,7 +448,8 @@ public class MemberLoansPanel {
         repaymentPeriodComboBox.setPromptText("Select Repayment Period");
 
         // Max loan label
-        Label maxLoanLabel = new Label("Maximum Loan: " + loanService.calculateMaxLoan(member));
+        Label maxLoanLabel = new Label("Maximum Loan You Can Borrow: " + formatAmount(loanService.calculateMaxLoan(member)));
+
 
         // Apply button for submitting the loan application
         Button applyButton = new Button("Apply");
@@ -490,6 +533,11 @@ public class MemberLoansPanel {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.showAndWait();
+    }
+
+    private String formatAmount(double amount) {
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        return df.format(amount);
     }
 }
 
