@@ -3,17 +3,20 @@ package ac.ku.oloo.userInterfaceFX.panels;
 import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.LoanService;
+import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX.panels)
@@ -305,7 +308,7 @@ public class MemberLoansPanel {
             if ("Mpesa".equals(method)) {
                 initiateMpesaPayment(loan, member);
             } else {
-                initiateCardPayment(loan);
+                initiateCardPayment(loan, member);
             }
         });
     }
@@ -315,11 +318,79 @@ public class MemberLoansPanel {
         showAlert("Payment via Mpesa", "STK Push sent. Enter your pin to complete the transaction.");
     }
 
-    private void initiateCardPayment(Loan loan) {
-        // Show card payment dialog for user to enter card details
-        showAlert("Payment via Card", "Enter card details to complete the transaction.");
+    private void initiateCardPayment(Loan loan, Member member) {
+        // Set up the dialog for card payment details
+        Dialog<ButtonType> cardPaymentDialog = new Dialog<>();
+        cardPaymentDialog.setTitle("Card Payment");
+        cardPaymentDialog.setHeaderText("Enter Card Details");
+
+        // Create input fields for card details
+        TextField cardNumberField = new TextField();
+        cardNumberField.setPromptText("Card Number");
+
+        TextField expiryDateField = new TextField();
+        expiryDateField.setPromptText("MM/YY");
+
+        TextField cvvField = new TextField();
+        cvvField.setPromptText("CVV");
+
+        // Arrange fields in a grid
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Card Number:"), 0, 0);
+        grid.add(cardNumberField, 1, 0);
+        grid.add(new Label("Expiry Date:"), 0, 1);
+        grid.add(expiryDateField, 1, 1);
+        grid.add(new Label("CVV:"), 0, 2);
+        grid.add(cvvField, 1, 2);
+
+        cardPaymentDialog.getDialogPane().setContent(grid);
+
+        // Add OK and Cancel buttons
+        cardPaymentDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Show dialog and process payment if OK is pressed
+        Optional<ButtonType> result = cardPaymentDialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            String cardNumber = cardNumberField.getText();
+            String expiryDate = expiryDateField.getText();
+            String cvv = cvvField.getText();
+
+            // Validate card details before processing
+            if (validateCardDetails(cardNumber, expiryDate, cvv)) {
+                processCardPayment(loan, member, cardNumber, expiryDate, cvv);
+                showAlert("Payment Successful", "Your payment for loan " + loan.getLoanId() + " has been processed.");
+            } else {
+                showAlert("Invalid Details", "Please enter valid card details.");
+            }
+        }
     }
 
+    // Validates card details (basic example, can be expanded)
+    private boolean validateCardDetails(String cardNumber, String expiryDate, String cvv) {
+        // Simple validation logic: Ensure fields are non-empty
+        return !cardNumber.isEmpty() && !expiryDate.isEmpty() && !cvv.isEmpty();
+    }
+
+    private void processCardPayment(Loan loan,Member member,  String cardNumber, String expiryDate, String cvv) {
+        // TODO: Logic for processing card payment (e.g., contacting a payment API)
+        // Placeholder: Print the details as a simulation
+        System.out.println("Processing card payment:");
+        System.out.println("Loan ID: " + loan.getLoanId());
+        System.out.println("Card Number: " + cardNumber);
+        System.out.println("Expiry Date: " + expiryDate);
+        System.out.println("CVV: " + cvv);
+
+        loanService.payLoan(loan.getLoanId(), member.getMemberId());
+        loan.setStatus("PAID");
+        refreshLoanTableView();
+        showAlert("Payment Successful", "Your payment for loan " + loan.getLoanId() + " has been processed.");
+    }
+    
+    private void refreshLoanTableView() {
+        loanTable.refresh();
+    }
     private VBox createApplyLoanView(Member member) throws SQLException {
         VBox vbox = new VBox(10);
 
