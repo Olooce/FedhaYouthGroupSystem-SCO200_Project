@@ -166,7 +166,7 @@ public class LoanService {
 
         try {
             // Insert guarantor entry
-            QueryExecutor.executeInsert(guarantorQuery, guarantor.getMemberId(), loan.getLoanId(), amount);
+            QueryExecutor.executeUpdate(guarantorQuery, loan.getLoanId(), guarantor.getMemberId(), amount);
 
             // Update loan guaranteed amount
             QueryExecutor.executeUpdate(updateLoanQuery, amount, loan.getLoanId());
