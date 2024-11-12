@@ -34,8 +34,8 @@ public class LoanService {
             return QueryExecutor.executeQuery(query, rs -> new Loan(
                     rs.getLong("loan_id"),
                     rs.getInt("member_id"),
-                    rs.getString("loan_type"),
-                    rs.getDouble("loan_amount"),
+                    rs.getString("type"),
+                    rs.getDouble("amount"),
                     rs.getInt("repayment_period"),
                     rs.getDouble("interest_rate"),
                     rs.getDouble("guaranteed_amount"),
@@ -68,8 +68,8 @@ public class LoanService {
             return QueryExecutor.executeQuery(query, rs -> new Loan(
                  rs.getLong("loan_id"),
                 rs.getInt("member_id"),
-                rs.getString("loan_type"),
-                rs.getDouble("loan_amount"),
+                rs.getString("type"),
+                rs.getDouble("amount"),
                 rs.getInt("repayment_period"),
                 rs.getDouble("interest_rate"),
                 rs.getDouble("guaranteed_amount"),
@@ -92,15 +92,15 @@ public class LoanService {
     }
 
     // Method to apply for a loan
-    public void applyLoan(int memberId, String loanType, double loanAmount, int repaymentPeriod, double interestRate) {
-        String query = "INSERT INTO loans (member_id, loan_type, loan_amount, repayment_period, interest_rate, status) VALUES (?, ?, ?, ?, ?, 'PENDING')";
+    public void applyLoan(int memberId, String loanType, double loanAmount, int repaymentPeriod,double guaranteed_amount, double interestRate) {
+        String query = "INSERT INTO loans (member_id, type, amount, repayment_period,guaranteed_amount, interest_rate, status) VALUES (?, ?, ?, ?, ?, ?, 'PENDING')";
         try {
             QueryExecutor.executeInsert(query, rs -> {
                 if (rs.next()) {
                     return rs.getString(1);
                 }
                 return null;
-            }, memberId, loanType, loanAmount, repaymentPeriod, interestRate);
+            }, memberId, loanType, loanAmount, repaymentPeriod, guaranteed_amount, interestRate);
         } catch (SQLException e) {
             e.printStackTrace();
         }

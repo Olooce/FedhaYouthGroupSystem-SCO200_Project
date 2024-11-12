@@ -120,7 +120,7 @@ public class MemberLoansPanel {
             }
 
             // Apply the loan using loan service
-            loanService.applyLoan(member.getMemberId(), loanType, loanAmount, repaymentPeriod, interestRate);
+            loanService.applyLoan(member.getMemberId(), loanType, loanAmount, repaymentPeriod,guaranteedAmount, interestRate);
 
             showAlert("Loan Application Successful", "Loan of " + loanAmount + " has been applied successfully.");
         });
