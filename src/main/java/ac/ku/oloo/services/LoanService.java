@@ -161,7 +161,7 @@ public class LoanService {
     }
 
     public boolean guaranteeLoan(Loan loan, Member guarantor, double amount) {
-        String guarantorQuery = "INSERT INTO guarantors (loan_id, guarantor_id, amount) VALUES (?, ?, ?)";
+        String guarantorQuery = "INSERT INTO guarantors (loan_id, member_id, guarantee_amount) VALUES (?, ?, ?)";
         String updateLoanQuery = "UPDATE loans SET guaranteed_amount = guaranteed_amount + ? WHERE loan_id = ?";
 
         try {

@@ -5,6 +5,7 @@ import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.LoanService;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -361,83 +362,22 @@ public class MemberLoansPanel {
         loanIdCol.setCellValueFactory(new PropertyValueFactory<>("loanId"));
 
         // Loan Amount column
-        TableColumn<Loan, Double> amountCol = new TableColumn<>("Amount");
-        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        TableColumn<Loan, String> amountCol = new TableColumn<>("Amount");
+        amountCol.setCellValueFactory(cellData -> {
+            double amount = cellData.getValue().getAmount();
+            // Convert the formatted amount to a SimpleStringProperty
+            return new SimpleStringProperty(formatAmount(amount));
+        });
 
         // Remaining Guarantee column
-        TableColumn<Loan, Double> remainingGuaranteeCol = new TableColumn<>("Remaining Guarantee");
+        TableColumn<Loan, String> remainingGuaranteeCol = new TableColumn<>("Remaining Guarantee");
         remainingGuaranteeCol.setCellValueFactory(cellData -> {
             double remaining = cellData.getValue().getAmount() - cellData.getValue().getGuaranteedAmount();
-            return new SimpleDoubleProperty(remaining).asObject();
+            // Convert the formatted amount to a SimpleStringProperty
+            return new SimpleStringProperty(formatAmount(remaining));
         });
 
-        // Guarantee Amount column with input field
-        // Guarantee Amount column with dialog for input
-        TableColumn<Loan, Double> guaranteeAmountCol = new TableColumn<>("Guarantee Amount");
-        guaranteeAmountCol.setCellFactory(col -> new TableCell<Loan, Double>() {
-            @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    // Create a button that opens the dialog
-                    Button guaranteeButton = new Button("Enter Amount");
-                    guaranteeButton.setOnAction(event -> {
-                        Loan loan = getTableView().getItems().get(getIndex());
-
-                        // Create the dialog for the guarantee amount
-                        TextInputDialog dialog = new TextInputDialog();
-                        dialog.setTitle("Guarantee Loan");
-                        dialog.setHeaderText("Enter the amount you want to guarantee for this loan.");
-                        dialog.setContentText("Guarantee Amount:");
-
-                        // Show the dialog and handle the input
-                        Optional<String> result = dialog.showAndWait();
-                        result.ifPresent(amountStr -> {
-                            double enteredAmount = 0;
-                            try {
-                                enteredAmount = Double.parseDouble(amountStr);
-                            } catch (NumberFormatException ex) {
-                                infoLabel.setText("Please enter a valid number.");
-                                return;
-                            }
-
-                            // Validate guarantee amount
-                            try {
-                                if (enteredAmount > member.getShares()) {
-                                    infoLabel.setText("Guarantee amount cannot exceed your total shares.");
-                                    return;
-                                }
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
-                            if (enteredAmount > remainingGuarantee) {
-                                infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
-                                return;
-                            }
-
-                            // Guarantee the loan
-                            boolean success = loanService.guaranteeLoan(loan, member, enteredAmount);
-                            if (success) {
-                                infoLabel.setText("Guaranteed successfully!");
-                                loan.setGuaranteedAmount(loan.getGuaranteedAmount() + enteredAmount);
-                                tableView.refresh();
-                            } else {
-                                infoLabel.setText("Error guaranteeing loan.");
-                            }
-                        });
-                    });
-
-                    setGraphic(guaranteeButton);
-                }
-            }
-        });
-
-
-        // Action column with Guarantee button
+        // Guarantee Amount column (button to trigger dialog)
         TableColumn<Loan, Void> actionCol = new TableColumn<>("Action");
         actionCol.setCellFactory(col -> new TableCell<Loan, Void>() {
             private final Button guaranteeButton = new Button("Guarantee");
@@ -445,42 +385,50 @@ public class MemberLoansPanel {
             {
                 guaranteeButton.setOnAction(event -> {
                     Loan loan = getTableView().getItems().get(getIndex());
-                    // Access the TextField in the guaranteeAmountCol directly
-                    TextField guaranteeAmountField = (TextField) getTableView().getColumns().get(3).getCellData(getIndex());
 
-                    double enteredAmount = 0;
-                    try {
-                        enteredAmount = Double.parseDouble(guaranteeAmountField.getText());
-                    } catch (NumberFormatException ex) {
-                        infoLabel.setText("Please enter a valid number.");
-                        return;
-                    }
+                    // Create the dialog for the guarantee amount
+                    TextInputDialog dialog = new TextInputDialog();
+                    dialog.setTitle("Guarantee Loan");
+                    dialog.setHeaderText("Enter the amount you want to guarantee for this loan.");
+                    dialog.setContentText("Guarantee Amount:");
 
-                    // Validate guarantee amount
-                    try {
-                        if (enteredAmount > member.getShares()) {
-                            infoLabel.setText("Guarantee amount cannot exceed your total shares.");
+                    // Show the dialog and handle the input
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(amountStr -> {
+                        double enteredAmount = 0;
+                        try {
+                            enteredAmount = Double.parseDouble(amountStr);
+                        } catch (NumberFormatException ex) {
+                            infoLabel.setText("Please enter a valid number.");
                             return;
                         }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
 
-                    double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
-                    if (enteredAmount > remainingGuarantee) {
-                        infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
-                        return;
-                    }
+                        // Validate guarantee amount
+                        try {
+                            if (enteredAmount > member.getShares()) {
+                                infoLabel.setText("Guarantee amount cannot exceed your total shares.");
+                                return;
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
 
-                    // Guarantee the loan
-                    boolean success = loanService.guaranteeLoan(loan, member, enteredAmount);
-                    if (success) {
-                        infoLabel.setText("Guaranteed successfully!");
-                        loan.setGuaranteedAmount(loan.getGuaranteedAmount() + enteredAmount);
-                        tableView.refresh();
-                    } else {
-                        infoLabel.setText("Error guaranteeing loan.");
-                    }
+                        double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
+                        if (enteredAmount > remainingGuarantee) {
+                            infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
+                            return;
+                        }
+
+                        // Guarantee the loan
+                        boolean success = loanService.guaranteeLoan(loan, member, enteredAmount);
+                        if (success) {
+                            infoLabel.setText("Guaranteed successfully!");
+                            loan.setGuaranteedAmount(loan.getGuaranteedAmount() + enteredAmount);
+                            tableView.refresh();
+                        } else {
+                            infoLabel.setText("Error guaranteeing loan.");
+                        }
+                    });
                 });
             }
 
@@ -492,7 +440,7 @@ public class MemberLoansPanel {
         });
 
         // Add columns to the table
-        tableView.getColumns().addAll(loanIdCol, amountCol, remainingGuaranteeCol, guaranteeAmountCol, actionCol);
+        tableView.getColumns().addAll(loanIdCol, amountCol, remainingGuaranteeCol, actionCol);
 
         // Populate table with loans
         List<Loan> loans = loanService.getLoansToGuarantee(member);
@@ -501,6 +449,7 @@ public class MemberLoansPanel {
         vbox.getChildren().addAll(infoLabel, tableView);
         return vbox;
     }
+
 
 
 
