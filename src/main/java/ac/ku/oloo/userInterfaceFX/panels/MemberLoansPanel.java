@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -230,7 +231,7 @@ public class MemberLoansPanel {
         TableView<Loan> loanTable = new TableView<>(FXCollections.observableArrayList(loans));
         loanTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-//         Define columns for loan attributes
+        // Define columns for loan attributes
         TableColumn<Loan, String> loanIdColumn = new TableColumn<>("Loan ID");
         loanIdColumn.setCellValueFactory(new PropertyValueFactory<>("loanId"));
 
@@ -258,17 +259,41 @@ public class MemberLoansPanel {
                 interestRateColumn, guaranteedAmountColumn, statusColumn
         );
 
-        // Payment section
+        // Payment section with conditional display
         loanTable.setRowFactory(tv -> {
             TableRow<Loan> row = new TableRow<>();
-            Button payButton = new Button("Pay Loan");
-            payButton.setOnAction(e -> handlePayment(row.getItem(), member));
-            row.setGraphic(payButton);
+
+            // Context menu for "Pay Loan"
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem payLoanItem = new MenuItem("Pay Loan");
+            payLoanItem.setOnAction(e -> handlePayment(row.getItem(), member));
+
+            // Only show "Pay Loan" if the status is "DISBURSED" or "OVERDUE"
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 1) {
+                    Loan loan = row.getItem();
+                    if (loan.getStatus().equalsIgnoreCase("DISBURSED") || loan.getStatus().equalsIgnoreCase("OVERDUE")) {
+                        contextMenu.getItems().setAll(payLoanItem); // Show "Pay Loan" item
+                        contextMenu.show(row, event.getScreenX(), event.getScreenY());
+                    } else {
+                        contextMenu.hide(); // Hide if the status doesn't match
+                    }
+                }
+            });
+
+            // Hide context menu if row is empty
+            row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty) {
+                    contextMenu.hide();
+                }
+            });
+
             return row;
         });
 
         return loanTable;
     }
+
 
     private void handlePayment(Loan loan, Member member) {
         // Dialog to select payment method (Mpesa or Card)
@@ -314,8 +339,47 @@ public class MemberLoansPanel {
     }
 
     private void applyForLoan(Member member, String loanType, String amount, String repaymentPeriod) {
-        // Process loan application, including guarantor check
-        showAlert("Loan Application", "Loan application submitted. Awaiting guarantors.");
+        double loanAmount = Double.parseDouble(amount);
+        int repaymentMonths = Integer.parseInt(repaymentPeriod);
+        double interestRate = loanService.getInterestRate(loanType); // retrieve interest rate based on type
+
+        // Calculate maximum eligible loan for validation
+        double maxLoanEligible = 0;
+        try {
+            maxLoanEligible = loanService.calculateMaxLoan(member);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Validate loan amount
+        if (loanAmount > maxLoanEligible) {
+            showAlert("Loan Application Failed", "You cannot borrow more than your maximum eligible loan.");
+            return;
+        }
+
+        // Calculate guaranteed amount requirement
+        double guaranteedAmount = 0;
+        try {
+            guaranteedAmount = loanAmount - member.getShares();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Validate guarantors
+        try {
+            if (!loanService.validateGuarantors(guaranteedAmount, loanAmount, member.getShares())) {
+                showAlert("Guarantor Validation", "Awaiting sufficient guarantor approval for your loan.");
+                return;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showAlert("Error", "Error validating guarantors.");
+            return;
+        }
+
+        // Insert loan application in DB, setting initial status to 'PENDING'
+        loanService.applyLoan(member.getMemberId(), loanType, loanAmount, repaymentMonths, guaranteedAmount, interestRate);
+        showAlert("Loan Application", "Loan application submitted. Awaiting guarantor approvals.");
     }
 
     private VBox createGuaranteeLoanView(Member member) {
