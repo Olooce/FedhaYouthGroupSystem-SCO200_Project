@@ -137,4 +137,44 @@ public class LoanService {
             e.printStackTrace();
         }
     }
+
+    public List<Loan> getLoansToGuarantee(Member member) {
+        String query = "SELECT loan_id, member_id, type, amount, repayment_period, guaranteed_amount, interest_rate, status " +
+                "FROM loans " +
+                "WHERE status = 'PENDING' AND member_id != ?";
+
+        try {
+            return QueryExecutor.executeQuery(query, rs -> new Loan(
+                    rs.getLong("loan_id"),
+                    rs.getInt("member_id"),
+                    rs.getString("type"),
+                    rs.getDouble("amount"),
+                    rs.getInt("repayment_period"),
+                    rs.getDouble("interest_rate"),
+                    rs.getDouble("guaranteed_amount"),
+                    rs.getString("status")
+            ), member.getMemberId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public boolean guaranteeLoan(Loan loan, Member guarantor, double amount) {
+        String guarantorQuery = "INSERT INTO guarantors (loan_id, guarantor_id, amount) VALUES (?, ?, ?)";
+        String updateLoanQuery = "UPDATE loans SET guaranteed_amount = guaranteed_amount + ? WHERE loan_id = ?";
+
+        try {
+            // Insert guarantor entry
+            QueryExecutor.executeInsert(guarantorQuery, guarantor.getMemberId(), loan.getLoanId(), amount);
+
+            // Update loan guaranteed amount
+            QueryExecutor.executeUpdate(updateLoanQuery, amount, loan.getLoanId());
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

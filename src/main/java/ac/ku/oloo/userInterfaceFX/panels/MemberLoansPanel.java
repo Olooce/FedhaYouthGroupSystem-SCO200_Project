@@ -4,6 +4,7 @@ import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.LoanService;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -523,10 +524,109 @@ public class MemberLoansPanel {
 
     private VBox createGuaranteeLoanView(Member member) {
         VBox vbox = new VBox(10);
-        // List loans of others requiring guarantors, with buttons to guarantee
+        Label infoLabel = new Label("Select a loan to guarantee. Enter an amount up to your total shares.");
 
+        TableView<Loan> tableView = new TableView<>();
+
+        // Loan ID column
+        TableColumn<Loan, Long> loanIdCol = new TableColumn<>("Loan ID");
+        loanIdCol.setCellValueFactory(new PropertyValueFactory<>("loanId"));
+
+        // Loan Amount column
+        TableColumn<Loan, Double> amountCol = new TableColumn<>("Amount");
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        // Remaining Guarantee column
+        TableColumn<Loan, Double> remainingGuaranteeCol = new TableColumn<>("Remaining Guarantee");
+        remainingGuaranteeCol.setCellValueFactory(cellData -> {
+            double remaining = cellData.getValue().getAmount() - cellData.getValue().getGuaranteedAmount();
+            return new SimpleDoubleProperty(remaining).asObject();
+        });
+
+        // Guarantee Amount column with input field
+        TableColumn<Loan, Double> guaranteeAmountCol = new TableColumn<>("Guarantee Amount");
+        guaranteeAmountCol.setCellFactory(col -> new TableCell<Loan, Double>() {
+            private final TextField guaranteeAmountField = new TextField();
+
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(guaranteeAmountField);
+                }
+            }
+
+            public TextField getGuaranteeAmountField() {
+                return guaranteeAmountField;
+            }
+        });
+
+        // Action column with Guarantee button
+        TableColumn<Loan, Void> actionCol = new TableColumn<>("Action");
+        actionCol.setCellFactory(col -> new TableCell<>() {
+            private final Button guaranteeButton = new Button("Guarantee");
+
+            {
+                guaranteeButton.setOnAction(e -> {
+                    Loan loan = getTableView().getItems().get(getIndex());
+                    TextField guaranteeAmountField = ((TextField) ((TableRow) getGraphic()).getChildren().get(0));
+
+                    double guaranteeAmount;
+                    try {
+                        guaranteeAmount = Double.parseDouble(guaranteeAmountField.getText());
+                    } catch (NumberFormatException ex) {
+                        infoLabel.setText("Please enter a valid number.");
+                        return;
+                    }
+
+                    // Validate guarantee amount
+                    try {
+                        if (guaranteeAmount > member.getShares()) {
+                            infoLabel.setText("Guarantee amount cannot exceed your total shares.");
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    double remainingGuarantee = loan.getAmount() - loan.getGuaranteedAmount();
+                    if (guaranteeAmount > remainingGuarantee) {
+                        infoLabel.setText("Amount exceeds remaining required guarantee for this loan.");
+                        return;
+                    }
+
+                    // Guarantee the loan
+                    boolean success = loanService.guaranteeLoan(loan, member, guaranteeAmount);
+                    if (success) {
+                        infoLabel.setText("Guaranteed successfully!");
+                        loan.setGuaranteedAmount(loan.getGuaranteedAmount() + guaranteeAmount);
+                        tableView.refresh();
+                    } else {
+                        infoLabel.setText("Error guaranteeing loan.");
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : guaranteeButton);
+            }
+        });
+
+        // Add columns to the table
+        tableView.getColumns().addAll(loanIdCol, amountCol, remainingGuaranteeCol, guaranteeAmountCol, actionCol);
+
+        // Populate table with loans
+        List<Loan> loans = loanService.getLoansToGuarantee(member);
+        tableView.setItems(FXCollections.observableArrayList(loans));
+
+        vbox.getChildren().addAll(infoLabel, tableView);
         return vbox;
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
