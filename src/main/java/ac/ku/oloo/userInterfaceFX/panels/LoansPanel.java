@@ -2,7 +2,12 @@ package ac.ku.oloo.userInterfaceFX.panels;
 
 import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.services.LoanService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -26,35 +31,51 @@ public class LoansPanel {
         // Retrieve all loans
         List<Loan> loans = LoanService.getAllLoans();
 
-        // If no loans are found, show a message
         if (loans.isEmpty()) {
             Label noLoansLabel = new Label("No loans available.");
             vbox.getChildren().add(noLoansLabel);
         } else {
-            // Display each loan's details
-            for (Loan loan : loans) {
-                VBox loanBox = new VBox(5); // A box for each loan with 5px spacing between elements
-                loanBox.setStyle("-fx-padding: 10px; -fx-border-color: #ccc; -fx-border-radius: 5px;");
+            // Create TableView and set up columns
+            TableView<Loan> loanTable = new TableView<>();
+            loanTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-                // Create labels for each loan attribute
-                Label loanIdLabel = new Label("Loan ID: " + loan.getLoanId());
-                Label memberIdLabel = new Label("Member ID: " + loan.getMemberId());
-                Label loanTypeLabel = new Label("Loan Type: " + loan.getLoanType());
-                Label loanAmountLabel = new Label(String.format("Loan Amount: %.2f", loan.getLoanAmount()));
-                Label repaymentPeriodLabel = new Label("Repayment Period: " + loan.getRepaymentPeriod() + " months");
-                Label interestRateLabel = new Label(String.format("Interest Rate: %.2f%%", loan.getInterestRate()));
-                Label guaranteedAmountLabel = new Label(String.format("Guaranteed Amount: %.2f", loan.getGuaranteedAmount()));
-                Label statusLabel = new Label("Status: " + loan.getStatus());
+            // Define columns
+            TableColumn<Loan, String> loanIdColumn = new TableColumn<>("Loan ID");
+            loanIdColumn.setCellValueFactory(new PropertyValueFactory<>("loanId"));
 
-                // Add loan details to the loanBox
-                loanBox.getChildren().addAll(
-                        loanIdLabel, memberIdLabel, loanTypeLabel, loanAmountLabel,
-                        repaymentPeriodLabel, interestRateLabel, guaranteedAmountLabel, statusLabel
-                );
+            TableColumn<Loan, String> memberIdColumn = new TableColumn<>("Member ID");
+            memberIdColumn.setCellValueFactory(new PropertyValueFactory<>("memberId"));
 
-                // Add the loanBox to the main vbox
-                vbox.getChildren().add(loanBox);
-            }
+            TableColumn<Loan, String> loanTypeColumn = new TableColumn<>("Loan Type");
+            loanTypeColumn.setCellValueFactory(new PropertyValueFactory<>("loanType"));
+
+            TableColumn<Loan, Double> loanAmountColumn = new TableColumn<>("Loan Amount");
+            loanAmountColumn.setCellValueFactory(new PropertyValueFactory<>("loanAmount"));
+
+            TableColumn<Loan, Integer> repaymentPeriodColumn = new TableColumn<>("Repayment Period (months)");
+            repaymentPeriodColumn.setCellValueFactory(new PropertyValueFactory<>("repaymentPeriod"));
+
+            TableColumn<Loan, Double> interestRateColumn = new TableColumn<>("Interest Rate (%)");
+            interestRateColumn.setCellValueFactory(new PropertyValueFactory<>("interestRate"));
+
+            TableColumn<Loan, Double> guaranteedAmountColumn = new TableColumn<>("Guaranteed Amount");
+            guaranteedAmountColumn.setCellValueFactory(new PropertyValueFactory<>("guaranteedAmount"));
+
+            TableColumn<Loan, String> statusColumn = new TableColumn<>("Status");
+            statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+            // Add columns to the table
+            loanTable.getColumns().addAll(
+                    loanIdColumn, memberIdColumn, loanTypeColumn, loanAmountColumn,
+                    repaymentPeriodColumn, interestRateColumn, guaranteedAmountColumn, statusColumn
+            );
+
+            // Convert loans list to observable list and set it as table data
+            ObservableList<Loan> loanData = FXCollections.observableArrayList(loans);
+            loanTable.setItems(loanData);
+
+            // Add the TableView to the VBox
+            vbox.getChildren().add(loanTable);
         }
 
         return vbox;
