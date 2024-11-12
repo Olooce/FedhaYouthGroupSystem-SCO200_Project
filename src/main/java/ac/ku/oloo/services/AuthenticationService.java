@@ -17,7 +17,7 @@ import java.util.List;
  **/
 public class AuthenticationService {
     public static AuthResult authenticate(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM user_accounts.users WHERE username = ? LIMIT ?";
+        String sql = "SELECT * FROM users WHERE username = ? LIMIT ?";
 
         List<User> userList = QueryExecutor.executeQuery(sql, rs -> {
             User user = new User();

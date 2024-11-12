@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public class MemberService {
     public static Member getMember(long memberId) throws SQLException {
-        String sql = "SELECT * FROM member_accounts.members WHERE member_id = ? LIMIT 1";
+        String sql = "SELECT * FROM members WHERE member_id = ? LIMIT 1";
 
         List<Member> members = QueryExecutor.executeQuery(sql, rs -> {
             Member member = new Member();
@@ -45,7 +45,7 @@ public class MemberService {
     }
 
     public void createMember(Member member) throws SQLException {
-        String sql = "INSERT INTO member_accounts.members (honorific, surname, first_name, other_name, date_of_birth, id_number, id_type, tax_id, email, phone_number, address, status, date_created, date_modified) " +
+        String sql = "INSERT INTO members (honorific, surname, first_name, other_name, date_of_birth, id_number, id_type, tax_id, email, phone_number, address, status, date_created, date_modified) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
         Integer generatedMemberId = QueryExecutor.executeInsert(sql, rs -> {if (rs.next()) {
@@ -72,7 +72,7 @@ public class MemberService {
 
         int offset = (page - 1) * size;
 
-        String sql = "SELECT * FROM member_accounts.members LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM members LIMIT ? OFFSET ?";
 
         return QueryExecutor.executeQuery(sql, rs -> {
             Member member = new Member();
