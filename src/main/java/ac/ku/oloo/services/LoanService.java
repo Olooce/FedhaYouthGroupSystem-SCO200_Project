@@ -63,7 +63,7 @@ public class LoanService {
 
     // Method to get all applied loans for a member
     public List<Loan> getAppliedLoans(int memberId) {
-        String query = "SELECT * FROM loans WHERE member_id = ?";
+        String query = "SELECT * FROM loans WHERE member_id = ? AND status != 'PAID'";
         try {
             return QueryExecutor.executeQuery(query, rs -> new Loan(
                  rs.getLong("loan_id"),
