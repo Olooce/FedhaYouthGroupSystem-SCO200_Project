@@ -8,6 +8,7 @@ import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.services)
@@ -24,8 +25,39 @@ public class LoanService {
     public static final double PERSONAL_LOAN_RATE = LoadConfig.getPersonalLoanInterestRate();
 
     public double calculateMaxLoan(Member member) throws SQLException {
-        return member.getShares() * MAX_LOAN_MULTIPLIER;
+        return (member.getShares() * MAX_LOAN_MULTIPLIER) - getUnpaidLoan(member.getMemberId());
     }
+
+    private double getUnpaidLoan(int memberId) {
+        AtomicReference<Double> totalUnpaidLoan = new AtomicReference<>(0.0);
+
+        // SQL query to get all loans for the given memberId with status other than 'PAID'
+        String query = "SELECT amount FROM loans WHERE member_id = ? AND status != 'PAID'";
+
+        try {
+            // Execute the query and accumulate the total of unpaid loans
+            QueryExecutor.executeQuery(query, rs -> {
+                while (rs.next()) {
+                    // Accumulate loan amounts
+                    totalUnpaidLoan.updateAndGet(v -> {
+                        try {
+                            return v + rs.getDouble("amount");
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                }
+                return null;
+            }, new Object[] { memberId });
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalUnpaidLoan.get();
+    }
+
+
 
     // Method to get all applied loans for all Members
     public static List<Loan> getAllLoans() {

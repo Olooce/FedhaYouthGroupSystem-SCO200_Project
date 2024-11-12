@@ -203,6 +203,7 @@ import javafx.scene.control.TabPane;
 public class MemberLoansPanel {
 
     private final LoanService loanService = new LoanService();
+    TableView<Loan> loanTable = null;
 
     public TabPane createLoanPanel(Member member) throws SQLException {
         TabPane tabPane = new TabPane();
@@ -231,7 +232,8 @@ public class MemberLoansPanel {
     }
 
     private TableView<Loan> buildLoanTable(List<Loan> loans, Member member) {
-        TableView<Loan> loanTable = new TableView<>(FXCollections.observableArrayList(loans));
+        loanTable = new TableView<>(FXCollections.observableArrayList(loans));
+
         loanTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Define columns for loan attributes
@@ -387,27 +389,48 @@ public class MemberLoansPanel {
         refreshLoanTableView();
         showAlert("Payment Successful", "Your payment for loan " + loan.getLoanId() + " has been processed.");
     }
-    
+
     private void refreshLoanTableView() {
         loanTable.refresh();
     }
+
     private VBox createApplyLoanView(Member member) throws SQLException {
         VBox vbox = new VBox(10);
 
         // Components for loan application: loan type, amount, repayment period, guarantors
-        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList("Business", "Personal"));
+        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList("Business Loan", "Personal Loan", "Emergency Loan"));
         TextField loanAmountField = new TextField();
-        TextField repaymentField = new TextField();
+
+        // Drop-down for repayment period with predefined options
+        ComboBox<Integer> repaymentPeriodComboBox = new ComboBox<>(FXCollections.observableArrayList(6, 12, 24, 36, 48, 60));
+        repaymentPeriodComboBox.setPromptText("Select Repayment Period");
+
+        // Max loan label
         Label maxLoanLabel = new Label("Maximum Loan: " + loanService.calculateMaxLoan(member));
+
+        // Apply button for submitting the loan application
         Button applyButton = new Button("Apply");
 
-        applyButton.setOnAction(e -> applyForLoan(member, loanTypeComboBox.getValue(), loanAmountField.getText(), repaymentField.getText()));
+        applyButton.setOnAction(e -> {
+            Integer selectedRepaymentPeriod = repaymentPeriodComboBox.getValue();
+            if (selectedRepaymentPeriod != null) {
+                applyForLoan(member, loanTypeComboBox.getValue(), loanAmountField.getText(), selectedRepaymentPeriod.toString());
+            } else {
+                showAlert("Error", "Please select a repayment period.");
+            }
+        });
 
-        vbox.getChildren().addAll(new Label("Loan Type"), loanTypeComboBox, new Label("Amount"), loanAmountField,
-                new Label("Repayment Period"), repaymentField, maxLoanLabel, applyButton);
+        // Add components to VBox
+        vbox.getChildren().addAll(
+                new Label("Loan Type"), loanTypeComboBox,
+                new Label("Amount"), loanAmountField,
+                new Label("Repayment Period (months)"), repaymentPeriodComboBox,
+                maxLoanLabel, applyButton
+        );
 
         return vbox;
     }
+
 
     private void applyForLoan(Member member, String loanType, String amount, String repaymentPeriod) {
         double loanAmount = Double.parseDouble(amount);
@@ -440,6 +463,7 @@ public class MemberLoansPanel {
         try {
             if (!loanService.validateGuarantors(guaranteedAmount, loanAmount, member.getShares())) {
                 showAlert("Guarantor Validation", "Awaiting sufficient guarantor approval for your loan.");
+                refreshLoanTableView();
                 return;
             }
         } catch (SQLException ex) {
@@ -451,6 +475,7 @@ public class MemberLoansPanel {
         // Insert loan application in DB, setting initial status to 'PENDING'
         loanService.applyLoan(member.getMemberId(), loanType, loanAmount, repaymentMonths, guaranteedAmount, interestRate);
         showAlert("Loan Application", "Loan application submitted. Awaiting guarantor approvals.");
+        refreshLoanTableView();
     }
 
     private VBox createGuaranteeLoanView(Member member) {
