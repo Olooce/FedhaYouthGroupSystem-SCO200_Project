@@ -1,8 +1,15 @@
 package ac.ku.oloo.userInterfaceFX.panels;
 
+import ac.ku.oloo.services.DepositService;
+import ac.ku.oloo.services.ShareService;
+import ac.ku.oloo.utils.DatabaseConnection;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.userInterfaceFX.panels)
@@ -12,6 +19,16 @@ import javafx.scene.layout.VBox;
  **/
 
 public class DepositsPanel {
+
+    private final DepositService depositService;
+    private final ShareService shareService;
+    private final long memberId; // Assume this is passed to the panel (e.g., logged-in user's member ID)
+
+    public DepositsPanel(long memberId) throws SQLException {
+        this.depositService = new DepositService();
+        this.shareService = new ShareService();
+        this.memberId = memberId;
+    }
 
     public VBox createAccountStatementsPanel() {
         VBox mainPanel = new VBox(10);
@@ -25,7 +42,6 @@ public class DepositsPanel {
         VBox depositContent = new VBox(10);
         depositContent.setPadding(new Insets(10));
 
-        // Deposit form
         TextField amountField = new TextField();
         amountField.setPromptText("Enter amount to deposit");
         Button depositButton = new Button("Deposit");
@@ -35,9 +51,13 @@ public class DepositsPanel {
             String amountText = amountField.getText();
             if (!amountText.isEmpty() && amountText.matches("\\d+(\\.\\d{1,2})?")) {
                 double amount = Double.parseDouble(amountText);
-                // Simulate deposit logic (e.g., add to account balance)
-                depositMessage.setText("Successfully deposited: $" + amount);
-                amountField.clear();
+                boolean success = depositService.addDeposit(memberId, amount);
+                if (success) {
+                    depositMessage.setText("Successfully deposited: $" + amount);
+                    amountField.clear();
+                } else {
+                    depositMessage.setText("Failed to deposit. Please try again.");
+                }
             } else {
                 depositMessage.setText("Invalid amount. Please try again.");
             }
@@ -56,26 +76,17 @@ public class DepositsPanel {
         VBox latestDepositsContent = new VBox(10);
         latestDepositsContent.setPadding(new Insets(10));
 
-        // Simulated deposit history
-        String[] latestDeposits = {
-                "$100.00 - Nov 18, 2024",
-                "$50.00 - Nov 17, 2024",
-                "$75.00 - Nov 16, 2024",
-                "$200.00 - Nov 15, 2024",
-                "$150.00 - Nov 14, 2024",
-                "$300.00 - Nov 13, 2024",
-                "$500.00 - Nov 12, 2024",
-                "$250.00 - Nov 11, 2024",
-                "$400.00 - Nov 10, 2024",
-                "$350.00 - Nov 9, 2024"
-        };
-
         ListView<String> depositsListView = new ListView<>();
-        depositsListView.getItems().addAll(latestDeposits);
+        Button refreshButton = new Button("Refresh");
+        refreshButton.setOnAction(event -> {
+            List<String> latestDeposits = depositService.getLatestDeposits(memberId);
+            depositsListView.getItems().setAll(latestDeposits);
+        });
 
         latestDepositsContent.getChildren().addAll(
                 new Label("Here are your latest 10 deposits:"),
-                depositsListView
+                depositsListView,
+                refreshButton
         );
         latestDepositsTab.setContent(latestDepositsContent);
 
@@ -84,7 +95,6 @@ public class DepositsPanel {
         VBox buySharesContent = new VBox(10);
         buySharesContent.setPadding(new Insets(10));
 
-        // Buy Shares form
         TextField sharesField = new TextField();
         sharesField.setPromptText("Enter number of shares");
         TextField priceField = new TextField();
@@ -96,12 +106,18 @@ public class DepositsPanel {
             String sharesText = sharesField.getText();
             String priceText = priceField.getText();
             if (!sharesText.isEmpty() && sharesText.matches("\\d+") && !priceText.isEmpty() && priceText.matches("\\d+(\\.\\d{1,2})?")) {
-                int shares = Integer.parseInt(sharesText);
+                double shares = Double.parseDouble(sharesText);
                 double price = Double.parseDouble(priceText);
                 double totalCost = shares * price;
-                buyMessage.setText("Successfully purchased " + shares + " shares for a total cost of $" + totalCost);
-                sharesField.clear();
-                priceField.clear();
+
+                boolean success = shareService.buyShares(memberId, shares);
+                if (success) {
+                    buyMessage.setText("Successfully purchased " + shares + " shares for a total cost of $" + totalCost);
+                    sharesField.clear();
+                    priceField.clear();
+                } else {
+                    buyMessage.setText("Failed to purchase shares. Please try again.");
+                }
             } else {
                 buyMessage.setText("Invalid input. Please enter valid numbers for shares and price.");
             }
@@ -125,5 +141,4 @@ public class DepositsPanel {
 
         return mainPanel;
     }
-
 }
