@@ -2,12 +2,10 @@ package ac.ku.oloo.userInterfaceFX.panels;
 
 import ac.ku.oloo.services.DepositService;
 import ac.ku.oloo.services.ShareService;
-import ac.ku.oloo.utils.DatabaseConnection;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class DepositsPanel {
 
     private final DepositService depositService;
     private final ShareService shareService;
-    private final long memberId; // Assume this is passed to the panel (e.g., logged-in user's member ID)
+    private final long memberId;
 
     public DepositsPanel(long memberId) throws SQLException {
         this.depositService = new DepositService();
