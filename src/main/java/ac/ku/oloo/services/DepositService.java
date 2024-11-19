@@ -8,10 +8,12 @@ package ac.ku.oloo.services;
  **/
 
 import ac.ku.oloo.configs.DataSourceConfig;
+import ac.ku.oloo.models.Deposit;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DepositService {
@@ -68,5 +70,27 @@ public class DepositService {
             e.printStackTrace();
         }
         return 0.0;
+    }
+
+
+    // 4. Get all deposits
+    public List<Deposit> getAllDeposits() {
+        String sql = "SELECT deposit_id, member_id, amount, date_created FROM deposits";
+        List<Deposit> deposits = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                long depositId = rs.getLong("deposit_id");
+                long memberId = rs.getLong("member_id");
+                double amount = rs.getDouble("amount");
+                Timestamp dateCreated = rs.getTimestamp("date_created");
+
+                deposits.add(new Deposit(depositId, memberId, amount, dateCreated.toString()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deposits;
     }
 }

@@ -9,27 +9,37 @@ import java.math.BigDecimal;
  * Description:
  **/
 
-public class Deposit {
-    private final int depositId;
-    private final int memberId;
-    private final BigDecimal amount;
+import javafx.beans.property.*;
 
-    public Deposit(int depositId, int memberId, BigDecimal amount) {
-        this.depositId = depositId;
-        this.memberId = memberId;
-        this.amount = amount;
+public class Deposit {
+
+    private final LongProperty depositId;
+    private final LongProperty memberId;
+    private final DoubleProperty amount;
+    private final StringProperty dateCreated;
+
+    public Deposit(long depositId, long memberId, double amount, String dateCreated) {
+        this.depositId = new SimpleLongProperty(depositId);
+        this.memberId = new SimpleLongProperty(memberId);
+        this.amount = new SimpleDoubleProperty(amount);
+        this.dateCreated = new SimpleStringProperty(dateCreated);
     }
 
-    public int getDepositId() {
+    public LongProperty depositIdProperty() {
         return depositId;
     }
 
-    public int getMemberId() {
+    public LongProperty memberIdProperty() {
         return memberId;
     }
 
-    public BigDecimal getAmount() {
+    public DoubleProperty amountProperty() {
         return amount;
     }
+
+    public StringProperty dateCreatedProperty() {
+        return dateCreated;
+    }
 }
+
 

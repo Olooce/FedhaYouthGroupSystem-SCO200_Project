@@ -163,7 +163,7 @@ public class UserInterface extends Application {
         primaryStage.setScene(loginScene);
     }
 
-    private void showMainApp(Stage primaryStage) {
+    private void showMainApp(Stage primaryStage) throws SQLException {
         primaryStage.setTitle("Staff Dashboard");
 
         BorderPane root = new BorderPane();
@@ -261,7 +261,7 @@ public class UserInterface extends Application {
         return menuBar;
     }
 
-    private VBox createContentPanel() {
+    private VBox createContentPanel() throws SQLException {
         VBox vbox = new VBox();
 
         // Add tabs for different sections
