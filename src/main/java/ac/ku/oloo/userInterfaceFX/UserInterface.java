@@ -223,7 +223,7 @@ public class UserInterface extends Application {
         // Tabbed content
         TabPane tabPane = new TabPane();
         Tab userTab = new Tab("User Info", new UserPanel(user).createUserPanel());
-        Tab statementsTab = new Tab("Account Statements", new AccountStatementsPanel().createAccountStatementsPanel());
+        Tab statementsTab = new Tab("Deposits", new DepositsPanel().createAccountStatementsPanel());
         Tab loanTab = new Tab("Loans", new MemberLoansPanel().createLoanPanel(MemberService.getMember(user.getMemberId())));
 
         tabPane.getTabs().addAll(userTab, statementsTab, loanTab);
