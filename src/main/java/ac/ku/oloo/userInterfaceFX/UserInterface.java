@@ -39,9 +39,13 @@ public class UserInterface extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Fedha Group");
 
+
+
+
         // Show the start screen
         StackPane startScreen = createStartScreen();
         Scene startScene = new Scene(startScreen, 800, 600);
+        startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
         primaryStage.setScene(startScene);
         primaryStage.show();
 

@@ -1,0 +1,25 @@
+/* Global styling for buttons */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+/* Global styling for labels */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Global styling for text fields */
+.text-field {
+    -fx-border-color: #3498db;
+    -fx-background-color: #ecf0f1;
+}
+
+/* Global padding and spacing for VBox */
+.vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 20px;
+}
