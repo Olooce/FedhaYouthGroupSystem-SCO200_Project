@@ -27,7 +27,6 @@ import java.util.List;
 public class MembersPanel {
 
     private MemberService memberService;
-    private TableView<Member> memberTable;
     private ObservableList<Member> observableMembers;
     private Pagination pagination;
     private ComboBox<Integer> entriesPerPageComboBox;
