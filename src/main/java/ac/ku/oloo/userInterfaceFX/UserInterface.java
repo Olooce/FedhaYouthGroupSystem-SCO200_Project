@@ -274,7 +274,7 @@ public class UserInterface extends Application {
 
         Tab memberTab = new Tab("Members", new MembersPanel().createMemberPanel());
         Tab loanTab = new Tab("Loans", new LoansPanel().createLoanPanel());
-        Tab guarantorTab = new Tab("Guarantors", null);
+        Tab guarantorTab = new Tab("Guarantors", new GuarantorPanel().createGuarantorPanel());
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
         Tab reportsTab = new Tab("Reports", null);
 
