@@ -1,6 +1,7 @@
 package ac.ku.oloo.services;
 
 import ac.ku.oloo.configs.LoadConfig;
+import ac.ku.oloo.models.Guarantor;
 import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoanService {
 
-    public double calculateMaxLoan(Member member, String loanType) throws SQLException {
+   public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;
 
         // Determine the multiplier based on the loan type
@@ -190,6 +191,9 @@ public class LoanService {
         }
     }
 
+    public List<Guarantor> getGuarantors() {
+       String query = "SELECT * FROM guarantors";
+    }
     public static void updateLoanStatuses() {
         // Start a new thread to run the task in the background
         new Thread(() -> {
@@ -212,7 +216,6 @@ public class LoanService {
             }
         }).start(); // Start the thread
     }
-
 
     private static void updateLoanInDatabase(Loan loan) {
         String updateLoanQuery = "UPDATE loans SET status = ? WHERE loan_id = ?";
