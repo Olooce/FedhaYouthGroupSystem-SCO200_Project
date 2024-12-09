@@ -49,7 +49,7 @@ public class ReportsPanel {
         TableColumn<Member, Double> sharesColumn = new TableColumn<>("Shares");
         sharesColumn.setCellValueFactory(data -> {
             try {
-                return data.getValue().getShares();
+                return data.getValue().getOShares();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -80,22 +80,18 @@ public class ReportsPanel {
         Label interestEarnedLabel = new Label();
         Label fixedDepositInterestLabel = new Label();
 
-        try {
-            // Fetch data
-            double totalShares = ShareService.getAllTotalShares();
-            double totalLoans = LoanService.getTotalLoans();
-            double interestEarned = LoanService.getTotalLoanInterest();
-            double totalDeposits = DepositService.getTotalDeposits();
-            double fixedDepositInterest = (totalDeposits - totalLoans) * 0.006;
+        // Fetch data
+        double totalShares = ShareService.getAllTotalShares();
+        double totalLoans = LoanService.getTotalLoans();
+        double interestEarned = LoanService.getTotalLoanInterest();
+        double totalDeposits = DepositService.getAllTotalDeposits();
+        double fixedDepositInterest = (totalDeposits - totalLoans) * 0.006;
 
-            // Populate labels
-            totalSharesLabel.setText("Total Shares: " + String.format("%.2f", totalShares));
-            totalLoansLabel.setText("Total Loans Given: " + String.format("%.2f", totalLoans));
-            interestEarnedLabel.setText("Interest Earned on Loans: " + String.format("%.2f", interestEarned));
-            fixedDepositInterestLabel.setText("Interest Earned on Fixed Deposits: " + String.format("%.2f", fixedDepositInterest));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Populate labels
+        totalSharesLabel.setText("Total Shares: " + String.format("%.2f", totalShares));
+        totalLoansLabel.setText("Total Loans Given: " + String.format("%.2f", totalLoans));
+        interestEarnedLabel.setText("Interest Earned on Loans: " + String.format("%.2f", interestEarned));
+        fixedDepositInterestLabel.setText("Interest Earned on Fixed Deposits: " + String.format("%.2f", fixedDepositInterest));
 
         revenueTabContent.getChildren().addAll(
                 totalSharesLabel,

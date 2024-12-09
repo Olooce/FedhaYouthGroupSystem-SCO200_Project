@@ -1,6 +1,7 @@
 package ac.ku.oloo.models;
 
 import ac.ku.oloo.services.MemberService;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 
@@ -160,5 +161,13 @@ public class Member {
 
     public ObservableValue<String> getFullName() {
         return new SimpleStringProperty(getFirstName() + " " + getSurname());
+    }
+
+    public ObservableValue<Double> getOShares() {
+        try {
+            return new SimpleDoubleProperty(getShares());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

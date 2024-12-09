@@ -22,10 +22,25 @@ import java.util.concurrent.atomic.AtomicReference;
 public class LoanService {
 
     public static double getTotalLoans() {
+        String query = "SELECT SUM(amount) AS total FROM loans";
+        try {
+            return QueryExecutor.executeQuery(query, rs -> rs.next() ? rs.getDouble("total") : 0.0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0.0;
+        }
     }
 
     public static double getTotalLoanInterest() {
+        String query = "SELECT SUM(amount * interest_rate) AS total_interest FROM loans";
+        try {
+            return QueryExecutor.executeQuery(query, rs -> rs.next() ? rs.getDouble("total_interest") : 0.0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0.0;
+        }
     }
+
 
     public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;

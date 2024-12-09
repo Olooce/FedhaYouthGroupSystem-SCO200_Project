@@ -18,11 +18,25 @@ import java.util.List;
 
 public class DepositService {
 
-    private final Connection connection;
+    private static Connection connection = null;
     private static final DataSource dataSource = DataSourceConfig.getDataSource();
 
     public DepositService() throws SQLException {
-        this.connection = dataSource.getConnection();
+        connection = dataSource.getConnection();
+    }
+
+    public static double getAllTotalDeposits() {
+        String sql = "SELECT SUM(amount) as total FROM deposits";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Return 0.0 if there's an issue or no deposits
     }
 
     // 1. Add a deposit
@@ -58,7 +72,7 @@ public class DepositService {
     }
 
     // 3. Get the total deposits for a member
-    public double getTotalDeposits(long memberId) {
+    public static double getTotalDeposits(long memberId) {
         String sql = "SELECT SUM(amount) as total FROM deposits WHERE member_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, memberId);

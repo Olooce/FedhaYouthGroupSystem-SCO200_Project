@@ -14,7 +14,7 @@ import java.sql.*;
 
 public class ShareService {
 
-    private final Connection connection;
+    private static Connection connection = null;
     private static final DataSource dataSource = DataSourceConfig.getDataSource();
 
     public ShareService() throws SQLException {
@@ -22,7 +22,17 @@ public class ShareService {
     }
 
     public static double getAllTotalShares() {
+        String sql = "SELECT SUM(total_shares) AS total FROM shares";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Return 0.0 if there's an issue or no shares
     }
 
     // 1. Buy shares
