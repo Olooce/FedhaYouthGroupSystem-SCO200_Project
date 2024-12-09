@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurations>
+<CONFIGURATIONS>
     <!-- Loan Types and Interest Rates -->
-    <loanTypes>
-        <loanType>
-            <name>Business Loan</name>
-            <interestRate>12.0</interestRate> <!-- Annual interest rate in percentage -->
-            <description>Loan for starting or expanding a business.</description>
-        </loanType>
-        <loanType>
-            <name>Personal Loan</name>
-            <interestRate>10.0</interestRate> <!-- Annual interest rate in percentage -->
-            <description>Loan for personal use.</description>
-        </loanType>
-        <loanType>
-            <name>Emergency Loan</name>
-            <interestRate>8.0</interestRate> <!-- Annual interest rate in percentage -->
-            <description>Loan for emergency situations.</description>
-        </loanType>
-    </loanTypes>
+    <LOAN_TYPES>
+        <LOAN_TYPE>
+            <NAME>Business Loan</NAME>
+            <MULTIPLIER></MULTIPLIER>
+            <INTEREST_RATE>12.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
+            <DESCRIPTION>Loan for starting or expanding a business.</DESCRIPTION>
+        </LOAN_TYPE>
+        <LOAN_TYPE>
+            <NAME>Personal Loan</NAME>
+            <MULTIPLIER></MULTIPLIER>
+            <INTEREST_RATE>10.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
+            <DESCRIPTION>Loan for personal use.</DESCRIPTION>
+        </LOAN_TYPE>
+        <LOAN_TYPE>
+            <NAME>Emergency Loan</NAME>
+            <MULTIPLIER></MULTIPLIER>
+            <INTEREST_RATE>8.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
+            <DESCRIPTION>Loan for emergency situations.</DESCRIPTION>
+        </LOAN_TYPE>
+    </LOAN_TYPES>
 
     <!-- Fixed Deposit Configuration -->
-    <fixedDeposit>
-        <interestRate>0.6</interestRate> <!-- Monthly interest rate in percentage -->
-        <description>Interest rate applied to funds deposited as fixed deposits.</description>
-    </fixedDeposit>
+    <FIXED_DEPOSIT>
+        <INTEREST_RATE>0.6</INTEREST_RATE> <!-- Monthly interest rate in percentage -->
+        <DESCRIPTION>Interest rate applied to funds deposited as fixed deposits.</DESCRIPTION>
+    </FIXED_DEPOSIT>
 
     <!-- Membership Configuration -->
-    <membership>
-        <registrationFee>1000.00</registrationFee> <!-- One-time non-refundable registration fee -->
-        <minimumMonthlyContribution>500.00</minimumMonthlyContribution> <!-- Minimum shares contribution per month -->
-        <eligibleLoanAfterMonths>6</eligibleLoanAfterMonths> <!-- Minimum consecutive months of contribution before loan eligibility -->
-    </membership>
+    <MEMBERSHIP>
+        <REGISTRATION_FEE>1000.00</REGISTRATION_FEE> <!-- One-time non-refundable registration fee -->
+        <MINIMUM_MONTHLY_CONTRIBUTION>500.00</MINIMUM_MONTHLY_CONTRIBUTION> <!-- Minimum shares contribution per month -->
+        <ELIGIBLE_LOAN_AFTER_MONTHS>6</ELIGIBLE_LOAN_AFTER_MONTHS> <!-- Minimum consecutive months of contribution before loan eligibility -->
+    </MEMBERSHIP>
 
     <!-- Dividends and Office Expenses Configuration -->
-    <financials>
-        <dividends>
-            <percentageOfRevenue>90</percentageOfRevenue> <!-- Percentage of total revenue shared as dividends -->
-            <description>Dividends are distributed based on the share contributions of each member.</description>
-        </dividends>
-        <officeExpenses>
-            <percentageOfRevenue>10</percentageOfRevenue> <!-- Percentage of total revenue retained for office expenses -->
-            <description>Amount retained from total revenue for office operations and expenses.</description>
-        </officeExpenses>
-    </financials>
+    <FINANCIALS>
+        <DIVIDENDS>
+            <PERCENTAGE_OF_REVENUE>90</PERCENTAGE_OF_REVENUE> <!-- Percentage of total revenue shared as dividends -->
+            <DESCRIPTION>Dividends are distributed based on the share contributions of each member.</DESCRIPTION>
+        </DIVIDENDS>
+        <OFFICE_EXPENSES>
+            <PERCENTAGE_OF_REVENUE>10</PERCENTAGE_OF_REVENUE> <!-- Percentage of total revenue retained for office expenses -->
+            <DESCRIPTION>Amount retained from total revenue for office operations and expenses.</DESCRIPTION>
+        </OFFICE_EXPENSES>
+    </FINANCIALS>
 
     <!-- Exit Policy -->
-    <exitPolicy>
-        <noticePeriodMonths>1</noticePeriodMonths> <!-- Notice period in months before a member can exit -->
-        <description>
+    <EXIT_POLICY>
+        <NOTICE_PERIOD_MONTHS>1</NOTICE_PERIOD_MONTHS> <!-- Notice period in months before a member can exit -->
+        <DESCRIPTION>
             Members must clear all outstanding loans and those they have guaranteed before exiting.
             After the notice period, the member's shares are refunded.
-        </description>
-    </exitPolicy>
-</configurations>
+        </DESCRIPTION>
+    </EXIT_POLICY>
+</CONFIGURATIONS>

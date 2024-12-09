@@ -26,6 +26,13 @@ public class LoadConfig {
     private static int dividendsPercentage;
     private static int officeExpensesPercentage;
     private static int noticePeriodMonths;
+    private static double shortLoanInterestRate;
+    private static double normalLoanInterestRate;
+    private static double developmentLoanInterestRate;
+    private static double emergencyLoanMultiplier;
+    private static double shortLoanMultiplier;
+    private static double normalLoanMultiplier;
+    private static double developmentLoanMultiplier;
 
     static {
         loadConfigurations();
@@ -39,12 +46,13 @@ public class LoadConfig {
             Document doc = dBuilder.parse(configFile);
             doc.getDocumentElement().normalize();
 
-            // Load loan types interest rates
-            NodeList loanTypes = doc.getElementsByTagName("loanType");
+            // Load loan types interest rates and multipliers
+            NodeList loanTypes = doc.getElementsByTagName("LOAN_TYPE");
             for (int i = 0; i < loanTypes.getLength(); i++) {
                 Element loanTypeElement = (Element) loanTypes.item(i);
-                String loanName = loanTypeElement.getElementsByTagName("name").item(0).getTextContent();
-                double interestRate = Double.parseDouble(loanTypeElement.getElementsByTagName("interestRate").item(0).getTextContent());
+                String loanName = loanTypeElement.getElementsByTagName("NAME").item(0).getTextContent();
+                double interestRate = Double.parseDouble(loanTypeElement.getElementsByTagName("INTEREST_RATE").item(0).getTextContent());
+                double multiplier = Double.parseDouble(loanTypeElement.getElementsByTagName("MULTIPLIER").item(0).getTextContent());
 
                 switch (loanName) {
                     case "Business Loan":
@@ -55,27 +63,40 @@ public class LoadConfig {
                         break;
                     case "Emergency Loan":
                         emergencyLoanInterestRate = interestRate;
+                        emergencyLoanMultiplier = multiplier;
+                        break;
+                    case "Short Loan":
+                        shortLoanInterestRate = interestRate;
+                        shortLoanMultiplier = multiplier;
+                        break;
+                    case "Normal Loan":
+                        normalLoanInterestRate = interestRate;
+                        normalLoanMultiplier = multiplier;
+                        break;
+                    case "Development Loan":
+                        developmentLoanInterestRate = interestRate;
+                        developmentLoanMultiplier = multiplier;
                         break;
                 }
             }
 
             // Load fixed deposit interest rate
-            fixedDepositInterestRate = Double.parseDouble(doc.getElementsByTagName("interestRate").item(loanTypes.getLength()).getTextContent());
+            fixedDepositInterestRate = Double.parseDouble(doc.getElementsByTagName("INTEREST_RATE").item(loanTypes.getLength()).getTextContent());
 
             // Load membership configurations
-            Element membershipElement = (Element) doc.getElementsByTagName("membership").item(0);
-            registrationFee = Double.parseDouble(membershipElement.getElementsByTagName("registrationFee").item(0).getTextContent());
-            minimumMonthlyContribution = Double.parseDouble(membershipElement.getElementsByTagName("minimumMonthlyContribution").item(0).getTextContent());
-            eligibleLoanAfterMonths = Integer.parseInt(membershipElement.getElementsByTagName("eligibleLoanAfterMonths").item(0).getTextContent());
+            Element membershipElement = (Element) doc.getElementsByTagName("MEMBERSHIP").item(0);
+            registrationFee = Double.parseDouble(membershipElement.getElementsByTagName("REGISTRATION_FEE").item(0).getTextContent());
+            minimumMonthlyContribution = Double.parseDouble(membershipElement.getElementsByTagName("MINIMUM_MONTHLY_CONTRIBUTION").item(0).getTextContent());
+            eligibleLoanAfterMonths = Integer.parseInt(membershipElement.getElementsByTagName("ELIGIBLE_LOAN_AFTER_MONTHS").item(0).getTextContent());
 
             // Load financial configurations
-            Element financialsElement = (Element) doc.getElementsByTagName("financials").item(0);
-            dividendsPercentage = Integer.parseInt(financialsElement.getElementsByTagName("percentageOfRevenue").item(0).getTextContent());
-            officeExpensesPercentage = Integer.parseInt(financialsElement.getElementsByTagName("percentageOfRevenue").item(1).getTextContent());
+            Element financialsElement = (Element) doc.getElementsByTagName("FINANCIALS").item(0);
+            dividendsPercentage = Integer.parseInt(financialsElement.getElementsByTagName("PERCENTAGE_OF_REVENUE").item(0).getTextContent());
+            officeExpensesPercentage = Integer.parseInt(financialsElement.getElementsByTagName("PERCENTAGE_OF_REVENUE").item(1).getTextContent());
 
             // Load exit policy configuration
-            Element exitPolicyElement = (Element) doc.getElementsByTagName("exitPolicy").item(0);
-            noticePeriodMonths = Integer.parseInt(exitPolicyElement.getElementsByTagName("noticePeriodMonths").item(0).getTextContent());
+            Element exitPolicyElement = (Element) doc.getElementsByTagName("EXIT_POLICY").item(0);
+            noticePeriodMonths = Integer.parseInt(exitPolicyElement.getElementsByTagName("NOTICE_PERIOD_MONTHS").item(0).getTextContent());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,5 +142,33 @@ public class LoadConfig {
 
     public static int getNoticePeriodMonths() {
         return noticePeriodMonths;
+    }
+
+    public static double getShortLoanInterestRate() {
+        return shortLoanInterestRate;
+    }
+
+    public static double getNormalLoanInterestRate() {
+        return normalLoanInterestRate;
+    }
+
+    public static double getDevelopmentLoanInterestRate() {
+        return developmentLoanInterestRate;
+    }
+
+    public static double getEmergencyLoanMultiplier() {
+        return emergencyLoanMultiplier;
+    }
+
+    public static double getShortLoanMultiplier() {
+        return shortLoanMultiplier;
+    }
+
+    public static double getNormalLoanMultiplier() {
+        return normalLoanMultiplier;
+    }
+
+    public static double getDevelopmentLoanMultiplier() {
+        return developmentLoanMultiplier;
     }
 }

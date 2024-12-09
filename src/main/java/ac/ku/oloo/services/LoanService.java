@@ -19,20 +19,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoanService {
 
-    public static final double MAX_LOAN_MULTIPLIER = 3;
-    public static final double BUSINESS_LOAN_RATE = LoadConfig.getBusinessLoanInterestRate();
-    public static final double EMERGENCY_LOAN_RATE = LoadConfig.getEmergencyLoanInterestRate();
-    public static final double PERSONAL_LOAN_RATE = LoadConfig.getPersonalLoanInterestRate();
-
     public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;
 
         // Determine the multiplier based on the loan type
         multiplier = switch (loanType) {
-            case "Emergency Loan" -> 1; // Equals the amount of shares
-            case "Short Loan" -> 2;     // Two times the amount of shares
-            case "Normal Loan" -> 3;    // Three times the amount of shares
-            case "Development Loan" -> 5; // Five times the amount of shares
+            case "Emergency Loan" -> LoadConfig.getEmergencyLoanMultiplier();
+            case "Short Loan" -> LoadConfig.getShortLoanMultiplier();
+            case "Normal Loan" -> LoadConfig.getNormalLoanMultiplier();
+            case "Development Loan" -> LoadConfig.getDevelopmentLoanMultiplier();
             default -> throw new IllegalArgumentException("Invalid loan type: " + loanType);
         };
 
@@ -96,16 +91,17 @@ public class LoanService {
 
     public double getInterestRate(String loanType) {
         return switch (loanType) {
-            case "Emergency Loan" -> 0.003; // 0.3% per month
-            case "Short Loan" -> 0.006;     // 0.6% per month
-            case "Normal Loan" -> 0.01;     // 1.0% per month
-            case "Development Loan" -> 0.014; // 1.4% per month
+            case "Emergency Loan" -> LoadConfig.getEmergencyLoanInterestRate();
+            case "Short Loan" -> LoadConfig.getShortLoanInterestRate();
+            case "Normal Loan" -> LoadConfig.getNormalLoanInterestRate();
+            case "Development Loan" -> LoadConfig.getDevelopmentLoanInterestRate();
             default -> {
                 System.err.println("Invalid loan type: " + loanType);
                 yield 0; // Return 0 for invalid loan types
             }
         };
     }
+
 
 
     public boolean validateGuarantors(double guaranteedAmount, double loanAmount, double memberShares) {
