@@ -1,5 +1,8 @@
 package ac.ku.oloo.models;
 
+import ac.ku.oloo.services.MemberService;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
@@ -13,6 +16,7 @@ public class Guarantor {
     private long guarantorId;
     private long loanId;
     private long memberId;
+    private String name;
     private double guaranteeAmount;
     private LocalDateTime guaranteedAt;
 
@@ -23,6 +27,11 @@ public class Guarantor {
         this.memberId = memberId;
         this.guaranteeAmount = guaranteeAmount;
         this.guaranteedAt = guaranteedAt;
+        try {
+            this.name = MemberService.getMember(memberId).getFirstName();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
       // Getters and Setters
@@ -48,6 +57,10 @@ public class Guarantor {
 
     public void setMemberId(long memberId) {
         this.memberId = memberId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getGuaranteeAmount() {

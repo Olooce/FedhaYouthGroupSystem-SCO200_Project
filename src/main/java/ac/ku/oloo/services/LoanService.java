@@ -192,7 +192,7 @@ public class LoanService {
     }
 
     public static List<Guarantor> getGuarantors(int page, int size) {
-        String query = "SELECT loan_id, member_id, guarantee_amount FROM guarantors LIMIT ? OFFSET ?";
+        String query = "SELECT * FROM guarantors LIMIT ? OFFSET ?";
 
         try {
             int offset = (page - 1) * size; // Calculate the offset for pagination
