@@ -24,8 +24,23 @@ public class LoanService {
     public static final double EMERGENCY_LOAN_RATE = LoadConfig.getEmergencyLoanInterestRate();
     public static final double PERSONAL_LOAN_RATE = LoadConfig.getPersonalLoanInterestRate();
 
-    public double calculateMaxLoan(Member member) throws SQLException {
-        return (member.getShares() * MAX_LOAN_MULTIPLIER) - getUnpaidLoan(member.getMemberId());
+    public double calculateMaxLoan(Member member, String loanType) throws SQLException {
+        double multiplier;
+
+        // Determine the multiplier based on the loan type
+        multiplier = switch (loanType) {
+            case "Emergency Loan" -> 1; // Equals the amount of shares
+            case "Short Loan" -> 2;     // Two times the amount of shares
+            case "Normal Loan" -> 3;    // Three times the amount of shares
+            case "Development Loan" -> 5; // Five times the amount of shares
+            default -> throw new IllegalArgumentException("Invalid loan type: " + loanType);
+        };
+
+        // Calculate the maximum loan
+        double maxLoan = (member.getShares() * multiplier) - getUnpaidLoan(member.getMemberId());
+
+        // Ensure the maximum loan is not negative
+        return Math.max(maxLoan, 0);
     }
 
     private double getUnpaidLoan(int memberId) {
@@ -81,12 +96,17 @@ public class LoanService {
 
     public double getInterestRate(String loanType) {
         return switch (loanType) {
-            case "Business Loan" -> BUSINESS_LOAN_RATE;
-            case "Emergency Loan" -> EMERGENCY_LOAN_RATE;
-            case "Personal Loan" -> PERSONAL_LOAN_RATE;
-            default -> 0;
+            case "Emergency Loan" -> 0.003; // 0.3% per month
+            case "Short Loan" -> 0.006;     // 0.6% per month
+            case "Normal Loan" -> 0.01;     // 1.0% per month
+            case "Development Loan" -> 0.014; // 1.4% per month
+            default -> {
+                System.err.println("Invalid loan type: " + loanType);
+                yield 0; // Return 0 for invalid loan types
+            }
         };
     }
+
 
     public boolean validateGuarantors(double guaranteedAmount, double loanAmount, double memberShares) {
         return guaranteedAmount >= (loanAmount - memberShares);

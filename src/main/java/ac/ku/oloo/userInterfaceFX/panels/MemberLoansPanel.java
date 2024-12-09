@@ -3,17 +3,13 @@ package ac.ku.oloo.userInterfaceFX.panels;
 import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.services.LoanService;
-import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
@@ -270,22 +266,24 @@ public class MemberLoansPanel {
         VBox vbox = new VBox(10);
 
         // Components for loan application: loan type, amount, repayment period, guarantors
-        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList("Business Loan", "Personal Loan", "Emergency Loan"));
+        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList("Development Loan", "Short Loan", "Emergency Loan", "Normal Loan"));
         TextField loanAmountField = new TextField();
 
-        // Drop-down for repayment period with predefined options
-        ComboBox<Integer> repaymentPeriodComboBox = new ComboBox<>(FXCollections.observableArrayList(6, 12, 24, 36, 48, 60));
-        repaymentPeriodComboBox.setPromptText("Select Repayment Period");
-
         // Max loan label
-        Label maxLoanLabel = new Label("Maximum Loan You Can Borrow: " + formatAmount(loanService.calculateMaxLoan(member)));
+        Label maxLoanLabel = new Label("Maximum Loan You Can Borrow: " + formatAmount(loanService.calculateMaxLoan(member, loanTypeComboBox.getValue())));
 
 
         // Apply button for submitting the loan application
         Button applyButton = new Button("Apply");
 
         applyButton.setOnAction(e -> {
-            Integer selectedRepaymentPeriod = repaymentPeriodComboBox.getValue();
+            Integer selectedRepaymentPeriod =  switch(loanTypeComboBox.getValue()){
+            case "Development Loan" -> 48;
+            case "Short Loan" -> 24;
+            case "Normal Loan" -> 36;
+            case "Emergency Loan" -> 12;
+            default -> throw new IllegalArgumentException("Unexpected loan type: " + loanTypeComboBox.getValue());
+};
             if (selectedRepaymentPeriod != null) {
                 applyForLoan(member, loanTypeComboBox.getValue(), loanAmountField.getText(), selectedRepaymentPeriod.toString());
             } else {
@@ -297,7 +295,6 @@ public class MemberLoansPanel {
         vbox.getChildren().addAll(
                 new Label("Loan Type"), loanTypeComboBox,
                 new Label("Amount"), loanAmountField,
-                new Label("Repayment Period (months)"), repaymentPeriodComboBox,
                 maxLoanLabel, applyButton
         );
 
@@ -313,7 +310,7 @@ public class MemberLoansPanel {
         // Calculate maximum eligible loan for validation
         double maxLoanEligible = 0;
         try {
-            maxLoanEligible = loanService.calculateMaxLoan(member);
+            maxLoanEligible = loanService.calculateMaxLoan(member, loanTypeComboBox.getValue());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
