@@ -67,8 +67,6 @@ public class LoanService {
         return totalUnpaidLoan.get();
     }
 
-
-
     // Method to get all applied loans for all Members
     public static List<Loan> getAllLoans() {
         String query = "SELECT * FROM loans";
@@ -102,12 +100,9 @@ public class LoanService {
         };
     }
 
-
-
     public boolean validateGuarantors(double guaranteedAmount, double loanAmount, double memberShares) {
         return guaranteedAmount >= (loanAmount - memberShares);
     }
-
 
     // Method to get all applied loans for a member
     public List<Loan> getAppliedLoans(int memberId) {
@@ -192,5 +187,7 @@ public class LoanService {
             return false;
         }
     }
+
+    
 
 }
