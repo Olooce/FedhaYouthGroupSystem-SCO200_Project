@@ -191,26 +191,28 @@ public class LoanService {
     }
 
     public static void updateLoanStatuses() {
-        List<Loan> loans = getAllLoans(); // Fetch all loans
-        Date currentDate = new Date();
+        // Start a new thread to run the task in the background
+        new Thread(() -> {
+            List<Loan> loans = getAllLoans(); // Fetch all loans
+            Date currentDate = new Date();
 
-        for (Loan loan : loans) {
-            // Check if the guarantee is 0 (DISBURSED)
-            if (loan.getGuaranteedAmount() == 0 && (!loan.getStatus().equals("PAID") || loan.getStatus().equals("OVERDUE"))) {
-                loan.setStatus("DISBURSED");
-                updateLoanInDatabase(loan);
+            for (Loan loan : loans) {
+                // Check if the guarantee is 0 (DISBURSED)
+                if (loan.getGuaranteedAmount() == 0 && (!loan.getStatus().equals("PAID") || loan.getStatus().equals("OVERDUE"))) {
+                    loan.setStatus("DISBURSED");
+                    updateLoanInDatabase(loan);
+                }
+
+                // Check if the repayment period has passed and loan is not marked as PAID
+                long monthsDifference = calculateMonthsDifference(loan.getLoanDate(), currentDate);
+                if (monthsDifference > loan.getRepaymentPeriod() && !loan.getStatus().equals("PAID")) {
+                    loan.setStatus("OVERDUE");
+                    updateLoanInDatabase(loan);
+                }
             }
-
-            // Check if the repayment period has passed and loan is not marked as PAID
-            long monthsDifference = calculateMonthsDifference(loan.getLoanDate(), currentDate);
-            if (monthsDifference > loan.getRepaymentPeriod() && !loan.getStatus().equals("PAID")) {
-                loan.setStatus("OVERDUE");
-                updateLoanInDatabase(loan);
-            }
-
-
-        }
+        }).start(); // Start the thread
     }
+
 
     private static void updateLoanInDatabase(Loan loan) {
         String updateLoanQuery = "UPDATE loans SET status = ? WHERE loan_id = ?";

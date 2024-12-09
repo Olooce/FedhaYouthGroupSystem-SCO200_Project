@@ -3,6 +3,7 @@ package ac.ku.oloo.userInterfaceFX;
 import ac.ku.oloo.models.AuthResult;
 import ac.ku.oloo.models.User;
 import ac.ku.oloo.services.AuthenticationService;
+import ac.ku.oloo.services.LoanService;
 import ac.ku.oloo.services.MemberService;
 import ac.ku.oloo.userInterfaceFX.panels.*;
 import javafx.animation.KeyFrame;
@@ -134,6 +135,7 @@ public class UserInterface extends Application {
                 AuthResult authResult = AuthenticationService.authenticate(usernameField.getText(), passwordField.getText());
 
                 if (authResult.isAuthenticated()) {
+                    LoanService.updateLoanStatuses();
                     User user = authResult.getUser();
                     if (Objects.equals(user.getRole(), "STAFF")) {
                         showMainApp(primaryStage); // Show staff dashboard
