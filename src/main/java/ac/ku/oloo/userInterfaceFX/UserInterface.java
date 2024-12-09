@@ -245,10 +245,10 @@ public class UserInterface extends Application {
         root.setBottom(footerBox);
 
         Scene memberScene = new Scene(root, 800, 600);
+        memberScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm());
         primaryStage.setScene(memberScene);
         primaryStage.show();
     }
-
 
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
@@ -272,11 +272,12 @@ public class UserInterface extends Application {
 
         Tab memberTab = new Tab("Members", new MembersPanel().createMemberPanel());
         Tab loanTab = new Tab("Loans", new LoansPanel().createLoanPanel());
+        Tab guarantorTab = new Tab("Guarantors", null);
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
+        Tab reportsTab = new Tab("Reports", null);
 
-        tabPane.getTabs().addAll(memberTab, loanTab, depositTab);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
-
+        tabPane.getTabs().addAll(memberTab, loanTab, guarantorTab, depositTab, reportsTab);
+//        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
         vbox.getChildren().add(tabPane);
         return vbox;
     }
