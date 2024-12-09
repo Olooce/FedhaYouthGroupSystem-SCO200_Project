@@ -24,7 +24,7 @@ public class LoanService {
     public static double getTotalLoans() {
         String query = "SELECT SUM(amount) AS total FROM loans";
         try {
-            return QueryExecutor.executeQuery(query, rs -> rs.next() ? rs.getDouble("total") : 0.0);
+            return QueryExecutor.executeSingleResultQuery(query, rs -> rs.next() ? rs.getDouble("total") : 0.0);
         } catch (SQLException e) {
             e.printStackTrace();
             return 0.0;
@@ -32,15 +32,29 @@ public class LoanService {
     }
 
     public static double getTotalLoanInterest() {
-        String query = "SELECT SUM(amount * interest_rate) AS total_interest FROM loans";
+        String query = "SELECT amount, interest_rate, repayment_period FROM loans";
         try {
-            return QueryExecutor.executeQuery(query, rs -> rs.next() ? rs.getDouble("total_interest") : 0.0);
+            // Accumulate the total interest across all loans
+            return QueryExecutor.executeSingleResultQuery(query, rs -> {
+                double totalInterest = 0.0;
+                while (rs.next()) {
+                    double principal = rs.getDouble("amount");
+                    double monthlyRate = rs.getDouble("interest_rate") / 100;
+                    int months = rs.getInt("repayment_period");
+
+                    // Calculate compound interest: A = P(1 + r)^n
+                    double amountWithInterest = principal * Math.pow(1 + monthlyRate, months);
+                    double interest = amountWithInterest - principal;
+
+                    totalInterest += interest; // Add to total interest
+                }
+                return totalInterest;
+            });
         } catch (SQLException e) {
             e.printStackTrace();
             return 0.0;
         }
     }
-
 
     public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;

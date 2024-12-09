@@ -165,7 +165,8 @@ public class Member {
 
     public ObservableValue<Double> getOShares() {
         try {
-            return new SimpleDoubleProperty(getShares());
+            SimpleDoubleProperty sharesProperty = new SimpleDoubleProperty(getShares());
+            return sharesProperty.asObject(); // Convert to ObservableValue<Double>
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

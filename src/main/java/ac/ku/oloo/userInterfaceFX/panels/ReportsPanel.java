@@ -47,13 +47,7 @@ public class ReportsPanel {
         nameColumn.setCellValueFactory(data -> data.getValue().getFullName());
 
         TableColumn<Member, Double> sharesColumn = new TableColumn<>("Shares");
-        sharesColumn.setCellValueFactory(data -> {
-            try {
-                return data.getValue().getOShares();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        sharesColumn.setCellValueFactory(data -> data.getValue().getOShares());
 
         sharesTable.getColumns().addAll(nameColumn, sharesColumn);
 

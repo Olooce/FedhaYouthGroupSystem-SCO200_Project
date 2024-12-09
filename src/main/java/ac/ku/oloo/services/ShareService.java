@@ -14,8 +14,17 @@ import java.sql.*;
 
 public class ShareService {
 
-    private static Connection connection = null;
+
     private static final DataSource dataSource = DataSourceConfig.getDataSource();
+    private static Connection connection;
+
+    static {
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public ShareService() throws SQLException {
         this.connection = dataSource.getConnection();
