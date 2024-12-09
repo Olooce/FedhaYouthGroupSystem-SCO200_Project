@@ -4,13 +4,13 @@
     <LOAN_TYPES>
         <LOAN_TYPE>
             <NAME>Business Loan</NAME>
-            <MULTIPLIER></MULTIPLIER>
+            <MULTIPLIER>1</MULTIPLIER>
             <INTEREST_RATE>12.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
             <DESCRIPTION>Loan for starting or expanding a business.</DESCRIPTION>
         </LOAN_TYPE>
         <LOAN_TYPE>
             <NAME>Personal Loan</NAME>
-            <MULTIPLIER></MULTIPLIER>
+            <MULTIPLIER>1</MULTIPLIER>
             <INTEREST_RATE>10.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
             <DESCRIPTION>Loan for personal use.</DESCRIPTION>
         </LOAN_TYPE>
