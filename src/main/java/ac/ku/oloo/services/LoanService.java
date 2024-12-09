@@ -1,12 +1,17 @@
 package ac.ku.oloo.services;
 
+import ac.ku.oloo.configs.DataSourceConfig;
 import ac.ku.oloo.configs.LoadConfig;
 import ac.ku.oloo.models.Guarantor;
 import ac.ku.oloo.models.Loan;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,15 +26,24 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoanService {
 
+    static DataSource dataSource = DataSourceConfig.getDataSource();
+
     public static double getTotalLoans() {
+
         String query = "SELECT SUM(amount) AS total FROM loans";
-        try {
-            return QueryExecutor.executeSingleResultQuery(query, rs -> rs.next() ? rs.getDouble("total") : 0.0);
+        try (Connection connection = dataSource.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+            return 0.0;
         } catch (SQLException e) {
             e.printStackTrace();
             return 0.0;
         }
     }
+
 
     public static double getTotalLoanInterest() {
         String query = "SELECT amount, interest_rate, repayment_period FROM loans";
@@ -42,9 +56,12 @@ public class LoanService {
                     double monthlyRate = rs.getDouble("interest_rate") / 100;
                     int months = rs.getInt("repayment_period");
 
-                    // Calculate compound interest: A = P(1 + r)^n
-                    double amountWithInterest = principal * Math.pow(1 + monthlyRate, months);
-                    double interest = amountWithInterest - principal;
+//                    // Calculate compound interest: A = P(1 + r)^n
+//                    double amountWithInterest = principal * Math.pow(1 + monthlyRate, months);
+//                    double interest = amountWithInterest - principal;
+
+                    // Calculate simple interest
+                    double interest = principal * monthlyRate * months;
 
                     totalInterest += interest; // Add to total interest
                 }
