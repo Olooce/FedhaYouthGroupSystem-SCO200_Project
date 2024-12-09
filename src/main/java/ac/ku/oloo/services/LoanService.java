@@ -7,6 +7,7 @@ import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -79,7 +80,8 @@ public class LoanService {
                     rs.getInt("repayment_period"),
                     rs.getDouble("interest_rate"),
                     rs.getDouble("guaranteed_amount"),
-                    rs.getString("status")
+                    rs.getString("status"),
+                    rs.getDate("date_created")
             ));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,6 +190,43 @@ public class LoanService {
         }
     }
 
-    
+    public static void updateLoanStatuses() {
+        List<Loan> loans = getAllLoans(); // Fetch all loans
+        Date currentDate = new Date();
+
+        for (Loan loan : loans) {
+            // Check if the guarantee is 0 (DISBURSED)
+            if (loan.getGuaranteedAmount() == 0 && (!loan.getStatus().equals("PAID") || loan.getStatus().equals("OVERDUE"))) {
+                loan.setStatus("DISBURSED");
+                updateLoanInDatabase(loan);
+            }
+
+            // Check if the repayment period has passed and loan is not marked as PAID
+            long monthsDifference = calculateMonthsDifference(loan.getLoanDate(), currentDate);
+            if (monthsDifference > loan.getRepaymentPeriod() && !loan.getStatus().equals("PAID")) {
+                loan.setStatus("OVERDUE");
+                updateLoanInDatabase(loan);
+            }
+
+
+        }
+    }
+
+    private static void updateLoanInDatabase(Loan loan) {
+        String updateLoanQuery = "UPDATE loans SET status = ? WHERE loan_id = ?";
+
+        try {
+            QueryExecutor.executeUpdate(updateLoanQuery,loan.getStatus(), loan.getLoanId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Helper method to calculate the months difference between two dates
+    private static long calculateMonthsDifference(Date startDate, Date endDate) {
+        long diffInMillis = endDate.getTime() - startDate.getTime();
+        return diffInMillis / (1000L * 60 * 60 * 24 * 30); // Approximate month difference
+    }
+
 
 }

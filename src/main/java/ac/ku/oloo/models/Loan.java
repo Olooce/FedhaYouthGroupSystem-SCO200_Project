@@ -1,6 +1,7 @@
 package ac.ku.oloo.models;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * FedhaYouthGroupSystem-SCO200_Project (ac.ku.oloo.models)
@@ -18,6 +19,7 @@ public class Loan {
     private double guaranteedAmount;
     private int memberId;
     private String status;
+    private Date dateCreated;
 
     public Loan(long loanId, int memberId, String loanType, double loanAmount, int repaymentPeriod, double interestRate, double guaranteedAmount, String status) {
         this.loanId = loanId;
@@ -28,6 +30,18 @@ public class Loan {
         this.interestRate = interestRate;
         this.guaranteedAmount = guaranteedAmount;
         this.status = status;
+        this.dateCreated = new Date();
+    }
+    public Loan(long loanId, int memberId, String loanType, double loanAmount, int repaymentPeriod, double interestRate, double guaranteedAmount, String status, Date dateCreated) {
+        this.loanId = loanId;
+        this.memberId = memberId;
+        this.type = loanType;
+        this.amount = loanAmount;
+        this.repaymentPeriod = repaymentPeriod;
+        this.interestRate = interestRate;
+        this.guaranteedAmount = guaranteedAmount;
+        this.status = status;
+        this.dateCreated = dateCreated;
     }
 
     public double getAmount() {
@@ -104,6 +118,14 @@ public class Loan {
 
     public String getStatus() {
         return status;
+    }
+
+    public Date getLoanDate() {
+        return dateCreated;
+    }
+
+    public void setLoanDate(Date loanDate) {
+        this.dateCreated = loanDate;
     }
 }
 
