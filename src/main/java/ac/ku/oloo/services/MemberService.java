@@ -69,7 +69,7 @@ public class MemberService {
         member.setMemberId(generatedMemberId);
     }
 
-    public List<Member> getMembers(Integer page, Integer size) throws SQLException {
+    public static List<Member> getMembers(Integer page, Integer size) throws SQLException {
 
         int offset = (page - 1) * size;
 

@@ -21,7 +21,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LoanService {
 
-   public double calculateMaxLoan(Member member, String loanType) throws SQLException {
+    public static double getTotalLoans() {
+    }
+
+    public static double getTotalLoanInterest() {
+    }
+
+    public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;
 
         // Determine the multiplier based on the loan type

@@ -1,6 +1,8 @@
 package ac.ku.oloo.models;
 
 import ac.ku.oloo.services.MemberService;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -154,5 +156,9 @@ public class Member {
 
     public Double getShares() throws SQLException {
         return MemberService.getMemberShares((long) memberId);
+    }
+
+    public ObservableValue<String> getFullName() {
+        return new SimpleStringProperty(getFirstName() + " " + getSurname());
     }
 }

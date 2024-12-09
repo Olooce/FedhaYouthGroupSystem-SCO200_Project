@@ -21,6 +21,10 @@ public class ShareService {
         this.connection = dataSource.getConnection();
     }
 
+    public static double getAllTotalShares() {
+
+    }
+
     // 1. Buy shares
     public boolean buyShares(long memberId, double shares) {
         String sql = "INSERT INTO shares (member_id, total_shares) VALUES (?, ?) ON DUPLICATE KEY UPDATE total_shares = total_shares + VALUES(total_shares)";
@@ -36,7 +40,7 @@ public class ShareService {
     }
 
     // 2. Get total shares for a member
-    public double getTotalShares(long memberId) {
+    public static double getTotalShares(long memberId) {
         String sql = "SELECT total_shares FROM shares WHERE member_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, memberId);

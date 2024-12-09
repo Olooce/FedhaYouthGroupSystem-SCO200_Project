@@ -276,7 +276,7 @@ public class UserInterface extends Application {
         Tab loanTab = new Tab("Loans", new LoansPanel().createLoanPanel());
         Tab guarantorTab = new Tab("Guarantors", new GuarantorPanel().createGuarantorPanel());
         Tab depositTab = new Tab("Deposits", new DepositPanel().createDepositPanel());
-        Tab reportsTab = new Tab("Reports", null);
+        Tab reportsTab = new Tab("Reports", new ReportsPanel().createReportsPanel());
 
         tabPane.getTabs().addAll(memberTab, loanTab, guarantorTab, depositTab, reportsTab);
 //        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
