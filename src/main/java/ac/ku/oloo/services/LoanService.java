@@ -191,9 +191,24 @@ public class LoanService {
         }
     }
 
-    public List<Guarantor> getGuarantors() {
-       String query = "SELECT * FROM guarantors";
+    public static List<Guarantor> getGuarantors(int page, int size) {
+        String query = "SELECT loan_id, member_id, guarantee_amount FROM guarantors LIMIT ? OFFSET ?";
+
+        try {
+            int offset = (page - 1) * size; // Calculate the offset for pagination
+            return QueryExecutor.executeQuery(query, rs -> new Guarantor(
+                    rs.getLong("guarantor_id"),
+                    rs.getLong("loan_id"),
+                    rs.getInt("member_id"),
+                    rs.getDouble("guarantee_amount"),
+                    rs.getTimestamp("guaranteed_at").toLocalDateTime()
+            ), size, offset);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
+
     public static void updateLoanStatuses() {
         // Start a new thread to run the task in the background
         new Thread(() -> {

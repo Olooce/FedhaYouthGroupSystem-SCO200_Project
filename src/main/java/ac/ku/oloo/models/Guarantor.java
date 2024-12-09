@@ -25,7 +25,7 @@ public class Guarantor {
         this.guaranteedAt = guaranteedAt;
     }
 
-    // Getters and Setters
+      // Getters and Setters
     public long getGuarantorId() {
         return guarantorId;
     }
