@@ -266,15 +266,33 @@ public class MemberLoansPanel {
         VBox vbox = new VBox(10);
 
         // Components for loan application: loan type, amount, repayment period, guarantors
+        // Create ComboBox with loan types
         ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList(
                 "Development Loan", "Short Loan", "Emergency Loan", "Normal Loan"));
-        loanTypeComboBox.getSelectionModel().selectFirst();
+        loanTypeComboBox.getSelectionModel().selectFirst(); // Set the first item as selected initially
 
         TextField loanAmountField = new TextField();
 
         Label maxLoanLabel = new Label();
-        String selectedLoanType = loanTypeComboBox.getValue();
 
+        LoanService loanService = new LoanService();
+
+        loanTypeComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Recalculate the maximum loan whenever the selection changes
+            if (newValue != null) {
+                double maxLoanAmount = 0;
+                try {
+                    maxLoanAmount = loanService.calculateMaxLoan(member, newValue);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                maxLoanLabel.setText("Maximum Loan You Can Borrow: " + formatAmount(maxLoanAmount));
+            } else {
+                maxLoanLabel.setText("Please select a loan type.");
+            }
+        });
+
+        String selectedLoanType = loanTypeComboBox.getValue();
         if (selectedLoanType != null) {
             double maxLoanAmount = loanService.calculateMaxLoan(member, selectedLoanType);
             maxLoanLabel.setText("Maximum Loan You Can Borrow: " + formatAmount(maxLoanAmount));
@@ -455,10 +473,6 @@ public class MemberLoansPanel {
         vbox.getChildren().addAll(infoLabel, tableView);
         return vbox;
     }
-
-
-
-
 
 
     private void showAlert(String title, String message) {
