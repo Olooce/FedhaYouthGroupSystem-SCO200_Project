@@ -29,10 +29,10 @@ public class LoadConfig {
     private static double shortLoanInterestRate;
     private static double normalLoanInterestRate;
     private static double developmentLoanInterestRate;
-    private static double emergencyLoanMultiplier;
-    private static double shortLoanMultiplier;
-    private static double normalLoanMultiplier;
-    private static double developmentLoanMultiplier;
+    private static int emergencyLoanMultiplier;
+    private static int shortLoanMultiplier;
+    private static int normalLoanMultiplier;
+    private static int developmentLoanMultiplier;
 
     static {
         loadConfigurations();
@@ -52,7 +52,7 @@ public class LoadConfig {
                 Element loanTypeElement = (Element) loanTypes.item(i);
                 String loanName = loanTypeElement.getElementsByTagName("NAME").item(0).getTextContent();
                 double interestRate = Double.parseDouble(loanTypeElement.getElementsByTagName("INTEREST_RATE").item(0).getTextContent());
-                double multiplier = Double.parseDouble(loanTypeElement.getElementsByTagName("MULTIPLIER").item(0).getTextContent());
+                int multiplier = Integer.parseInt(loanTypeElement.getElementsByTagName("MULTIPLIER").item(0).getTextContent());
 
                 switch (loanName) {
                     case "Business Loan":
@@ -156,19 +156,19 @@ public class LoadConfig {
         return developmentLoanInterestRate;
     }
 
-    public static double getEmergencyLoanMultiplier() {
+    public static int getEmergencyLoanMultiplier() {
         return emergencyLoanMultiplier;
     }
 
-    public static double getShortLoanMultiplier() {
+    public static int getShortLoanMultiplier() {
         return shortLoanMultiplier;
     }
 
-    public static double getNormalLoanMultiplier() {
+    public static int getNormalLoanMultiplier() {
         return normalLoanMultiplier;
     }
 
-    public static double getDevelopmentLoanMultiplier() {
+    public static int getDevelopmentLoanMultiplier() {
         return developmentLoanMultiplier;
     }
 }

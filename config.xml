@@ -16,11 +16,34 @@
         </LOAN_TYPE>
         <LOAN_TYPE>
             <NAME>Emergency Loan</NAME>
-            <MULTIPLIER></MULTIPLIER>
-            <INTEREST_RATE>8.0</INTEREST_RATE> <!-- Annual interest rate in percentage -->
-            <DESCRIPTION>Loan for emergency situations.</DESCRIPTION>
+            <MULTIPLIER>1</MULTIPLIER> <!-- Multiplier for emergency loan -->
+            <INTEREST_RATE>0.3</INTEREST_RATE> <!-- Monthly interest rate in percentage -->
+            <DESCRIPTION>Loan for emergency situations, up to the amount of shares.</DESCRIPTION>
+            <REPAYMENT_PERIOD>1</REPAYMENT_PERIOD> <!-- Repayment period in years -->
+        </LOAN_TYPE>
+        <LOAN_TYPE>
+            <NAME>Short Loan</NAME>
+            <MULTIPLIER>2</MULTIPLIER> <!-- Multiplier for short loan -->
+            <INTEREST_RATE>0.6</INTEREST_RATE> <!-- Monthly interest rate in percentage -->
+            <DESCRIPTION>Loan for short-term needs, up to two times the amount of shares.</DESCRIPTION>
+            <REPAYMENT_PERIOD>2</REPAYMENT_PERIOD> <!-- Repayment period in years -->
+        </LOAN_TYPE>
+        <LOAN_TYPE>
+            <NAME>Normal Loan</NAME>
+            <MULTIPLIER>3</MULTIPLIER> <!-- Multiplier for normal loan -->
+            <INTEREST_RATE>1.0</INTEREST_RATE> <!-- Monthly interest rate in percentage -->
+            <DESCRIPTION>Loan for regular needs, up to three times the amount of shares.</DESCRIPTION>
+            <REPAYMENT_PERIOD>3</REPAYMENT_PERIOD> <!-- Repayment period in years -->
+        </LOAN_TYPE>
+        <LOAN_TYPE>
+            <NAME>Development Loan</NAME>
+            <MULTIPLIER>5</MULTIPLIER> <!-- Multiplier for development loan -->
+            <INTEREST_RATE>1.4</INTEREST_RATE> <!-- Monthly interest rate in percentage -->
+            <DESCRIPTION>Loan for development projects, up to five times the amount of shares.</DESCRIPTION>
+            <REPAYMENT_PERIOD>4</REPAYMENT_PERIOD> <!-- Repayment period in years -->
         </LOAN_TYPE>
     </LOAN_TYPES>
+
 
     <!-- Fixed Deposit Configuration -->
     <FIXED_DEPOSIT>

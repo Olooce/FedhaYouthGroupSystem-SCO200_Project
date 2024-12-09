@@ -266,12 +266,21 @@ public class MemberLoansPanel {
         VBox vbox = new VBox(10);
 
         // Components for loan application: loan type, amount, repayment period, guarantors
-        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList("Development Loan", "Short Loan", "Emergency Loan", "Normal Loan"));
+        ComboBox<String> loanTypeComboBox = new ComboBox<>(FXCollections.observableArrayList(
+                "Development Loan", "Short Loan", "Emergency Loan", "Normal Loan"));
+        loanTypeComboBox.getSelectionModel().selectFirst();
+
         TextField loanAmountField = new TextField();
 
-        // Max loan label
-        Label maxLoanLabel = new Label("Maximum Loan You Can Borrow: " + formatAmount(loanService.calculateMaxLoan(member, loanTypeComboBox.getValue())));
+        Label maxLoanLabel = new Label();
+        String selectedLoanType = loanTypeComboBox.getValue();
 
+        if (selectedLoanType != null) {
+            double maxLoanAmount = loanService.calculateMaxLoan(member, selectedLoanType);
+            maxLoanLabel.setText("Maximum Loan You Can Borrow: " + formatAmount(maxLoanAmount));
+        } else {
+            maxLoanLabel.setText("Please select a loan type.");
+        }
 
         // Apply button for submitting the loan application
         Button applyButton = new Button("Apply");
@@ -310,7 +319,7 @@ public class MemberLoansPanel {
         // Calculate maximum eligible loan for validation
         double maxLoanEligible = 0;
         try {
-            maxLoanEligible = loanService.calculateMaxLoan(member, loanTypeComboBox.getValue());
+            maxLoanEligible = loanService.calculateMaxLoan(member, loanType);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
