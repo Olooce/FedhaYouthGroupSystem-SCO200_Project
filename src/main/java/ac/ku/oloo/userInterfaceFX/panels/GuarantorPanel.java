@@ -85,13 +85,9 @@ public class GuarantorPanel {
 
     private void refreshGuarantorsTable() {
         observableGuarantors.clear(); // Clear existing items
-        try {
-            List<Guarantor> guarantors = LoanService.getGuarantors(1, Integer.MAX_VALUE);
-            observableGuarantors.addAll(guarantors); // Add fetched guarantors to the observable list
-            pagination.setPageCount((int) Math.ceil((double) observableGuarantors.size() / entriesPerPage)); // Update pagination
-        } catch (SQLException e) {
-            e.printStackTrace(); // TODO: Handle exception appropriately
-        }
+        List<Guarantor> guarantors = LoanService.getGuarantors(1, Integer.MAX_VALUE);
+        observableGuarantors.addAll(guarantors); // Add fetched guarantors to the observable list
+        pagination.setPageCount((int) Math.ceil((double) observableGuarantors.size() / entriesPerPage)); // Update pagination
     }
 }
 
