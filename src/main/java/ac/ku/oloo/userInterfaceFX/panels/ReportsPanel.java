@@ -26,7 +26,7 @@ public class ReportsPanel {
         TabPane tabPane = new TabPane();
 
         // Tab for Shares per Member
-        Tab sharesTab = new Tab("Shares per Member", createSharesTabContent());
+        Tab sharesTab = new Tab("Member Dividends", createSharesTabContent());
         sharesTab.setClosable(false);
 
         // Tab for Revenue Summary
@@ -76,6 +76,7 @@ public class ReportsPanel {
         Label totalRevenueLabel = new Label();
         Label dividendsLabel = new Label();
         Label officeExpensesLabel = new Label();
+        Label fixedDepositLabel = new Label();
 
         // Fetch data
         double totalShares = ShareService.getAllTotalShares();
@@ -88,8 +89,11 @@ public class ReportsPanel {
         totalSharesLabel.setText("Total Shares: " + String.format("%.2f", totalShares));
         totalLoansLabel.setText("Total Loans Given: " + String.format("%.2f", totalLoans));
         interestEarnedLabel.setText("Interest Earned on Loans: " + String.format("%.2f", interestEarned));
+        fixedDepositLabel.setText("Fixed Deposits: " + String.format("%.2f", (totalDeposits - totalLoans)));
         fixedDepositInterestLabel.setText("Interest Earned on Fixed Deposits: " + String.format("%.2f", fixedDepositInterest));
-        totalRevenueLabel.setText("Total Intrest Revenue: " + String.format("%.2f", interestEarned + fixedDepositInterest));
+        totalRevenueLabel.setText("Total Interest Revenue: " + String.format("%.2f", interestEarned + fixedDepositInterest));
+        officeExpensesLabel.setText("Reserved amount: " + String.format("%.2f", (interestEarned + fixedDepositInterest) * 0.1));
+        dividendsLabel.setText("Total dividends: " + String.format("%.2f", (interestEarned + fixedDepositInterest) * 0.9));
 
 
         revenueTabContent.getChildren().addAll(
