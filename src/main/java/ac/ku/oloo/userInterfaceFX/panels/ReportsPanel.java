@@ -73,6 +73,9 @@ public class ReportsPanel {
         Label totalLoansLabel = new Label();
         Label interestEarnedLabel = new Label();
         Label fixedDepositInterestLabel = new Label();
+        Label totalRevenueLabel = new Label();
+        Label dividendsLabel = new Label();
+        Label officeExpensesLabel = new Label();
 
         // Fetch data
         double totalShares = ShareService.getAllTotalShares();
@@ -86,6 +89,8 @@ public class ReportsPanel {
         totalLoansLabel.setText("Total Loans Given: " + String.format("%.2f", totalLoans));
         interestEarnedLabel.setText("Interest Earned on Loans: " + String.format("%.2f", interestEarned));
         fixedDepositInterestLabel.setText("Interest Earned on Fixed Deposits: " + String.format("%.2f", fixedDepositInterest));
+        totalRevenueLabel.setText("Total Intrest Revenue: " + String.format("%.2f", interestEarned + fixedDepositInterest));
+
 
         revenueTabContent.getChildren().addAll(
                 totalSharesLabel,
