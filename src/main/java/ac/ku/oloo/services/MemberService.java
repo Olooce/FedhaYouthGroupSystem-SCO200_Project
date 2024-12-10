@@ -1,9 +1,14 @@
 package ac.ku.oloo.services;
 
+import ac.ku.oloo.configs.DataSourceConfig;
 import ac.ku.oloo.models.Member;
 import ac.ku.oloo.utils.databaseUtil.QueryExecutor;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +19,7 @@ import java.util.List;
  * Description:
  **/
 public class MemberService {
+    static DataSource dataSource = DataSourceConfig.getDataSource();
     public static Member getMember(long memberId) throws SQLException {
         String sql = "SELECT * FROM members WHERE member_id = ? LIMIT 1";
 
@@ -43,6 +49,27 @@ public class MemberService {
             return members.get(0);
         }
         return null;
+    }
+
+    public static double getTotalRegistrationFees() {
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String sql = "SELECT SUM(registration_fees) AS total FROM members";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
     public void createMember(Member member) throws SQLException {

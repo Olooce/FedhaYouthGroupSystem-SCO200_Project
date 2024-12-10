@@ -83,6 +83,7 @@ public class ReportsPanel {
         revenueTabContent.setSpacing(10);
 
         // Labels to display revenue data
+        Label totalRegistrationFees = new Label("Total Registration Fees" + MemberService.getTotalRegistrationFees());
         Label totalSharesLabel = new Label();
         Label totalLoansLabel = new Label();
         Label interestEarnedLabel = new Label();
@@ -111,10 +112,15 @@ public class ReportsPanel {
 
 
         revenueTabContent.getChildren().addAll(
+                totalRegistrationFees,
                 totalSharesLabel,
                 totalLoansLabel,
                 interestEarnedLabel,
-                fixedDepositInterestLabel
+                fixedDepositLabel,
+                fixedDepositInterestLabel,
+                totalRevenueLabel,
+                officeExpensesLabel,
+                dividendsLabel
         );
         return revenueTabContent;
     }
