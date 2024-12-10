@@ -5,6 +5,7 @@ import ac.ku.oloo.services.DepositService;
 import ac.ku.oloo.services.MemberService;
 import ac.ku.oloo.services.LoanService;
 import ac.ku.oloo.services.ShareService;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -49,7 +50,20 @@ public class ReportsPanel {
         TableColumn<Member, Double> sharesColumn = new TableColumn<>("Shares");
         sharesColumn.setCellValueFactory(data -> data.getValue().getOShares());
 
-        sharesTable.getColumns().addAll(nameColumn, sharesColumn);
+        TableColumn<Member, Double> dividendsColumn = new TableColumn<>("Dividends Owed");
+        dividendsColumn.setCellValueFactory(cellData -> {
+            Member member = cellData.getValue();
+            double memberShares = 0;
+            try {
+                memberShares = member.getShares();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            double dividendsOwed = calculateDividendsOwed(memberShares);
+            return new SimpleDoubleProperty(dividendsOwed).asObject();
+        });
+
+        sharesTable.getColumns().addAll(nameColumn, sharesColumn, dividendsColumn);
 
         // Populate data
         try {
@@ -103,5 +117,16 @@ public class ReportsPanel {
                 fixedDepositInterestLabel
         );
         return revenueTabContent;
+    }
+
+
+    public double calculateDividendsOwed(double memberShares) {
+        double totalLoans = LoanService.getTotalLoans();
+        double interestEarned = LoanService.getTotalLoanInterest();
+        double totalDeposits = DepositService.getAllTotalDeposits();
+        double fixedDepositInterest = (totalDeposits - totalLoans) * 0.006;
+        double totalShares = ShareService.getAllTotalShares();
+        double totalDividends = (interestEarned + fixedDepositInterest) * 0.9;
+        return (memberShares / totalShares) * totalDividends;
     }
 }
