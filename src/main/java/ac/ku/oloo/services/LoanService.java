@@ -46,32 +46,37 @@ public class LoanService {
 
 
     public static double getTotalLoanInterest() {
-        String query = "SELECT amount, interest_rate, repayment_period FROM loans";
-        try {
-            // Accumulate the total interest across all loans
-            return QueryExecutor.executeSingleResultQuery(query, rs -> {
-                double totalInterest = 0.0;
-                while (rs.next()) {
-                    double principal = rs.getDouble("amount");
-                    double monthlyRate = rs.getDouble("interest_rate") / 100;
-                    int months = rs.getInt("repayment_period");
+        // Use IFNULL to handle null values in the query results
+        String query = "SELECT IFNULL(amount, 0.0) AS amount, " +
+                "IFNULL(interest_rate, 0.0) AS interest_rate, " +
+                "IFNULL(repayment_period, 0) AS repayment_period " +
+                "FROM loans";
 
-//                    // Calculate compound interest: A = P(1 + r)^n
-//                    double amountWithInterest = principal * Math.pow(1 + monthlyRate, months);
-//                    double interest = amountWithInterest - principal;
+        try (Connection connection = dataSource.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
 
-                    // Calculate simple interest
-                    double interest = principal * monthlyRate * months;
+            double totalInterest = 0.0;
 
-                    totalInterest += interest; // Add to total interest
-                }
-                return totalInterest;
-            });
+            while (rs.next()) {
+                double principal = rs.getDouble("amount");
+                double monthlyRate = rs.getDouble("interest_rate") / 100; // Convert percentage to decimal
+                int months = rs.getInt("repayment_period");
+
+                // Calculate simple interest: I = P * r * t
+                double interest = principal * monthlyRate * months;
+
+                totalInterest += interest; // Accumulate the interest
+            }
+
+            return totalInterest;
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return 0.0;
+            return 0.0; // Return default value in case of an exception
         }
     }
+
 
     public double calculateMaxLoan(Member member, String loanType) throws SQLException {
         double multiplier;
