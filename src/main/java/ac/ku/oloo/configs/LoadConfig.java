@@ -42,11 +42,19 @@ public class LoadConfig {
         try {
             File configFile = new File("config.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+            // Security: Prevent XXE attacks
+            dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            dbFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            dbFactory.setXIncludeAware(false);
+            dbFactory.setExpandEntityReferences(false);
+
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(configFile);
             doc.getDocumentElement().normalize();
 
-            // Load loan types interest rates and multipliers
             NodeList loanTypes = doc.getElementsByTagName("LOAN_TYPE");
             for (int i = 0; i < loanTypes.getLength(); i++) {
                 Element loanTypeElement = (Element) loanTypes.item(i);
@@ -80,21 +88,17 @@ public class LoadConfig {
                 }
             }
 
-            // Load fixed deposit interest rate
             fixedDepositInterestRate = Double.parseDouble(doc.getElementsByTagName("INTEREST_RATE").item(loanTypes.getLength()).getTextContent());
 
-            // Load membership configurations
             Element membershipElement = (Element) doc.getElementsByTagName("MEMBERSHIP").item(0);
             registrationFee = Double.parseDouble(membershipElement.getElementsByTagName("REGISTRATION_FEE").item(0).getTextContent());
             minimumMonthlyContribution = Double.parseDouble(membershipElement.getElementsByTagName("MINIMUM_MONTHLY_CONTRIBUTION").item(0).getTextContent());
             eligibleLoanAfterMonths = Integer.parseInt(membershipElement.getElementsByTagName("ELIGIBLE_LOAN_AFTER_MONTHS").item(0).getTextContent());
 
-            // Load financial configurations
             Element financialsElement = (Element) doc.getElementsByTagName("FINANCIALS").item(0);
             dividendsPercentage = Integer.parseInt(financialsElement.getElementsByTagName("PERCENTAGE_OF_REVENUE").item(0).getTextContent());
             officeExpensesPercentage = Integer.parseInt(financialsElement.getElementsByTagName("PERCENTAGE_OF_REVENUE").item(1).getTextContent());
 
-            // Load exit policy configuration
             Element exitPolicyElement = (Element) doc.getElementsByTagName("EXIT_POLICY").item(0);
             noticePeriodMonths = Integer.parseInt(exitPolicyElement.getElementsByTagName("NOTICE_PERIOD_MONTHS").item(0).getTextContent());
 
@@ -103,72 +107,22 @@ public class LoadConfig {
         }
     }
 
-    // Getter methods to access the loaded configurations
-    public static double getBusinessLoanInterestRate() {
-        return businessLoanInterestRate;
-    }
-
-    public static double getPersonalLoanInterestRate() {
-        return personalLoanInterestRate;
-    }
-
-    public static double getEmergencyLoanInterestRate() {
-        return emergencyLoanInterestRate;
-    }
-
-    public static double getFixedDepositInterestRate() {
-        return fixedDepositInterestRate;
-    }
-
-    public static double getRegistrationFee() {
-        return registrationFee;
-    }
-
-    public static double getMinimumMonthlyContribution() {
-        return minimumMonthlyContribution;
-    }
-
-    public static int getEligibleLoanAfterMonths() {
-        return eligibleLoanAfterMonths;
-    }
-
-    public static int getDividendsPercentage() {
-        return dividendsPercentage;
-    }
-
-    public static int getOfficeExpensesPercentage() {
-        return officeExpensesPercentage;
-    }
-
-    public static int getNoticePeriodMonths() {
-        return noticePeriodMonths;
-    }
-
-    public static double getShortLoanInterestRate() {
-        return shortLoanInterestRate;
-    }
-
-    public static double getNormalLoanInterestRate() {
-        return normalLoanInterestRate;
-    }
-
-    public static double getDevelopmentLoanInterestRate() {
-        return developmentLoanInterestRate;
-    }
-
-    public static int getEmergencyLoanMultiplier() {
-        return emergencyLoanMultiplier;
-    }
-
-    public static int getShortLoanMultiplier() {
-        return shortLoanMultiplier;
-    }
-
-    public static int getNormalLoanMultiplier() {
-        return normalLoanMultiplier;
-    }
-
-    public static int getDevelopmentLoanMultiplier() {
-        return developmentLoanMultiplier;
-    }
+    // Getter methods
+    public static double getBusinessLoanInterestRate() { return businessLoanInterestRate; }
+    public static double getPersonalLoanInterestRate() { return personalLoanInterestRate; }
+    public static double getEmergencyLoanInterestRate() { return emergencyLoanInterestRate; }
+    public static double getFixedDepositInterestRate() { return fixedDepositInterestRate; }
+    public static double getRegistrationFee() { return registrationFee; }
+    public static double getMinimumMonthlyContribution() { return minimumMonthlyContribution; }
+    public static int getEligibleLoanAfterMonths() { return eligibleLoanAfterMonths; }
+    public static int getDividendsPercentage() { return dividendsPercentage; }
+    public static int getOfficeExpensesPercentage() { return officeExpensesPercentage; }
+    public static int getNoticePeriodMonths() { return noticePeriodMonths; }
+    public static double getShortLoanInterestRate() { return shortLoanInterestRate; }
+    public static double getNormalLoanInterestRate() { return normalLoanInterestRate; }
+    public static double getDevelopmentLoanInterestRate() { return developmentLoanInterestRate; }
+    public static int getEmergencyLoanMultiplier() { return emergencyLoanMultiplier; }
+    public static int getShortLoanMultiplier() { return shortLoanMultiplier; }
+    public static int getNormalLoanMultiplier() { return normalLoanMultiplier; }
+    public static int getDevelopmentLoanMultiplier() { return developmentLoanMultiplier; }
 }
